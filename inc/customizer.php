@@ -312,7 +312,6 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 	$sections = array(
 		'zola_header_presets' => array(
 			'title'       => esc_html__( 'Header Presets', 'zola' ),
-			'description' => esc_html__( 'Choose a ready-made header layout for desktop or mobile.', 'zola' ),
 			'panel'       => 'zola_header_panel',
 			'priority'    => 5,
 		),
@@ -387,16 +386,12 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 
 			public function render_content(): void {
 				?>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span><?php endif; ?>
 				<div class="zola-header-presets-control"><div data-zola-header-presets-ui></div></div>
 				<?php
 			}
 		}
 	}
 	$wp_customize->add_control( new Zola_Header_Presets_Customize_Control( $wp_customize, 'zola_header_presets_control', array(
-		'label'       => esc_html__( 'Choose a Header Layout', 'zola' ),
-		'description' => esc_html__( 'Select a device and click a preview to apply that layout.', 'zola' ),
 		'settings'    => 'zola_header_builder_layout',
 		'section'     => 'zola_header_presets',
 	) ) );
@@ -859,6 +854,8 @@ function zola_customize_controls_enqueue_styles(): void {
 		'clearConfirm'   => esc_html__( 'Clear the current device header layout?', 'zola' ),
 		'openBuilder'    => esc_html__( 'Open Header Builder', 'zola' ),
 		'builderTitle'   => esc_html__( 'Header Builder', 'zola' ),
+		'currentLayout'  => esc_html__( 'Current layout', 'zola' ),
+		'customLayout'   => esc_html__( 'Custom', 'zola' ),
 		'presetsLabel'   => esc_html__( 'Header Presets', 'zola' ),
 		'closeBuilder'   => esc_html__( 'Close', 'zola' ),
 		'tutorial'       => esc_html__( 'Tutorial', 'zola' ),

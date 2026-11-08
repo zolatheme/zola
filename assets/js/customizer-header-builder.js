@@ -11,6 +11,7 @@
 	const rowNames = strings.rows || {};
 	const columnNames = strings.columns || {};
 	const moduleOrder = Object.keys(moduleNames);
+	let activeBuilderDevice = 'desktop';
 	const settingsSections = {
 		logo: { type: 'section', id: 'title_tagline' },
 		menu: { type: 'panel', id: 'nav_menus' },
@@ -92,8 +93,8 @@
 		preview.setAttribute('aria-hidden', 'true');
 		const rows = preset[device] || {};
 		const moduleLabels = {
-			logo: 'Logo', menu: 'Home   Link   Link', button: 'Button', search: 'Search',
-			announcement: 'Announcement', social: 'Social', html: 'HTML', account: 'Account', cart: 'Cart'
+			logo: 'Logo', menu: 'HOME   LINK', button: 'SIGN UP', search: '⌕',
+			announcement: 'TOP BAR', social: '●  ●  ●', html: 'INFO', account: 'ACCOUNT', cart: 'CART  3'
 		};
 		['top', 'main', 'bottom'].forEach(function (rowName) {
 			const rowData = rows[rowName] || {};
@@ -129,7 +130,6 @@
 		}
 
 		let layout = normalizeLayout(layoutSetting.get());
-		let activeDevice = 'desktop';
 
 		function makeButton(label, className, attributes) {
 			const button = document.createElement('button');
@@ -143,12 +143,14 @@
 		}
 
 		function applyPreset(preset) {
-			if (!preset || !preset[activeDevice]) {
+			if (!preset || !preset[activeBuilderDevice]) {
 				return;
 			}
 			layout = normalizeLayout(layoutSetting.get());
-			layout[activeDevice].rows = JSON.parse(JSON.stringify(preset[activeDevice]));
+			layout[activeBuilderDevice].rows = JSON.parse(JSON.stringify(preset[activeBuilderDevice]));
 			layoutSetting.set(JSON.stringify(layout));
+			layout = normalizeLayout(layoutSetting.get());
+			render();
 		}
 
 		function render() {
@@ -156,40 +158,90 @@
 			const devices = document.createElement('div');
 			devices.className = 'zola-header-presets-control__devices';
 			['desktop', 'mobile'].forEach(function (device) {
-				const button = makeButton((strings.devices || {})[device] || device, 'button ' + (activeDevice === device ? 'button-primary' : 'button-secondary'), { 'data-zola-preset-device': device });
-				button.setAttribute('aria-pressed', activeDevice === device ? 'true' : 'false');
+				const button = makeButton((strings.devices || {})[device] || device, 'button ' + (activeBuilderDevice === device ? 'button-primary' : 'button-secondary'), { 'data-zola-preset-device': device });
+				button.setAttribute('aria-pressed', activeBuilderDevice === device ? 'true' : 'false');
 				devices.appendChild(button);
 			});
 			root.appendChild(devices);
 
+			const builder = document.createElement('section');
+			builder.className = 'zola-header-presets-control__builder';
+			const builderHeader = document.createElement('div');
+			builderHeader.className = 'zola-header-presets-control__builder-header';
+			const builderTitle = document.createElement('h3');
+			builderTitle.textContent = strings.builderTitle || 'Header Builder';
+			builderHeader.appendChild(builderTitle);
+			const selectedPreset = headerPresets.find(function (preset) {
+				return JSON.stringify(layout[activeBuilderDevice].rows) === JSON.stringify(preset[activeBuilderDevice]);
+			});
+			const builderStatus = document.createElement('span');
+			builderStatus.className = 'zola-header-presets-control__builder-status';
+			builderStatus.textContent = selectedPreset ? selectedPreset.title : (strings.customLayout || 'Custom');
+			builderHeader.appendChild(builderStatus);
+			const openBuilder = makeButton(strings.openBuilder || 'Open Header Builder', 'button button-secondary zola-header-presets-control__open-builder', { 'data-zola-open-full-builder': 'true' });
+			builderHeader.appendChild(openBuilder);
+			builder.appendChild(builderHeader);
+
+			const builderRows = document.createElement('div');
+			builderRows.className = 'zola-header-presets-control__builder-rows';
+			['top', 'main', 'bottom'].forEach(function (rowName) {
+				const row = document.createElement('div');
+				row.className = 'zola-header-presets-control__builder-row';
+				const rowTitle = document.createElement('span');
+				rowTitle.className = 'zola-header-presets-control__builder-row-title';
+				rowTitle.textContent = rowNames[rowName] || rowName;
+				row.appendChild(rowTitle);
+				const columns = document.createElement('div');
+				columns.className = 'zola-header-presets-control__builder-columns';
+				['left', 'center', 'right'].forEach(function (columnName) {
+					const slot = document.createElement('div');
+					slot.className = 'zola-header-presets-control__builder-slot zola-header-presets-control__builder-slot--' + columnName;
+					const modules = layout[activeBuilderDevice].rows[rowName][columnName];
+					if (modules.length) {
+						modules.forEach(function (module) {
+							const chip = document.createElement('span');
+							chip.className = 'zola-header-presets-control__builder-chip';
+							chip.textContent = moduleNames[module] || module;
+							slot.appendChild(chip);
+						});
+					} else {
+						slot.classList.add('is-empty');
+						slot.textContent = '—';
+					}
+					columns.appendChild(slot);
+				});
+				row.appendChild(columns);
+				builderRows.appendChild(row);
+			});
+			builder.appendChild(builderRows);
+			root.appendChild(builder);
+
 			const gallery = document.createElement('div');
 			gallery.className = 'zola-header-presets-control__grid';
 			headerPresets.forEach(function (preset) {
-				const isActive = JSON.stringify(layout[activeDevice].rows) === JSON.stringify(preset[activeDevice]);
+				const isActive = JSON.stringify(layout[activeBuilderDevice].rows) === JSON.stringify(preset[activeBuilderDevice]);
 				const card = makeButton('', 'zola-header-preset-picker' + (isActive ? ' is-active' : ''), { 'data-zola-apply-preset': preset.id });
 				card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
 				card.setAttribute('aria-label', (preset.title || preset.id) + ': ' + (preset.description || ''));
-				card.appendChild(createPresetPreview(preset, activeDevice));
-				const text = document.createElement('span');
-				text.className = 'zola-header-preset-picker__text';
-				const title = document.createElement('strong');
-				title.textContent = preset.title || preset.id;
-				const description = document.createElement('small');
-				description.textContent = preset.description || '';
-				text.appendChild(title);
-				text.appendChild(description);
-				card.appendChild(text);
+				card.appendChild(createPresetPreview(preset, activeBuilderDevice));
 				gallery.appendChild(card);
 			});
 			root.appendChild(gallery);
 		}
 
 		root.addEventListener('click', function (event) {
+			const openBuilderButton = event.target.closest('[data-zola-open-full-builder]');
+			if (openBuilderButton) {
+				document.dispatchEvent(new CustomEvent('zola-open-header-builder', { detail: { trigger: openBuilderButton } }));
+				return;
+			}
+
 			const deviceButton = event.target.closest('[data-zola-preset-device]');
 			if (deviceButton) {
-				activeDevice = deviceButton.dataset.zolaPresetDevice;
+				activeBuilderDevice = deviceButton.dataset.zolaPresetDevice;
 				layout = normalizeLayout(layoutSetting.get());
 				render();
+				document.dispatchEvent(new CustomEvent('zola-header-builder-device-change', { detail: { device: activeBuilderDevice } }));
 				return;
 			}
 			const presetButton = event.target.closest('[data-zola-apply-preset]');
@@ -203,6 +255,12 @@
 			layout = normalizeLayout(value);
 			render();
 		});
+		document.addEventListener('zola-header-builder-device-change', function (event) {
+			if (event.detail && ['desktop', 'mobile'].includes(event.detail.device) && activeBuilderDevice !== event.detail.device) {
+				activeBuilderDevice = event.detail.device;
+				render();
+			}
+		});
 		render();
 	}
 
@@ -213,10 +271,11 @@
 		}
 
 		let layout = normalizeLayout(control.setting.get());
-		let activeDevice = 'desktop';
+		let activeDevice = activeBuilderDevice;
 		let activePosition = { row: 'main', column: 'left' };
 		let draggedModule = '';
 		let overlay = null;
+		let lastFocusTrigger = null;
 		let presetsOpen = false;
 		let tutorialOpen = false;
 
@@ -242,7 +301,10 @@
 			}
 			document.body.classList.remove('zola-header-builder-is-open');
 			if (restoreFocus) {
-				root.querySelector('[data-zola-open-builder]').focus();
+				const focusTarget = lastFocusTrigger && lastFocusTrigger.isConnected ? lastFocusTrigger : root.querySelector('[data-zola-open-builder]');
+				if (focusTarget) {
+					focusTarget.focus();
+				}
 			}
 		}
 
@@ -268,10 +330,20 @@
 
 			const toolbar = document.createElement('div');
 			toolbar.className = 'zola-header-builder__toolbar';
+			const titleGroup = document.createElement('div');
+			titleGroup.className = 'zola-header-builder__title-group';
 			const title = document.createElement('h2');
 			title.className = 'zola-header-builder__title';
 			title.textContent = strings.builderTitle || 'Header Builder';
-			toolbar.appendChild(title);
+			titleGroup.appendChild(title);
+			const selectedPreset = headerPresets.find(function (preset) {
+				return JSON.stringify(layout[activeDevice].rows) === JSON.stringify(preset[activeDevice]);
+			});
+			const currentLayout = document.createElement('span');
+			currentLayout.className = 'zola-header-builder__current-preset';
+			currentLayout.textContent = (strings.currentLayout || 'Current layout') + ': ' + (selectedPreset ? selectedPreset.title : (strings.customLayout || 'Custom'));
+			titleGroup.appendChild(currentLayout);
+			toolbar.appendChild(titleGroup);
 
 			const deviceTabs = document.createElement('div');
 			deviceTabs.className = 'zola-header-builder__devices';
@@ -420,10 +492,11 @@
 			overlay.appendChild(inventory);
 		}
 
-		function openOverlay() {
+		function openOverlay(trigger) {
 			if (overlay) {
 				return;
 			}
+			lastFocusTrigger = trigger || document.activeElement;
 			overlay = document.createElement('section');
 			overlay.className = 'zola-header-builder__overlay';
 			overlay.setAttribute('role', 'dialog');
@@ -464,8 +537,10 @@
 			const deviceButton = event.target.closest('[data-zola-device]');
 			if (deviceButton) {
 				activeDevice = deviceButton.dataset.zolaDevice;
+				activeBuilderDevice = activeDevice;
 				activePosition = { row: 'main', column: 'left' };
 				render();
+				document.dispatchEvent(new CustomEvent('zola-header-builder-device-change', { detail: { device: activeDevice } }));
 				return;
 			}
 
@@ -589,7 +664,10 @@
 		launchHelp.textContent = strings.dragHint || 'Open the builder to arrange header elements across rows.';
 		root.appendChild(launchButton);
 		root.appendChild(launchHelp);
-		launchButton.addEventListener('click', openOverlay);
+		launchButton.addEventListener('click', function (event) { openOverlay(event.currentTarget); });
+		document.addEventListener('zola-open-header-builder', function (event) {
+			openOverlay(event.detail ? event.detail.trigger : null);
+		});
 
 		control.setting.bind(function (value) {
 			const nextLayout = normalizeLayout(value);
@@ -598,9 +676,52 @@
 				render();
 			}
 		});
+		document.addEventListener('zola-header-builder-device-change', function (event) {
+			if (event.detail && ['desktop', 'mobile'].includes(event.detail.device) && activeDevice !== event.detail.device) {
+				activeDevice = event.detail.device;
+				if (overlay) {
+					render();
+				}
+			}
+		});
+	}
+
+	function updateBuilderAccent(value) {
+		if (typeof value !== 'string') {
+			return;
+		}
+
+		let hex = value.trim();
+		if (/^#[\da-f]{3}$/i.test(hex)) {
+			hex = '#' + hex.slice(1).split('').map(function (digit) { return digit + digit; }).join('');
+		}
+		if (!/^#[\da-f]{6}$/i.test(hex)) {
+			return;
+		}
+
+		const channels = hex.slice(1).match(/[\da-f]{2}/gi).map(function (channel) {
+			return parseInt(channel, 16) / 255;
+		});
+		const linearChannels = channels.map(function (channel) {
+			return channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+		});
+		const luminance = (0.2126 * linearChannels[0]) + (0.7152 * linearChannels[1]) + (0.0722 * linearChannels[2]);
+		const root = document.documentElement;
+
+		root.style.setProperty('--zola-builder-accent', hex);
+		root.style.setProperty('--zola-builder-accent-rgb', channels.map(function (channel) {
+			return Math.round(channel * 255);
+		}).join(', '));
+		root.style.setProperty('--zola-builder-accent-contrast', luminance > 0.179 ? '#1d2327' : '#fff');
 	}
 
 	wp.customize.bind('ready', function () {
+		const accentSetting = wp.customize('zola_accent_color');
+		if (accentSetting) {
+			updateBuilderAccent(accentSetting.get());
+			accentSetting.bind(updateBuilderAccent);
+		}
+
 		const presetsControl = wp.customize.control('zola_header_presets_control');
 		if (presetsControl) {
 			setupPresetsControl(presetsControl);
