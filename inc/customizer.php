@@ -27,6 +27,254 @@ function zola_sanitize_blog_layout( mixed $value ): string {
 	return in_array( $value, array( 'grid', 'list', 'cover' ), true ) ? $value : 'grid';
 }
 
+/** Return the starter positions for the drag-and-drop header builder. */
+function zola_header_builder_default_layout(): array {
+	$desktop_rows = array(
+			'top'    => array( 'left' => array(), 'center' => array( 'announcement' ), 'right' => array() ),
+			'main'   => array( 'left' => array( 'logo' ), 'center' => array( 'menu' ), 'right' => array( 'button' ) ),
+			'bottom' => array( 'left' => array(), 'center' => array(), 'right' => array() ),
+	);
+	$mobile_rows = array(
+		'top'    => array( 'left' => array(), 'center' => array( 'announcement' ), 'right' => array() ),
+		'main'   => array( 'left' => array( 'logo' ), 'center' => array(), 'right' => array( 'menu' ) ),
+		'bottom' => array( 'left' => array(), 'center' => array(), 'right' => array() ),
+	);
+
+	return array(
+		'desktop' => array( 'rows' => $desktop_rows ),
+		'mobile'  => array( 'rows' => $mobile_rows ),
+	);
+}
+
+/** Normalize the three rows used by a saved Header Preset. */
+function zola_header_builder_make_rows( array $top = array(), array $main = array(), array $bottom = array() ): array {
+	$normalize_row = static function ( array $row ): array {
+		return array(
+			'left'   => isset( $row['left'] ) && is_array( $row['left'] ) ? $row['left'] : array(),
+			'center' => isset( $row['center'] ) && is_array( $row['center'] ) ? $row['center'] : array(),
+			'right'  => isset( $row['right'] ) && is_array( $row['right'] ) ? $row['right'] : array(),
+		);
+	};
+
+	return array(
+		'top'    => $normalize_row( $top ),
+		'main'   => $normalize_row( $main ),
+		'bottom' => $normalize_row( $bottom ),
+	);
+}
+
+/** Header layouts offered in the visual Header Presets gallery. */
+function zola_header_builder_presets(): array {
+	return array(
+		array(
+			'id'          => 'classic',
+			'title'       => esc_html__( 'Classic', 'zola' ),
+			'description' => esc_html__( 'Logo, navigation and call to action.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array( 'left' => array( 'announcement' ), 'right' => array( 'social' ) ),
+				array( 'left' => array( 'logo' ), 'center' => array( 'menu' ), 'right' => array( 'button' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array( 'center' => array( 'announcement' ) ),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) )
+			),
+		),
+		array(
+			'id'          => 'centered',
+			'title'       => esc_html__( 'Centered Logo', 'zola' ),
+			'description' => esc_html__( 'Place the logo in the middle with navigation below.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'search' ), 'center' => array( 'logo' ), 'right' => array( 'account', 'cart' ) ),
+				array( 'center' => array( 'menu' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'menu' ), 'center' => array( 'logo' ), 'right' => array( 'search' ) )
+			),
+		),
+		array(
+			'id'          => 'split',
+			'title'       => esc_html__( 'Split Navigation', 'zola' ),
+			'description' => esc_html__( 'Keep the logo at the left and navigation at the right.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array( 'left' => array( 'announcement' ), 'right' => array( 'social' ) ),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'center' => array( 'button' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array( 'center' => array( 'announcement' ) ),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'right' => array( 'button' ) )
+			),
+		),
+		array(
+			'id'          => 'search',
+			'title'       => esc_html__( 'Search Header', 'zola' ),
+			'description' => esc_html__( 'Give the search field a central place in the header.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'center' => array( 'search' ), 'right' => array( 'account', 'cart' ) ),
+				array( 'left' => array( 'menu' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'right' => array( 'search', 'menu' ) ),
+				array( 'center' => array( 'cart' ) )
+			),
+		),
+		array(
+			'id'          => 'store',
+			'title'       => esc_html__( 'Store Header', 'zola' ),
+			'description' => esc_html__( 'Show account and cart links in a slim top row.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array( 'right' => array( 'account', 'cart' ) ),
+				array( 'left' => array( 'logo' ), 'center' => array( 'menu' ), 'right' => array( 'search' ) ),
+				array( 'left' => array( 'announcement' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array( 'center' => array( 'announcement' ) ),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'right' => array( 'cart' ) )
+			),
+		),
+		array(
+			'id'          => 'double',
+			'title'       => esc_html__( 'Two Row Navigation', 'zola' ),
+			'description' => esc_html__( 'Separate the main navigation into its own row.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'center' => array( 'search' ), 'right' => array( 'account', 'cart' ) ),
+				array( 'center' => array( 'menu' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'center' => array( 'search' ) )
+			),
+		),
+		array(
+			'id'          => 'action',
+			'title'       => esc_html__( 'Call to Action', 'zola' ),
+			'description' => esc_html__( 'Highlight an action button beside the navigation.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array( 'center' => array( 'announcement' ) ),
+				array( 'left' => array( 'logo' ), 'center' => array( 'menu' ), 'right' => array( 'button' ) ),
+				array( 'right' => array( 'social' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array( 'center' => array( 'announcement' ) ),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'right' => array( 'button' ) )
+			),
+		),
+		array(
+			'id'          => 'secondary',
+			'title'       => esc_html__( 'Utility Top Bar', 'zola' ),
+			'description' => esc_html__( 'Keep account and cart links in a compact utility row.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array( 'right' => array( 'account', 'cart' ) ),
+				array( 'left' => array( 'logo' ), 'center' => array( 'menu' ), 'right' => array( 'button' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'center' => array( 'cart' ) )
+			),
+		),
+		array(
+			'id'          => 'brand-search',
+			'title'       => esc_html__( 'Brand + Search', 'zola' ),
+			'description' => esc_html__( 'Place a search field beside the logo and navigation.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'center' => array( 'search' ), 'right' => array( 'button' ) ),
+				array( 'left' => array( 'menu' ), 'right' => array( 'account', 'cart' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) ),
+				array( 'center' => array( 'search' ) )
+			),
+		),
+		array(
+			'id'          => 'minimal',
+			'title'       => esc_html__( 'Minimal', 'zola' ),
+			'description' => esc_html__( 'A clean single row with only logo and navigation.', 'zola' ),
+			'desktop'     => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) )
+			),
+			'mobile'      => zola_header_builder_make_rows(
+				array(),
+				array( 'left' => array( 'logo' ), 'right' => array( 'menu' ) )
+			),
+		),
+	);
+}
+
+/** Validate and normalize a saved header builder layout. */
+function zola_sanitize_header_builder_layout( mixed $value ): string {
+	if ( is_string( $value ) ) {
+		$decoded = json_decode( wp_unslash( $value ), true );
+		$value   = is_array( $decoded ) ? $decoded : array();
+	}
+
+	$allowed_modules = array( 'logo', 'menu', 'button', 'search', 'announcement', 'social', 'html', 'account', 'cart' );
+	$defaults       = zola_header_builder_default_layout();
+	$is_legacy      = isset( $value['rows'] ) && is_array( $value['rows'] );
+	$layout         = array();
+	foreach ( array( 'desktop', 'mobile' ) as $device ) {
+		$device_rows = $is_legacy && 'desktop' === $device
+			? $value['rows']
+			: ( isset( $value[ $device ]['rows'] ) && is_array( $value[ $device ]['rows'] ) ? $value[ $device ]['rows'] : array() );
+		$layout[ $device ] = array( 'rows' => array() );
+		$used_modules      = array();
+		foreach ( array( 'top', 'main', 'bottom' ) as $row ) {
+			$layout[ $device ]['rows'][ $row ] = array();
+			foreach ( array( 'left', 'center', 'right' ) as $column ) {
+				$items = isset( $device_rows[ $row ][ $column ] ) && is_array( $device_rows[ $row ][ $column ] ) ? $device_rows[ $row ][ $column ] : $defaults[ $device ]['rows'][ $row ][ $column ];
+				$layout[ $device ]['rows'][ $row ][ $column ] = array();
+				foreach ( array_slice( $items, 0, 9 ) as $item ) {
+					$module = is_string( $item ) ? sanitize_key( $item ) : '';
+					if ( ! in_array( $module, $allowed_modules, true ) || isset( $used_modules[ $module ] ) ) {
+						continue;
+					}
+					$layout[ $device ]['rows'][ $row ][ $column ][] = $module;
+					$used_modules[ $module ] = true;
+				}
+			}
+		}
+	}
+
+	return (string) wp_json_encode( $layout );
+}
+
+/** Get the normalized saved header builder layout. */
+function zola_get_header_builder_layout(): array {
+	$saved  = get_theme_mod( 'zola_header_builder_layout', wp_json_encode( zola_header_builder_default_layout() ) );
+	$layout = json_decode( zola_sanitize_header_builder_layout( $saved ), true );
+	return is_array( $layout ) ? $layout : zola_header_builder_default_layout();
+}
+
+/** Check whether a header builder element is placed on a selected device layout. */
+function zola_header_builder_has_module( string $module, string $device = 'desktop' ): bool {
+	$layout = zola_get_header_builder_layout();
+	if ( ! in_array( $device, array( 'desktop', 'mobile' ), true ) ) {
+		return false;
+	}
+	$rows = isset( $layout[ $device ]['rows'] ) && is_array( $layout[ $device ]['rows'] ) ? $layout[ $device ]['rows'] : array();
+	foreach ( array( 'top', 'main', 'bottom' ) as $row ) {
+		foreach ( array( 'left', 'center', 'right' ) as $column ) {
+			$items = isset( $rows[ $row ][ $column ] ) && is_array( $rows[ $row ][ $column ] ) ? $rows[ $row ][ $column ] : array();
+			if ( in_array( $module, $items, true ) ) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 /** Add a setting and its matching Customizer control from a small definition. */
 function zola_add_customizer_control( WP_Customize_Manager $wp_customize, string $section_id, string $setting_id, array $control ): void {
 	$wp_customize->add_setting( $setting_id, array(
@@ -56,11 +304,23 @@ function zola_add_customizer_control( WP_Customize_Manager $wp_customize, string
 }
 
 function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
+	$wp_customize->add_panel( 'zola_header_panel', array(
+		'title'    => esc_html__( 'Header', 'zola' ),
+		'priority' => 30,
+	) );
+
 	$sections = array(
+		'zola_header_presets' => array(
+			'title'       => esc_html__( 'Header Presets', 'zola' ),
+			'description' => esc_html__( 'Choose a ready-made header layout for desktop or mobile.', 'zola' ),
+			'panel'       => 'zola_header_panel',
+			'priority'    => 5,
+		),
 		'zola_header' => array(
-			'title'       => esc_html__( 'Header', 'zola' ),
-			'description' => esc_html__( 'Build the Header in Elementor and assign a saved template in Zola → Site Builder.', 'zola' ),
-			'priority'    => 30,
+			'title'       => esc_html__( 'Header Main', 'zola' ),
+			'description' => esc_html__( 'Arrange the header with the builder below, then set its content, Elementor template and display options here.', 'zola' ),
+			'panel'       => 'zola_header_panel',
+			'priority'    => 10,
 		),
 		'zola_style' => array(
 			'title'       => esc_html__( 'Style', 'zola' ),
@@ -102,6 +362,49 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 	foreach ( $sections as $section_id => $section ) {
 		$wp_customize->add_section( $section_id, $section );
 	}
+
+	$wp_customize->add_setting( 'zola_header_builder_layout', array(
+		'default'           => wp_json_encode( zola_header_builder_default_layout() ),
+		'sanitize_callback' => 'zola_sanitize_header_builder_layout',
+		'transport'         => 'refresh',
+	) );
+	if ( ! class_exists( 'Zola_Header_Builder_Customize_Control' ) ) {
+		class Zola_Header_Builder_Customize_Control extends WP_Customize_Control {
+			public $type = 'zola-header-builder';
+
+			public function render_content(): void {
+				?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span><?php endif; ?>
+				<div class="zola-header-builder-control" data-zola-header-builder-control="<?php echo esc_attr( $this->id ); ?>"><div data-zola-header-builder-ui></div></div>
+				<?php
+			}
+		}
+	}
+	if ( ! class_exists( 'Zola_Header_Presets_Customize_Control' ) ) {
+		class Zola_Header_Presets_Customize_Control extends WP_Customize_Control {
+			public $type = 'zola-header-presets';
+
+			public function render_content(): void {
+				?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span><?php endif; ?>
+				<div class="zola-header-presets-control"><div data-zola-header-presets-ui></div></div>
+				<?php
+			}
+		}
+	}
+	$wp_customize->add_control( new Zola_Header_Presets_Customize_Control( $wp_customize, 'zola_header_presets_control', array(
+		'label'       => esc_html__( 'Choose a Header Layout', 'zola' ),
+		'description' => esc_html__( 'Select a device and click a preview to apply that layout.', 'zola' ),
+		'settings'    => 'zola_header_builder_layout',
+		'section'     => 'zola_header_presets',
+	) ) );
+	$wp_customize->add_control( new Zola_Header_Builder_Customize_Control( $wp_customize, 'zola_header_builder_layout', array(
+		'label'       => esc_html__( 'Arrange your header', 'zola' ),
+		'description' => esc_html__( 'Choose a preset, then drag items between the Top Bar, Header Main and Header Bottom rows.', 'zola' ),
+		'section'     => 'zola_header',
+	) ) );
 
 	$colors_and_style = array(
 		'zola_accent_color' => array(
@@ -271,6 +574,24 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 	foreach ( $header_controls as $setting_id => $control ) {
 		zola_add_customizer_control( $wp_customize, 'zola_header', $setting_id, $control );
 	}
+
+	$social_controls = array(
+		'zola_header_social_facebook'  => array( 'label' => 'Facebook', 'type' => 'url', 'default' => '', 'sanitize' => 'esc_url_raw' ),
+		'zola_header_social_instagram' => array( 'label' => 'Instagram', 'type' => 'url', 'default' => '', 'sanitize' => 'esc_url_raw' ),
+		'zola_header_social_linkedin'  => array( 'label' => 'LinkedIn', 'type' => 'url', 'default' => '', 'sanitize' => 'esc_url_raw' ),
+		'zola_header_social_youtube'   => array( 'label' => 'YouTube', 'type' => 'url', 'default' => '', 'sanitize' => 'esc_url_raw' ),
+		'zola_header_social_x'         => array( 'label' => 'X', 'type' => 'url', 'default' => '', 'sanitize' => 'esc_url_raw' ),
+	);
+	foreach ( $social_controls as $setting_id => $control ) {
+		zola_add_customizer_control( $wp_customize, 'zola_header', $setting_id, $control );
+	}
+	zola_add_customizer_control( $wp_customize, 'zola_header', 'zola_header_custom_html', array(
+		'label'       => esc_html__( 'Custom HTML content', 'zola' ),
+		'description' => esc_html__( 'This content is sanitized before it appears in the header.', 'zola' ),
+		'type'        => 'textarea',
+		'default'     => '',
+		'sanitize'    => 'wp_kses_post',
+	) );
 
 	$footer_controls = array(
 		'zola_footer_copyright' => array(
@@ -494,5 +815,61 @@ function zola_customize_controls_enqueue_styles(): void {
 		array( 'customize-controls', 'dashicons' ),
 		(string) filemtime( ZOLA_DIR . '/assets/css/customizer-controls.css' )
 	);
+	wp_enqueue_style(
+		'zola-header-builder-controls',
+		ZOLA_URI . '/assets/css/customizer-header-builder.css',
+		array( 'zola-customizer-controls' ),
+		(string) filemtime( ZOLA_DIR . '/assets/css/customizer-header-builder.css' )
+	);
+	wp_enqueue_script(
+		'zola-header-builder-controls',
+		ZOLA_URI . '/assets/js/customizer-header-builder.js',
+		array( 'customize-controls' ),
+		(string) filemtime( ZOLA_DIR . '/assets/js/customizer-header-builder.js' ),
+		true
+	);
+	wp_localize_script( 'zola-header-builder-controls', 'ZolaHeaderBuilder', array(
+		'rows'    => array(
+			'top'    => esc_html__( 'Top Bar', 'zola' ),
+			'main'   => esc_html__( 'Header Main', 'zola' ),
+			'bottom' => esc_html__( 'Header Bottom', 'zola' ),
+		),
+		'columns' => array(
+			'left'   => esc_html__( 'Left', 'zola' ),
+			'center' => esc_html__( 'Center', 'zola' ),
+			'right'  => esc_html__( 'Right', 'zola' ),
+		),
+		'devices' => array(
+			'desktop' => esc_html__( 'Desktop', 'zola' ),
+			'mobile'  => esc_html__( 'Mobile / Tablet', 'zola' ),
+		),
+		'modules' => array(
+			'logo'         => esc_html__( 'Site Logo', 'zola' ),
+			'menu'         => esc_html__( 'Primary Menu', 'zola' ),
+			'button'       => esc_html__( 'Button', 'zola' ),
+			'search'       => esc_html__( 'Search', 'zola' ),
+			'announcement' => esc_html__( 'Announcement', 'zola' ),
+			'social'       => esc_html__( 'Social Links', 'zola' ),
+			'html'         => esc_html__( 'HTML', 'zola' ),
+			'account'      => esc_html__( 'Account', 'zola' ),
+			'cart'         => esc_html__( 'Cart', 'zola' ),
+		),
+		'headerPresets'  => zola_header_builder_presets(),
+		'clearLayout'    => esc_html__( 'Clear All', 'zola' ),
+		'clearConfirm'   => esc_html__( 'Clear the current device header layout?', 'zola' ),
+		'openBuilder'    => esc_html__( 'Open Header Builder', 'zola' ),
+		'builderTitle'   => esc_html__( 'Header Builder', 'zola' ),
+		'presetsLabel'   => esc_html__( 'Header Presets', 'zola' ),
+		'closeBuilder'   => esc_html__( 'Close', 'zola' ),
+		'tutorial'       => esc_html__( 'Tutorial', 'zola' ),
+		'tutorialText'   => esc_html__( 'Choose Desktop or Mobile / Tablet, then use Header Presets to select a layout for that device. You can also select a position, add an element below or drag elements between positions.', 'zola' ),
+		'emptySlot'      => esc_html__( 'Drop elements here', 'zola' ),
+		'noAvailable'    => esc_html__( 'All elements are in this layout.', 'zola' ),
+		'settings'       => esc_html__( 'Settings', 'zola' ),
+		'remove'         => esc_html__( 'Remove', 'zola' ),
+		'elements'       => esc_html__( 'Add elements', 'zola' ),
+		'activePosition' => esc_html__( 'Selected position', 'zola' ),
+		'dragHint'       => esc_html__( 'Open the builder to arrange header elements across rows for desktop and mobile.', 'zola' ),
+	) );
 }
 add_action( 'customize_controls_enqueue_scripts', 'zola_customize_controls_enqueue_styles' );

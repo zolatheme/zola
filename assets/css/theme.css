@@ -181,6 +181,100 @@ body.admin-bar .site-header--sticky {
 	margin-inline: auto;
 }
 
+/* Rows and left/center/right slots used by the Customizer Header Builder. */
+.site-header-builder__device--desktop {
+	display: block;
+}
+
+.site-header-builder__device--mobile {
+	display: none;
+}
+
+.site-header-builder__row {
+	position: relative;
+}
+
+.site-header-builder__row--top {
+	background: var(--zola-dark-bg);
+	color: #fff;
+}
+
+.site-header-builder__row--bottom {
+	border-top: 1px solid var(--zola-border);
+}
+
+.site-header-builder__inner {
+	position: relative;
+	display: grid;
+	width: min(calc(100% - var(--zola-gutter) * 2), var(--zola-wrap));
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
+	align-items: center;
+	gap: 16px;
+	margin-inline: auto;
+}
+
+.site-header-builder__row--main .site-header-builder__inner {
+	min-height: var(--zola-header-height);
+}
+
+.site-header-builder__row--top .site-header-builder__inner,
+.site-header-builder__row--bottom .site-header-builder__inner {
+	min-height: 40px;
+}
+
+.site-header-builder__slot {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: 14px;
+}
+
+.site-header-builder__slot--left {
+	justify-content: flex-start;
+}
+
+.site-header-builder__slot--center {
+	justify-content: center;
+}
+
+.site-header-builder__slot--right {
+	justify-content: flex-end;
+}
+
+.site-header-builder__row--top .site-announcement__inner {
+	width: auto;
+	min-height: 36px;
+	margin: 0;
+}
+
+.site-header-social {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.site-header-social a,
+.site-header__account,
+.site-header__cart {
+	color: inherit;
+	text-decoration: none;
+}
+
+.site-header-social a:hover,
+.site-header__account:hover,
+.site-header__cart:hover {
+	color: var(--zola-accent);
+}
+
+.site-header-html > :first-child {
+	margin-block-start: 0;
+}
+
+.site-header-html > :last-child {
+	margin-block-end: 0;
+}
+
 .site-brand {
 	display: inline-flex;
 	min-width: 0;
@@ -1378,6 +1472,14 @@ body.zola-home .site-main--full-width {
 		--zola-header-height: 68px;
 	}
 
+	.site-header-builder__device--desktop {
+		display: none;
+	}
+
+	.site-header-builder__device--mobile {
+		display: block;
+	}
+
 	body.admin-bar .site-header--sticky {
 		inset-block-start: 46px;
 	}
@@ -1385,6 +1487,20 @@ body.zola-home .site-main--full-width {
 	.site-header__inner {
 		flex-wrap: wrap;
 		gap: 0 12px;
+	}
+
+	.site-header-builder__inner {
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		gap: 0 12px;
+	}
+
+	.site-header-builder__row--top .site-header-builder__inner,
+	.site-header-builder__row--bottom .site-header-builder__inner {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+
+	.site-header-builder__slot {
+		gap: 8px;
 	}
 
 	.menu-toggle {

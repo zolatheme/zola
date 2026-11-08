@@ -73,15 +73,15 @@ add_action( 'widgets_init', 'zola_register_sidebars' );
 /** Load theme styles and the small interaction layer. */
 function zola_enqueue_assets(): void {
 	wp_enqueue_style( 'zola-style', get_stylesheet_uri(), array(), ZOLA_VERSION );
-	wp_enqueue_style( 'zola-components', ZOLA_URI . '/assets/css/theme.css', array( 'zola-style' ), ZOLA_VERSION );
+	wp_enqueue_style( 'zola-components', ZOLA_URI . '/assets/css/theme.css', array( 'zola-style' ), (string) filemtime( ZOLA_DIR . '/assets/css/theme.css' ) );
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'zola-rtl', ZOLA_URI . '/assets/css/rtl.css', array( 'zola-components' ), ZOLA_VERSION );
+		wp_enqueue_style( 'zola-rtl', ZOLA_URI . '/assets/css/rtl.css', array( 'zola-components' ), (string) filemtime( ZOLA_DIR . '/assets/css/rtl.css' ) );
 	}
 	wp_enqueue_script(
 		'zola-interactions',
 		ZOLA_URI . '/assets/js/theme.js',
 		array(),
-		ZOLA_VERSION,
+		(string) filemtime( ZOLA_DIR . '/assets/js/theme.js' ),
 		array(
 			'in_footer' => true,
 			'strategy'  => 'defer',
@@ -184,7 +184,7 @@ function zola_body_classes( array $classes ): array {
 	if ( $header_template_id && did_action( 'elementor/loaded' ) && 'publish' === get_post_status( $header_template_id ) ) {
 		$classes[] = 'zola-has-elementor-header';
 	}
-	if ( trim( (string) get_theme_mod( 'zola_announcement_text', '' ) ) && ! $header_template_id ) {
+	if ( trim( (string) get_theme_mod( 'zola_announcement_text', '' ) ) && zola_header_builder_has_module( 'announcement' ) && ! $header_template_id ) {
 		$classes[] = 'zola-has-announcement';
 	}
 	return $classes;

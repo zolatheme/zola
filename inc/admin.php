@@ -16,12 +16,22 @@ function zola_add_admin_page(): void {
 		3
 	);
 	add_submenu_page( 'zola', __( 'Theme Options', 'zola' ), __( 'Theme Options', 'zola' ), 'edit_theme_options', 'zola-theme-options', 'zola_render_theme_options_page' );
+	add_submenu_page( 'zola', __( 'Header Builder', 'zola' ), __( 'Header Builder', 'zola' ), 'edit_theme_options', 'zola-header-builder', 'zola_open_header_builder' );
 	add_submenu_page( 'zola', __( 'Site Builder', 'zola' ), __( 'Site Builder', 'zola' ), 'edit_theme_options', 'zola-site-builder', 'zola_render_site_builder_page' );
 	add_submenu_page( 'zola', __( 'Features', 'zola' ), __( 'Features', 'zola' ), 'edit_theme_options', 'zola-features', 'zola_render_features_page' );
 	add_submenu_page( 'zola', __( 'System Status', 'zola' ), __( 'System Status', 'zola' ), 'edit_theme_options', 'zola-status', 'zola_render_status_page' );
 	add_submenu_page( 'zola', __( 'Help & Guides', 'zola' ), __( 'Help & Guides', 'zola' ), 'edit_theme_options', 'zola-help', 'zola_render_help_page' );
 }
 add_action( 'admin_menu', 'zola_add_admin_page' );
+
+/** Open the header layout control directly in the Customizer. */
+function zola_open_header_builder(): void {
+	if ( ! current_user_can( 'edit_theme_options' ) ) {
+		return;
+	}
+	wp_safe_redirect( admin_url( 'customize.php?autofocus%5Bsection%5D=zola_header_presets' ) );
+	exit;
+}
 
 /** Load the admin-only styles for Zola pages. */
 function zola_enqueue_admin_assets( string $hook_suffix ): void {
@@ -177,6 +187,12 @@ function zola_render_admin_page(): void {
 				<h2><?php esc_html_e( 'Global design', 'zola' ); ?></h2>
 				<p><?php esc_html_e( 'Set theme colors, typography, content width, button shape, blog layout and header options.', 'zola' ); ?></p>
 				<a class="button" href="<?php echo esc_url( $customize_url ); ?>"><?php esc_html_e( 'Open Customizer', 'zola' ); ?></a>
+			</section>
+
+			<section class="zola-dashboard__card">
+				<h2><?php esc_html_e( 'Header Builder', 'zola' ); ?></h2>
+				<p><?php esc_html_e( 'Arrange your logo, menu, buttons and other elements across header rows for desktop and mobile.', 'zola' ); ?></p>
+				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-header-builder' ) ); ?>"><?php esc_html_e( 'Customize header', 'zola' ); ?></a>
 			</section>
 
 			<section class="zola-dashboard__card">

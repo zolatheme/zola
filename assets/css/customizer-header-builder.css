@@ -1,0 +1,769 @@
+.zola-header-builder-control {
+	margin-top: 14px;
+}
+
+.zola-header-builder__launch {
+	min-height: 38px;
+}
+
+.zola-header-builder__launch-help {
+	margin: 8px 0 0;
+	color: #646970;
+	font-size: 12px;
+}
+
+.zola-header-presets-control__devices {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 6px;
+	margin: 12px 0;
+}
+
+.zola-header-presets-control__devices .button {
+	margin: 0;
+}
+
+.zola-header-presets-control__grid {
+	display: grid;
+	gap: 11px;
+}
+
+.zola-header-preset-picker {
+	display: grid;
+	width: 100%;
+	grid-template-rows: 76px auto;
+	gap: 7px;
+	padding: 8px;
+	border: 1px solid #d0d3d7;
+	border-radius: 5px;
+	background: #f7f7f7;
+	color: #2c3338;
+	text-align: left;
+	cursor: pointer;
+	font: inherit;
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.zola-header-preset-picker:hover,
+.zola-header-preset-picker:focus-visible {
+	border-color: #72aee0;
+	box-shadow: 0 0 0 1px #72aee0;
+}
+
+.zola-header-preset-picker.is-active {
+	border-color: #3858e9;
+	box-shadow: 0 0 0 1px #3858e9;
+}
+
+.zola-header-preset-picker .zola-header-preset__preview {
+	width: 100%;
+	height: 76px;
+}
+
+.zola-header-preset-picker__text {
+	display: grid;
+	gap: 2px;
+}
+
+.zola-header-preset-picker__text strong {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.zola-header-preset-picker__text small {
+	color: #646970;
+	font-size: 10px;
+	line-height: 1.35;
+}
+
+body.zola-header-builder-is-open {
+	overflow: hidden;
+}
+
+.zola-header-builder__overlay {
+	position: fixed;
+	z-index: 1001000;
+	inset-inline: 0;
+	bottom: 0;
+	display: flex;
+	height: min(50vh, 470px);
+	min-height: 310px;
+	max-height: 78vh;
+	flex-direction: column;
+	background: #08090b;
+	color: #f5f6f7;
+	box-shadow: 0 -12px 40px rgba(0, 0, 0, .3);
+	font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.zola-header-builder__overlay * {
+	box-sizing: border-box;
+}
+
+.zola-header-builder__toolbar {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	min-height: 58px;
+	grid-template-columns: minmax(145px, 1fr) auto minmax(410px, 1fr);
+	align-items: center;
+	gap: 18px;
+	padding: 8px 18px;
+	background: #f8f8f8;
+	color: #272b2f;
+}
+
+.zola-header-builder__title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 650;
+}
+
+.zola-header-builder__devices,
+.zola-header-builder__actions {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.zola-header-builder__devices {
+	justify-content: center;
+}
+
+.zola-header-builder__actions {
+	justify-content: flex-end;
+}
+
+.zola-header-builder__device-button,
+.zola-header-builder__action,
+.zola-header-builder__preset {
+	min-height: 38px;
+	padding: 0 16px;
+	border: 1px solid #dc493e;
+	border-radius: 3px;
+	background: #fff;
+	color: #d94036;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.zola-header-builder__device-button {
+	min-width: 104px;
+	border-color: transparent;
+	border-radius: 22px;
+	background: #edc2bf;
+	color: #fff;
+}
+
+.zola-header-builder__device-button.is-active {
+	background: #dc493e;
+	color: #fff;
+}
+
+.zola-header-builder__device-button:hover,
+.zola-header-builder__device-button:focus-visible {
+	filter: brightness(.96);
+}
+
+.zola-header-builder__action:hover,
+.zola-header-builder__action:focus-visible,
+.zola-header-builder__preset:hover,
+.zola-header-builder__preset:focus-visible {
+	background: #fff2f0;
+	color: #b92e25;
+}
+
+.zola-header-preset-gallery {
+	position: absolute;
+	z-index: 8;
+	top: 58px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	overflow-y: auto;
+	padding: 12px 18px 18px;
+	background: #f0f1f2;
+	color: #22272c;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+
+.zola-header-preset-gallery__header {
+	position: sticky;
+	top: -12px;
+	z-index: 1;
+	display: flex;
+	min-height: 38px;
+	align-items: center;
+	justify-content: space-between;
+	margin: -12px -18px 0;
+	padding: 7px 18px;
+	background: #f0f1f2;
+}
+
+.zola-header-preset-gallery__header h3 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 650;
+}
+
+.zola-header-preset-gallery__close {
+	width: 30px;
+	height: 30px;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	color: #555c63;
+	cursor: pointer;
+	font-size: 22px;
+}
+
+.zola-header-preset-gallery__close:hover,
+.zola-header-preset-gallery__close:focus-visible {
+	background: #e0e2e4;
+}
+
+.zola-header-preset-gallery__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.zola-header-preset {
+	display: grid;
+	min-width: 0;
+	grid-template-rows: 82px auto auto;
+	gap: 5px;
+	padding: 8px;
+	border: 1px solid #d1d5d9;
+	border-radius: 6px;
+	background: #fff;
+	color: #252a2f;
+	text-align: left;
+	cursor: pointer;
+	font: inherit;
+	transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.zola-header-preset:hover,
+.zola-header-preset:focus-visible {
+	border-color: #4c9bc9;
+	box-shadow: 0 4px 14px rgba(31, 92, 127, .15);
+	transform: translateY(-1px);
+}
+
+.zola-header-preset__preview {
+	display: grid;
+	min-width: 0;
+	grid-template-rows: repeat(3, minmax(0, 1fr));
+	gap: 2px;
+	overflow: hidden;
+	padding: 5px;
+	border: 1px solid #8ec0df;
+	border-radius: 4px;
+	background: #f6f8fa;
+	color: #438ebd;
+}
+
+.zola-header-preset__preview--classic,
+.zola-header-preset__preview--action,
+.zola-header-preset__preview--store {
+	background: #eaf4fa;
+}
+
+.zola-header-preset__preview--split,
+.zola-header-preset__preview--minimal {
+	background: #fff;
+}
+
+.zola-header-preset__row {
+	display: grid;
+	min-width: 0;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	align-items: center;
+	gap: 3px;
+	padding-inline: 3px;
+	border-radius: 2px;
+}
+
+.zola-header-preset__row--top,
+.zola-header-preset__row--bottom {
+	background: rgba(91, 161, 204, .16);
+}
+
+.zola-header-preset__row--top {
+	grid-row: 1;
+}
+
+.zola-header-preset__row--main {
+	grid-row: 2;
+	background: rgba(103, 174, 215, .34);
+}
+
+.zola-header-preset__row--bottom {
+	grid-row: 3;
+}
+
+.zola-header-preset__slot {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: 3px;
+	overflow: hidden;
+}
+
+.zola-header-preset__slot--left {
+	justify-content: flex-start;
+}
+
+.zola-header-preset__slot--center {
+	justify-content: center;
+}
+
+.zola-header-preset__slot--right {
+	justify-content: flex-end;
+}
+
+.zola-header-preset__item {
+	display: inline-block;
+	max-width: 100%;
+	overflow: hidden;
+	color: #3987b6;
+	font-size: 7px;
+	font-weight: 650;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.zola-header-preset__item--logo {
+	font-size: 13px;
+}
+
+.zola-header-preset__item--menu {
+	font-size: 6px;
+}
+
+.zola-header-preset__item--search {
+	width: 39px;
+	padding: 2px 4px;
+	border: 1px solid #68a9d0;
+	border-radius: 2px;
+	font-size: 6px;
+}
+
+.zola-header-preset__item--button {
+	padding: 3px 6px;
+	background: #69add4;
+	color: #fff;
+}
+
+.zola-header-preset__item--cart,
+.zola-header-preset__item--account {
+	font-size: 6px;
+}
+
+.zola-header-preset__preview--mobile .zola-header-preset__item--logo {
+	font-size: 11px;
+}
+
+.zola-header-preset__preview--mobile .zola-header-preset__item--menu {
+	font-size: 8px;
+}
+
+.zola-header-preset__title {
+	font-size: 12px;
+	font-weight: 650;
+}
+
+.zola-header-preset__description {
+	color: #666e75;
+	font-size: 10px;
+	line-height: 1.35;
+}
+
+.zola-header-builder__tutorial {
+	position: relative;
+	z-index: 1;
+	margin: 0;
+	padding: 8px 18px;
+	border-bottom: 1px solid #33373d;
+	background: #191c20;
+	color: #d4d7db;
+	font-size: 12px;
+}
+
+.zola-header-builder__rows {
+	display: grid;
+	min-height: 0;
+	flex: 1 1 auto;
+	grid-template-rows: repeat(3, minmax(42px, 1fr));
+	gap: 6px;
+	overflow-y: auto;
+	padding: 12px 14px 9px;
+}
+
+.zola-header-builder__row {
+	display: grid;
+	min-height: 42px;
+	grid-template-columns: 132px minmax(0, 1fr);
+	gap: 8px;
+}
+
+.zola-header-builder__row-label {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	margin: 0;
+	padding: 0 9px;
+	border: 1px solid #282c31;
+	background: #141619;
+	color: #c6c9ce;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.zola-header-builder__columns {
+	display: grid;
+	min-width: 0;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.zola-header-builder__slot {
+	position: relative;
+	display: flex;
+	min-width: 0;
+	min-height: 42px;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 7px;
+	border: 1px dashed #41464d;
+	background: #050607;
+	cursor: pointer;
+	transition: border-color .15s ease, background-color .15s ease;
+}
+
+.zola-header-builder__slot:hover,
+.zola-header-builder__slot.is-active {
+	border-color: #e45449;
+	background: #101113;
+}
+
+.zola-header-builder__slot.is-drop-target {
+	border-color: #fff;
+	background: #202326;
+}
+
+.zola-header-builder__slot-label {
+	display: none;
+}
+
+.zola-header-builder__items {
+	display: flex;
+	min-width: 0;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 5px;
+}
+
+.zola-header-builder__item {
+	display: inline-flex;
+	min-width: 0;
+	min-height: 29px;
+	align-items: center;
+	gap: 6px;
+	padding: 3px 7px 3px 9px;
+	border: 1px solid #65798b;
+	border-radius: 4px;
+	background: #5b7184;
+	color: #fff;
+	cursor: grab;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.zola-header-builder__item:active {
+	cursor: grabbing;
+}
+
+.zola-header-builder__item-label {
+	overflow: hidden;
+	max-width: min(220px, 24vw);
+	text-overflow: ellipsis;
+}
+
+.zola-header-builder__settings,
+.zola-header-builder__remove {
+	display: inline-flex;
+	width: 20px;
+	height: 20px;
+	flex: 0 0 20px;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: 0;
+	border-radius: 3px;
+	background: transparent;
+	color: #d9e1e8;
+	cursor: pointer;
+	font: inherit;
+	font-size: 14px;
+	line-height: 1;
+}
+
+.zola-header-builder__settings:hover,
+.zola-header-builder__remove:hover,
+.zola-header-builder__settings:focus-visible,
+.zola-header-builder__remove:focus-visible {
+	background: rgba(0, 0, 0, .2);
+	color: #fff;
+}
+
+.zola-header-builder__empty {
+	color: #747981;
+	font-size: 11px;
+	font-style: italic;
+}
+
+.zola-header-builder__inventory {
+	display: flex;
+	min-height: 54px;
+	align-items: center;
+	gap: 12px;
+	padding: 7px 14px 9px;
+	border-top: 1px solid #292c31;
+	background: #030405;
+}
+
+.zola-header-builder__inventory-title {
+	flex: 0 0 auto;
+	margin: 0;
+	color: #aeb3b9;
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .07em;
+}
+
+.zola-header-builder__available {
+	display: flex;
+	min-width: 0;
+	flex: 1 1 auto;
+	align-items: center;
+	gap: 5px;
+	overflow-x: auto;
+	padding: 2px 0;
+}
+
+.zola-header-builder__available-item {
+	min-height: 30px;
+	flex: 0 0 auto;
+	padding: 3px 9px;
+	border: 1px solid #40515e;
+	border-radius: 4px;
+	background: #27313a;
+	color: #dce2e8;
+	cursor: pointer;
+	font: inherit;
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+.zola-header-builder__available-item:hover,
+.zola-header-builder__available-item:focus-visible {
+	border-color: #dc493e;
+	background: #3c454e;
+	color: #fff;
+}
+
+.zola-header-builder__empty-inventory {
+	color: #838992;
+	font-size: 12px;
+}
+
+.zola-header-builder__overlay button:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
+
+@media (max-width: 1100px) {
+	.zola-header-builder__toolbar {
+		grid-template-columns: auto 1fr;
+		gap: 8px 12px;
+	}
+
+	.zola-header-builder__title {
+		grid-column: 1;
+	}
+
+	.zola-header-builder__devices {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	.zola-header-builder__actions {
+		grid-column: 1 / -1;
+		grid-row: 2;
+		justify-content: flex-end;
+	}
+
+	.zola-header-builder__toolbar {
+		min-height: 96px;
+	}
+
+	.zola-header-preset-gallery {
+		top: 96px;
+	}
+
+	.zola-header-preset-gallery__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.zola-header-builder__rows {
+		grid-template-rows: repeat(3, minmax(58px, 1fr));
+	}
+
+	.zola-header-builder__row {
+		grid-template-columns: 94px minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 700px) {
+	.zola-header-builder__overlay {
+		height: min(62vh, 560px);
+		min-height: 360px;
+	}
+
+	.zola-header-builder__toolbar {
+		padding: 7px 9px;
+	}
+
+	.zola-header-builder__title {
+		font-size: 14px;
+	}
+
+	.zola-header-builder__device-button {
+		min-width: 0;
+		min-height: 32px;
+		padding: 0 10px;
+		font-size: 11px;
+	}
+
+	.zola-header-builder__actions {
+		gap: 4px;
+	}
+
+	.zola-header-builder__action {
+		min-height: 32px;
+		padding: 0 8px;
+		font-size: 11px;
+	}
+
+	.zola-header-builder__rows {
+		grid-template-rows: repeat(3, minmax(62px, 1fr));
+		gap: 5px;
+		padding: 8px 8px 6px;
+	}
+
+	.zola-header-builder__row {
+		grid-template-columns: 72px minmax(0, 1fr);
+		gap: 5px;
+	}
+
+	.zola-header-builder__row-label {
+		padding: 0 5px;
+		font-size: 9px;
+	}
+
+	.zola-header-builder__columns {
+		gap: 4px;
+	}
+
+	.zola-header-builder__slot {
+		align-items: flex-start;
+		padding: 5px 4px;
+	}
+
+	.zola-header-builder__slot-label {
+		display: block;
+		position: absolute;
+		margin-top: -1px;
+		color: #777d84;
+		font-size: 8px;
+	}
+
+	.zola-header-builder__items {
+		padding-top: 15px;
+	}
+
+	.zola-header-builder__item {
+		min-height: 25px;
+		gap: 2px;
+		padding: 2px 3px 2px 5px;
+		font-size: 9px;
+	}
+
+	.zola-header-builder__item-label {
+		max-width: 85px;
+	}
+
+	.zola-header-builder__settings,
+	.zola-header-builder__remove {
+		width: 16px;
+		height: 16px;
+		flex-basis: 16px;
+		font-size: 11px;
+	}
+
+	.zola-header-builder__inventory {
+		min-height: 49px;
+		gap: 7px;
+		padding: 6px 8px;
+	}
+
+	.zola-header-builder__inventory-title {
+		max-width: 42px;
+		font-size: 8px;
+	}
+
+	.zola-header-builder__available-item {
+		min-height: 27px;
+		padding-inline: 7px;
+		font-size: 10px;
+	}
+
+	.zola-header-preset-gallery {
+		top: 96px;
+		padding-inline: 9px;
+	}
+
+	.zola-header-preset-gallery__header {
+		margin-inline: -9px;
+		padding-inline: 9px;
+	}
+
+	.zola-header-preset-gallery__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.zola-header-preset {
+		grid-template-columns: minmax(0, 1fr) minmax(120px, .7fr);
+		grid-template-rows: auto auto;
+		align-items: center;
+	}
+
+	.zola-header-preset__preview {
+		grid-row: 1 / 3;
+		grid-template-rows: repeat(3, minmax(20px, 1fr));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.zola-header-builder__slot {
+		transition: none;
+	}
+}
