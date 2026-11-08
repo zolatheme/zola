@@ -162,6 +162,10 @@ class Zola_Hero_Widget extends \Elementor\Widget_Base {
 		$image         = esc_url_raw( $image_setting );
 		$filtered_image = apply_filters( 'zola_hero_image', $image );
 		$image         = is_string( $filtered_image ) ? esc_url_raw( $filtered_image ) : '';
+		$image_id      = isset( $settings['image']['id'] ) ? absint( $settings['image']['id'] ) : 0;
+		if ( ! $image_id || ! wp_attachment_is_image( $image_id ) || $image !== esc_url_raw( $image_setting ) ) {
+			$image_id = 0;
+		}
 		$height          = isset( $settings['height'] ) && in_array( $settings['height'], array( 'full', 'large', 'compact' ), true ) ? $settings['height'] : 'full';
 		$alignment       = isset( $settings['alignment'] ) && in_array( $settings['alignment'], array( 'left', 'center', 'right' ), true ) ? $settings['alignment'] : 'left';
 		$prioritize_image = ! isset( $settings['prioritize_image'] ) || 'yes' === $settings['prioritize_image'];
@@ -197,7 +201,24 @@ class Zola_Hero_Widget extends \Elementor\Widget_Base {
 		<section class="hero hero--<?php echo esc_attr( $height ); ?> hero--align-<?php echo esc_attr( $alignment ); ?>" data-zola-hero <?php if ( $title_content ) : ?>aria-labelledby="<?php echo esc_attr( $title_id ); ?>"<?php else : ?>aria-label="<?php esc_attr_e( 'Hero section', 'zola' ); ?>"<?php endif; ?>>
 			<div class="hero__media" data-zola-hero-media>
 				<?php if ( $image ) : ?>
-					<div class="hero__image" aria-hidden="true"><img src="<?php echo esc_url( $image ); ?>" alt="" loading="<?php echo $prioritize_image ? 'eager' : 'lazy'; ?>" decoding="async"<?php if ( $prioritize_image ) : ?> fetchpriority="high" data-no-lazy="1"<?php endif; ?>></div>
+					<div class="hero__image" aria-hidden="true">
+						<?php if ( $image_id ) : ?>
+							<?php
+							$image_attributes = array(
+								'alt'      => '',
+								'loading'  => $prioritize_image ? 'eager' : 'lazy',
+								'decoding' => 'async',
+							);
+							if ( $prioritize_image ) {
+								$image_attributes['fetchpriority'] = 'high';
+								$image_attributes['data-no-lazy']  = '1';
+							}
+							echo wp_get_attachment_image( $image_id, 'full', false, $image_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WordPress generates responsive, escaped attachment image markup.
+							?>
+						<?php else : ?>
+							<img src="<?php echo esc_url( $image ); ?>" alt="" loading="<?php echo $prioritize_image ? 'eager' : 'lazy'; ?>" decoding="async"<?php if ( $prioritize_image ) : ?> fetchpriority="high" data-no-lazy="1"<?php endif; ?>>
+						<?php endif; ?>
+					</div>
 				<?php endif; ?>
 				<?php do_action( 'zola_hero_media', $image, $prioritize_image ); ?>
 			</div>

@@ -5,6 +5,278 @@
 	--zola-builder-accent-contrast: #fff;
 }
 
+#customize-control-zola_header_layout_group,
+#customize-control-zola_header_navigation_group,
+#customize-control-zola_header_transparent_group {
+	margin: 0 -12px 12px;
+	padding: 0;
+}
+
+.zola-header-group__title {
+	margin: 0;
+	padding: 12px 16px;
+	background: #3c4a55;
+	color: #fff;
+	font-size: 15px;
+	font-weight: 650;
+}
+
+.zola-header-visual-choice {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.zola-header-visual-choice .customize-control-title {
+	display: block;
+	margin: 0 0 10px;
+}
+
+.zola-header-visual-choice__options {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 9px;
+}
+
+.zola-header-visual-choice--header-width .zola-header-visual-choice__options {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.zola-header-visual-choice--text-color .zola-header-visual-choice__options {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.zola-header-visual-choice--scale .zola-header-visual-choice__options {
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 0;
+	border: 1px solid #dcdcde;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.zola-header-visual-choice__option {
+	position: relative;
+	display: grid;
+	min-width: 0;
+	justify-items: center;
+	gap: 4px;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.zola-header-visual-choice__option > input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	overflow: hidden;
+}
+
+.zola-header-visual-choice__sample {
+	position: relative;
+	display: grid;
+	width: 100%;
+	min-height: 54px;
+	place-items: center;
+	border: 1px solid #83b9df;
+	border-radius: 8px;
+	background: #eef5fa;
+	color: #6daedc;
+	transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+.zola-header-visual-choice__option > input:checked + .zola-header-visual-choice__sample {
+	border: 2px solid var(--zola-builder-accent);
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(25, 39, 52, .18), inset 0 0 0 3px #eaf3fb;
+}
+
+.zola-header-visual-choice__option > input:focus-visible + .zola-header-visual-choice__sample {
+	outline: 2px solid var(--zola-builder-accent);
+	outline-offset: 2px;
+}
+
+.zola-header-visual-choice__label {
+	max-width: 100%;
+	color: #50575e;
+	font-size: 11px;
+	line-height: 1.2;
+	text-align: center;
+}
+
+.zola-header-visual-choice__segment {
+	display: grid;
+	width: 100%;
+	min-height: 38px;
+	place-items: center;
+	border-inline-end: 1px solid #dcdcde;
+	background: #fff;
+	color: #50575e;
+	font-size: 11px;
+	line-height: 1;
+}
+
+.zola-header-visual-choice__option:last-child .zola-header-visual-choice__segment {
+	border-inline-end: 0;
+}
+
+.zola-header-visual-choice__option > input:checked + .zola-header-visual-choice__segment {
+	background: #009bd0;
+	color: #fff;
+}
+
+.zola-header-visual-choice__page {
+	position: relative;
+	display: block;
+	width: 82%;
+	height: 32px;
+	border: 1px solid #83b9df;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.zola-header-visual-choice__page::before {
+	position: absolute;
+	inset: 0 18%;
+	border-inline: 1px solid #83b9df;
+	background: #e4f1fa;
+	content: "";
+}
+
+.zola-header-visual-choice__option--full .zola-header-visual-choice__page::before {
+	inset-inline: 0;
+	border: 0;
+	background: #d8eaf6;
+}
+
+.zola-header-visual-choice__page::after {
+	position: absolute;
+	top: 50%;
+	left: 8%;
+	width: 0;
+	height: 0;
+	border-block: 4px solid transparent;
+	border-inline-start: 6px solid #4a9bd2;
+	content: "";
+	transform: translateY(-50%);
+}
+
+.zola-header-visual-choice__option--full .zola-header-visual-choice__page::after {
+	left: auto;
+	right: 8%;
+	transform: translateY(-50%) rotate(180deg);
+}
+
+.zola-header-visual-choice__abc {
+	display: block;
+	font-size: 22px;
+	line-height: 1;
+}
+
+.zola-header-visual-choice__option--light .zola-header-visual-choice__sample {
+	background: #83b9df;
+	color: #fff;
+}
+
+.zola-header-visual-choice__option--dark .zola-header-visual-choice__sample {
+	background: #fff;
+	color: #3194d4;
+}
+
+.zola-header-visual-choice__option--auto .zola-header-visual-choice__sample {
+	background: linear-gradient(135deg, #83b9df 0 45%, #fff 45% 100%);
+	color: #3194d4;
+}
+
+.zola-header-visual-choice__nav {
+	position: relative;
+	display: inline-flex;
+	min-width: 44px;
+	min-height: 25px;
+	align-items: center;
+	justify-content: center;
+	padding: 2px 5px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.zola-header-visual-choice__nav--underline {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
+}
+
+.zola-header-visual-choice__nav--overline {
+	border-top: 2px solid currentColor;
+}
+
+.zola-header-visual-choice__nav--divider {
+	border-inline-start: 2px solid currentColor;
+}
+
+.zola-header-visual-choice__nav--pills,
+.zola-header-visual-choice__nav--fill {
+	border-radius: 999px;
+	background: #83b9df;
+	color: #fff;
+}
+
+.zola-header-visual-choice__nav--outline {
+	border: 1px solid currentColor;
+}
+
+.zola-header-visual-choice__nav--bold {
+	font-weight: 800;
+}
+
+.zola-header-visual-choice__nav--vertical {
+	min-height: 31px;
+	align-items: flex-start;
+	border-inline-start: 3px solid currentColor;
+}
+
+#customize-control-zola_header_height,
+#customize-control-zola_header_nav_height,
+#customize-control-zola_header_nav_push,
+#customize-control-zola_transparent_header_height {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 38px;
+	align-items: center;
+	column-gap: 10px;
+}
+
+#customize-control-zola_header_height .customize-control-title,
+#customize-control-zola_header_nav_height .customize-control-title,
+#customize-control-zola_header_nav_push .customize-control-title,
+#customize-control-zola_transparent_header_height .customize-control-title,
+#customize-control-zola_header_height .customize-control-description,
+#customize-control-zola_header_nav_height .customize-control-description,
+#customize-control-zola_header_nav_push .customize-control-description,
+#customize-control-zola_transparent_header_height .customize-control-description {
+	grid-column: 1 / -1;
+}
+
+#customize-control-zola_header_height input[type="range"],
+#customize-control-zola_header_nav_height input[type="range"],
+#customize-control-zola_header_nav_push input[type="range"],
+#customize-control-zola_transparent_header_height input[type="range"] {
+	grid-column: 1;
+	width: 100%;
+	margin: 8px 0;
+}
+
+.zola-header-range-value {
+	grid-column: 2;
+	color: #1d2327;
+	font-size: 14px;
+	text-align: right;
+}
+
 .zola-header-presets-control__devices {
 	display: grid;
 	grid-template-columns: 1fr 1fr;

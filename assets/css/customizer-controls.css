@@ -1,8 +1,4 @@
 /* Keep these styles limited to the top-level Customizer navigation. */
-#customize-theme-controls #accordion-section-title_tagline {
-	--zola-section-icon: "\f319";
-}
-
 #customize-theme-controls #accordion-panel-zola_header_panel {
 	--zola-section-icon: "\f343";
 }
@@ -52,7 +48,6 @@
 }
 
 #customize-theme-controls :is(
-	#accordion-section-title_tagline,
 	#accordion-panel-zola_header_panel,
 	#accordion-section-zola_style,
 	#accordion-section-zola_blog,
@@ -78,7 +73,6 @@
 }
 
 #customize-theme-controls :is(
-	#accordion-section-title_tagline,
 	#accordion-panel-zola_header_panel,
 	#accordion-section-zola_style,
 	#accordion-section-zola_blog,
@@ -97,7 +91,6 @@
 
 @media (max-width: 782px) {
 	#customize-theme-controls :is(
-		#accordion-section-title_tagline,
 		#accordion-panel-zola_header_panel,
 		#accordion-section-zola_style,
 		#accordion-section-zola_blog,

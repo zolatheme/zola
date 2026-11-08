@@ -7,7 +7,7 @@
 			<header class="single-article__header">
 				<p class="eyebrow" data-reveal><?php echo esc_html( get_the_date() ); ?> <span>/</span> <?php echo esc_html( get_the_author() ); ?><?php if ( get_the_category() ) : ?> <span>/</span> <?php the_category( ', ' ); ?><?php endif; ?></p>
 				<h1 data-reveal><?php echo esc_html( get_the_title() ); ?></h1>
-				<?php if ( has_post_thumbnail() ) : ?><div class="single-article__image" data-reveal><?php the_post_thumbnail( 'large' ); ?></div><?php endif; ?>
+				<?php if ( has_post_thumbnail() ) : ?><div class="single-article__image" data-reveal><?php the_post_thumbnail( 'large', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'decoding' => 'async', 'data-no-lazy' => '1' ) ); ?></div><?php endif; ?>
 			</header>
 			<div class="entry-content entry-content--standard"><?php the_content(); ?><?php wp_link_pages(); ?></div>
 			<footer class="single-article__footer"><?php the_tags( '<span>' . esc_html__( 'Topics:', 'zola' ) . '</span> ', ', ' ); ?></footer>

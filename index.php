@@ -13,7 +13,7 @@ get_header();
 		<div class="archive-layout__main">
 		<?php if ( have_posts() ) : ?>
 			<div class="post-grid <?php echo esc_attr( zola_archive_layout_class() ); ?>">
-				<?php while ( have_posts() ) : the_post(); get_template_part( 'template-parts/content', 'card' ); endwhile; ?>
+				<?php $card_index = 0; while ( have_posts() ) : the_post(); get_template_part( 'template-parts/content', 'card', array( 'prioritize_image' => 0 === $card_index ) ); $card_index++; endwhile; ?>
 			</div>
 			<?php the_posts_pagination( array( 'mid_size' => 1, 'prev_text' => esc_html__( 'Newer', 'zola' ), 'next_text' => esc_html__( 'Older', 'zola' ) ) ); ?>
 		<?php else : ?>

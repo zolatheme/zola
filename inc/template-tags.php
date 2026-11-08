@@ -42,6 +42,23 @@ function zola_render_header_builder(): void {
 	$is_homepage  = 'page' === get_option( 'show_on_front' ) && is_front_page();
 	$header_class .= $is_homepage && get_theme_mod( 'zola_transparent_header', true ) ? ' site-header--overlay' : ' site-header--solid';
 	$header_class .= get_theme_mod( 'zola_sticky_header', true ) ? ' site-header--sticky' : ' site-header--flow';
+	$header_text_mode = zola_sanitize_header_text_mode( get_theme_mod( 'zola_header_text_mode', 'auto' ) );
+	$header_nav_style = zola_sanitize_header_nav_style( get_theme_mod( 'zola_header_nav_style', 'plain' ) );
+	$header_class .= ' site-header--nav-' . sanitize_html_class( $header_nav_style );
+	if ( get_theme_mod( 'zola_header_nav_uppercase', false ) ) {
+		$header_class .= ' site-header--nav-uppercase';
+	}
+	if ( 'auto' !== $header_text_mode ) {
+		$header_class .= ' site-header--text-' . sanitize_html_class( $header_text_mode );
+	}
+	if ( get_theme_mod( 'zola_header_shadow', false ) ) {
+		$header_class .= ' site-header--has-shadow';
+	}
+	if ( ! get_theme_mod( 'zola_header_divider', true ) ) {
+		$header_class .= ' site-header--no-divider';
+	} else {
+		$header_class .= ' site-header--has-divider';
+	}
 
 	echo '<header class="' . esc_attr( $header_class ) . '" data-site-header>';
 	foreach ( array( 'desktop', 'mobile' ) as $device ) {
@@ -152,10 +169,19 @@ function zola_render_header_module( string $module ): void {
 			}
 			break;
 
-		case 'html':
-			$custom_html = get_theme_mod( 'zola_header_custom_html', '' );
+		case 'html_1':
+		case 'html_2':
+		case 'html_3':
+		case 'html_4':
+		case 'html_5':
+			$block_number = absint( substr( $module, 5 ) );
+			$setting_id   = 'zola_header_custom_html_' . $block_number;
+			$custom_html  = get_theme_mod( $setting_id, null );
+			if ( null === $custom_html && 1 === $block_number ) {
+				$custom_html = get_theme_mod( 'zola_header_custom_html', '' );
+			}
 			if ( is_string( $custom_html ) && '' !== trim( $custom_html ) ) {
-				echo '<div class="site-header-html">' . wp_kses_post( $custom_html ) . '</div>';
+				echo '<div class="site-header-html">' . do_shortcode( wp_kses_post( $custom_html ) ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Sanitized HTML and registered shortcodes are intentionally rendered.
 			}
 			break;
 
@@ -224,10 +250,28 @@ function zola_share_links_visible(): bool {
 		) );
 }
 
+/** Keep the site logo eager and exclude it from LiteSpeed's image lazy loading. */
+function zola_header_logo_image_attributes( array $attributes, WP_Post $attachment ): array {
+	if ( absint( get_theme_mod( 'custom_logo', 0 ) ) !== absint( $attachment->ID ) ) {
+		return $attributes;
+	}
+
+	$attributes['loading']       = 'eager';
+	$attributes['decoding']      = 'async';
+	$attributes['data-no-lazy']  = '1';
+	return $attributes;
+}
+
 function zola_site_brand( bool $footer = false ): void {
 	$brand_class = $footer ? 'site-brand site-brand--footer' : 'site-brand';
 	if ( has_custom_logo() ) {
+		if ( ! $footer ) {
+			add_filter( 'wp_get_attachment_image_attributes', 'zola_header_logo_image_attributes', 10, 2 );
+		}
 		the_custom_logo();
+		if ( ! $footer ) {
+			remove_filter( 'wp_get_attachment_image_attributes', 'zola_header_logo_image_attributes', 10 );
+		}
 		return;
 	}
 	$site_name = get_bloginfo( 'name' );

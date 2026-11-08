@@ -25,7 +25,7 @@
 
 ## Header, Footer และ Site Builder
 
-- สร้างและจัดวาง Header หลักชุดเดียวสำหรับ Desktop และ Mobile/Tablet ได้ที่ **Zola → Header Builder** หรือ **Appearance → Customize → Header → Header Presets**
+- สร้างและจัดวาง Header หลักชุดเดียวสำหรับ Desktop และ Mobile/Tablet ได้ที่ **Zola → Header Builder** หรือ **Appearance → Customize → Header → Presets / Header Main**
 - **Zola → Site Builder** ใช้กำหนด Elementor Saved Template สำหรับ Footer; หากไม่กำหนด จะใช้ Footer พื้นฐานของธีม
 - ใช้ Elementor Theme Builder สำหรับ Footer, Single และ Archive พร้อม display conditions (ใช้แพ็กเกจ Elementor ที่มี Theme Builder)
 - แก้โลโก้ เมนู ปุ่ม CTA แถบประกาศ และตัวเลือก sticky/transparent ของ Header Builder ได้จาก Customizer; สร้างรายการเมนูที่ **Appearance → Menus**

@@ -15,12 +15,17 @@
 	const settingsSections = {
 		logo: { type: 'section', id: 'title_tagline' },
 		menu: { type: 'panel', id: 'nav_menus' },
-		button: { type: 'section', id: 'zola_header' },
-		announcement: { type: 'section', id: 'zola_header' },
-		social: { type: 'section', id: 'zola_header' },
-		html: { type: 'section', id: 'zola_header' },
-		account: { type: 'section', id: 'zola_header' },
-		cart: { type: 'section', id: 'zola_header' }
+		button: { type: 'section', id: 'zola_header_buttons' },
+		announcement: { type: 'section', id: 'zola_header_top_bar' },
+		social: { type: 'section', id: 'zola_header_follow_icons' },
+		html_1: { type: 'section', id: 'zola_header_html' },
+		html_2: { type: 'section', id: 'zola_header_html' },
+		html_3: { type: 'section', id: 'zola_header_html' },
+		html_4: { type: 'section', id: 'zola_header_html' },
+		html_5: { type: 'section', id: 'zola_header_html' },
+		account: { type: 'section', id: 'zola_header_account' },
+		cart: { type: 'section', id: 'zola_header_cart' },
+		search: { type: 'section', id: 'zola_header_search' }
 	};
 
 	function emptyRows() {
@@ -64,13 +69,15 @@
 			['top', 'main', 'bottom'].forEach(function (row) {
 				['left', 'center', 'right'].forEach(function (column) {
 					const items = rows[row] && Array.isArray(rows[row][column]) ? rows[row][column] : fallback[device].rows[row][column];
-					fallback[device].rows[row][column] = items.filter(function (module) {
-						if (!moduleNames[module] || used.has(module)) {
-							return false;
+					fallback[device].rows[row][column] = items.reduce(function (normalizedItems, module) {
+						const normalizedModule = 'html' === module ? 'html_1' : module;
+						if (!moduleNames[normalizedModule] || used.has(normalizedModule)) {
+							return normalizedItems;
 						}
-						used.add(module);
-						return true;
-					});
+						used.add(normalizedModule);
+						normalizedItems.push(normalizedModule);
+						return normalizedItems;
+					}, []);
 				});
 			});
 		});
@@ -94,7 +101,8 @@
 		const rows = preset[device] || {};
 		const moduleLabels = {
 			logo: 'Logo', menu: 'HOME   LINK', button: 'SIGN UP', search: '⌕',
-			announcement: 'TOP BAR', social: '●  ●  ●', html: 'INFO', account: 'ACCOUNT', cart: 'CART  3'
+			announcement: 'TOP BAR', social: '●  ●  ●', html_1: 'HTML 1', html_2: 'HTML 2',
+			html_3: 'HTML 3', html_4: 'HTML 4', html_5: 'HTML 5', account: 'ACCOUNT', cart: 'CART  3'
 		};
 		['top', 'main', 'bottom'].forEach(function (rowName) {
 			const rowData = rows[rowName] || {};
@@ -617,19 +625,30 @@
 			}
 		});
 
-		const presetsSection = wp.customize.section('zola_header_presets');
-		if (presetsSection && presetsSection.expanded && typeof presetsSection.expanded.bind === 'function') {
-			presetsSection.expanded.bind(function (isExpanded) {
+		const builderSections = ['zola_header_presets', 'zola_header']
+			.map(function (sectionId) { return wp.customize.section(sectionId); })
+			.filter(function (section) { return section && section.expanded && typeof section.expanded.bind === 'function'; });
+		builderSections.forEach(function (section) {
+			section.expanded.bind(function (isExpanded) {
 				if (isExpanded) {
 					openOverlay(document.activeElement);
-				} else if (overlay) {
-					closeOverlay(false);
+					return;
 				}
+
+				window.requestAnimationFrame(function () {
+					const anotherBuilderSectionIsOpen = builderSections.some(function (builderSection) {
+						return builderSection.expanded();
+					});
+					if (!anotherBuilderSectionIsOpen && overlay) {
+						closeOverlay(false);
+					}
+				});
 			});
-			if (presetsSection.expanded()) {
+
+			if (section.expanded()) {
 				openOverlay(document.activeElement);
 			}
-		}
+		});
 	}
 
 	function updateBuilderAccent(value) {
@@ -659,6 +678,63 @@
 			return Math.round(channel * 255);
 		}).join(', '));
 		root.style.setProperty('--zola-builder-accent-contrast', luminance > 0.179 ? '#1d2327' : '#fff');
+	}
+
+	function setupHeaderVisualChoices() {
+		wp.customize.control.each(function (control) {
+			const container = control.container && control.container[0];
+			const fieldset = container ? container.querySelector('[data-zola-visual-choice]') : null;
+			const setting = control.setting;
+			if (!fieldset || !setting) {
+				return;
+			}
+
+			function syncChoice(value) {
+				fieldset.querySelectorAll('[data-zola-visual-choice-input]').forEach(function (input) {
+					input.checked = input.value === value;
+				});
+			}
+
+			fieldset.addEventListener('change', function (event) {
+				if (event.target && event.target.matches('[data-zola-visual-choice-input]')) {
+					setting.set(event.target.value);
+				}
+			});
+			setting.bind(syncChoice);
+			syncChoice(setting.get());
+		});
+	}
+
+	function setupHeaderRangeOutputs() {
+		['zola_header_height', 'zola_header_nav_height', 'zola_header_nav_push', 'zola_transparent_header_height'].forEach(function (settingId) {
+			const control = wp.customize.control(settingId);
+			const container = control && control.container ? control.container[0] : null;
+			const input = container ? container.querySelector('input[type="range"]') : null;
+			if (!input) {
+				return;
+			}
+
+			const output = document.createElement('output');
+			output.className = 'zola-header-range-value';
+			output.setAttribute('aria-live', 'off');
+			input.insertAdjacentElement('afterend', output);
+
+			function updateValue(value) {
+				output.value = String(value);
+				output.textContent = String(value);
+				if (String(input.value) !== String(value)) {
+					input.value = value;
+				}
+			}
+
+			input.addEventListener('input', function () { updateValue(input.value); });
+			if (control.setting) {
+				control.setting.bind(updateValue);
+				updateValue(control.setting.get());
+			} else {
+				updateValue(input.value);
+			}
+		});
 	}
 
 	function updateBuilderOverlayOffset() {
@@ -694,6 +770,8 @@
 
 	wp.customize.bind('ready', function () {
 		observeBuilderOverlayOffset();
+		setupHeaderVisualChoices();
+		setupHeaderRangeOutputs();
 
 		const accentSetting = wp.customize('zola_accent_color');
 		if (accentSetting) {

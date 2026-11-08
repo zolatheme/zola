@@ -1,7 +1,18 @@
+<?php
+	$prioritize_image = isset( $args['prioritize_image'] ) && $args['prioritize_image'];
+	$image_attributes = array(
+		'loading'  => $prioritize_image ? 'eager' : 'lazy',
+		'decoding' => 'async',
+	);
+	if ( $prioritize_image ) {
+		$image_attributes['fetchpriority'] = 'high';
+		$image_attributes['data-no-lazy']  = '1';
+	}
+?>
 <article <?php post_class( 'post-card' ); ?> data-reveal>
 	<a class="post-card__link" href="<?php the_permalink(); ?>">
 		<div class="post-card__media">
-			<?php if ( has_post_thumbnail() ) : the_post_thumbnail( 'large', array( 'loading' => 'lazy' ) ); else : ?><span class="post-card__placeholder" aria-hidden="true"><i></i><i></i><i></i></span><?php endif; ?>
+			<?php if ( has_post_thumbnail() ) : the_post_thumbnail( 'large', $image_attributes ); else : ?><span class="post-card__placeholder" aria-hidden="true"><i></i><i></i><i></i></span><?php endif; ?>
 			<span class="post-card__arrow" aria-hidden="true">↗</span>
 		</div>
 		<?php

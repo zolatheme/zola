@@ -72,8 +72,13 @@ add_action( 'widgets_init', 'zola_register_sidebars' );
 
 /** Load theme styles and the small interaction layer. */
 function zola_enqueue_assets(): void {
-	wp_enqueue_style( 'zola-style', get_stylesheet_uri(), array(), ZOLA_VERSION );
-	wp_enqueue_style( 'zola-components', ZOLA_URI . '/assets/css/theme.css', array( 'zola-style' ), (string) filemtime( ZOLA_DIR . '/assets/css/theme.css' ) );
+	wp_enqueue_style( 'zola-components', ZOLA_URI . '/assets/css/theme.css', array(), (string) filemtime( ZOLA_DIR . '/assets/css/theme.css' ) );
+	if ( get_stylesheet_directory() !== get_template_directory() ) {
+		$child_stylesheet = get_stylesheet_directory() . '/style.css';
+		if ( is_readable( $child_stylesheet ) ) {
+			wp_enqueue_style( 'zola-child-style', get_stylesheet_uri(), array( 'zola-components' ), (string) filemtime( $child_stylesheet ) );
+		}
+	}
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'zola-rtl', ZOLA_URI . '/assets/css/rtl.css', array( 'zola-components' ), (string) filemtime( ZOLA_DIR . '/assets/css/rtl.css' ) );
 	}
@@ -118,7 +123,32 @@ function zola_enqueue_assets(): void {
 	$post_columns = min( 4, max( 2, absint( get_theme_mod( 'zola_archive_columns', 3 ) ) ) );
 	$portfolio_columns = min( 4, max( 2, absint( get_theme_mod( 'zola_portfolio_columns', 3 ) ) ) );
 	$shop_columns = min( 4, max( 2, absint( get_theme_mod( 'zola_shop_columns', 3 ) ) ) );
-	$inline = ':root{--zola-accent:' . ( $accent ? $accent : '#2563eb' ) . ';--zola-ink:' . ( $ink ? $ink : '#202124' ) . ';--zola-dark-bg:' . ( $ink ? $ink : '#202124' ) . ';--zola-paper:' . ( $paper ? $paper : '#ffffff' ) . ';--zola-text:' . ( $text ? $text : '#202126' ) . ';--zola-wrap:' . $site_width . 'px;--zola-content-width:' . $content_width . 'px;--zola-radius:' . $button_radius . 'px;--zola-post-columns:' . $post_columns . ';--zola-portfolio-columns:' . $portfolio_columns . ';--zola-shop-columns:' . $shop_columns . ';--zola-font:' . $font_family . ';}';
+	$header_width = 'full' === zola_sanitize_header_width( get_theme_mod( 'zola_header_width', 'contained' ) )
+		? 'calc(100% - var(--zola-gutter) * 2)'
+		: 'min(calc(100% - var(--zola-gutter) * 2), var(--zola-wrap))';
+	$header_height = zola_sanitize_header_height( get_theme_mod( 'zola_header_height', 70 ) );
+	$transparent_header_height = zola_sanitize_header_height( get_theme_mod( 'zola_transparent_header_height', 70 ) );
+	$header_background_setting = get_theme_mod( 'zola_header_background_color', '#ffffff' );
+	$header_background = is_string( $header_background_setting ) ? sanitize_hex_color( $header_background_setting ) : null;
+	$transparent_background_setting = get_theme_mod( 'zola_transparent_header_background_color', '' );
+	$transparent_background = is_string( $transparent_background_setting ) ? sanitize_hex_color( $transparent_background_setting ) : null;
+	$nav_color_setting = get_theme_mod( 'zola_header_nav_color', '' );
+	$nav_color = is_string( $nav_color_setting ) ? sanitize_hex_color( $nav_color_setting ) : null;
+	$nav_hover_setting = get_theme_mod( 'zola_header_nav_hover_color', '' );
+	$nav_hover = is_string( $nav_hover_setting ) ? sanitize_hex_color( $nav_hover_setting ) : null;
+	$icon_color_setting = get_theme_mod( 'zola_header_icon_color', '' );
+	$icon_color = is_string( $icon_color_setting ) ? sanitize_hex_color( $icon_color_setting ) : null;
+	$icon_hover_setting = get_theme_mod( 'zola_header_icon_hover_color', '' );
+	$icon_hover = is_string( $icon_hover_setting ) ? sanitize_hex_color( $icon_hover_setting ) : null;
+	$nav_size_choices = array( 'xs' => 12, 's' => 14, 'default' => 16, 'm' => 18, 'l' => 20, 'xl' => 22 );
+	$nav_size_setting = sanitize_key( (string) get_theme_mod( 'zola_header_nav_size', 'default' ) );
+	$nav_size = isset( $nav_size_choices[ $nav_size_setting ] ) ? $nav_size_choices[ $nav_size_setting ] : 16;
+	$nav_spacing_choices = array( 'xs' => 8, 's' => 12, 'default' => 20, 'm' => 24, 'l' => 32, 'xl' => 40 );
+	$nav_spacing_setting = sanitize_key( (string) get_theme_mod( 'zola_header_nav_spacing', 'default' ) );
+	$nav_spacing = isset( $nav_spacing_choices[ $nav_spacing_setting ] ) ? $nav_spacing_choices[ $nav_spacing_setting ] : 20;
+	$nav_height = zola_sanitize_header_nav_height( get_theme_mod( 'zola_header_nav_height', 16 ) );
+	$nav_push = zola_sanitize_header_nav_push( get_theme_mod( 'zola_header_nav_push', 9 ) );
+	$inline = ':root{--zola-accent:' . ( $accent ? $accent : '#2563eb' ) . ';--zola-ink:' . ( $ink ? $ink : '#202124' ) . ';--zola-dark-bg:' . ( $ink ? $ink : '#202124' ) . ';--zola-paper:' . ( $paper ? $paper : '#ffffff' ) . ';--zola-text:' . ( $text ? $text : '#202126' ) . ';--zola-wrap:' . $site_width . 'px;--zola-content-width:' . $content_width . 'px;--zola-radius:' . $button_radius . 'px;--zola-post-columns:' . $post_columns . ';--zola-portfolio-columns:' . $portfolio_columns . ';--zola-shop-columns:' . $shop_columns . ';--zola-font:' . $font_family . ';--zola-header-width:' . $header_width . ';--zola-header-height:' . $header_height . 'px;--zola-header-background:' . ( $header_background ? $header_background : '#ffffff' ) . ';--zola-header-nav-size:' . $nav_size . 'px;--zola-header-nav-spacing:' . $nav_spacing . 'px;--zola-header-nav-height:' . $nav_height . 'px;--zola-header-nav-push:' . $nav_push . 'px;--zola-header-nav-color:' . ( $nav_color ? $nav_color : 'inherit' ) . ';--zola-header-nav-hover-color:' . ( $nav_hover ? $nav_hover : 'var(--zola-accent)' ) . ';--zola-header-icon-color:' . ( $icon_color ? $icon_color : 'inherit' ) . ';--zola-header-icon-hover-color:' . ( $icon_hover ? $icon_hover : 'var(--zola-accent)' ) . ';--zola-transparent-header-height:' . $transparent_header_height . 'px;--zola-transparent-header-background:' . ( $transparent_background ? $transparent_background : 'transparent' ) . ';}';
 	wp_add_inline_style( 'zola-components', $inline );
 }
 add_action( 'wp_enqueue_scripts', 'zola_enqueue_assets' );

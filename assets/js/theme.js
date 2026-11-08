@@ -168,6 +168,17 @@
 	if (!reduceMotion && 'IntersectionObserver' in window) {
 		const revealItems = document.querySelectorAll('[data-reveal], [data-hero-intro]');
 		if (revealItems.length) {
+			const viewportHeight = window.innerHeight || root.clientHeight;
+			const deferredRevealItems = [];
+			revealItems.forEach(function (item) {
+				const bounds = item.getBoundingClientRect();
+				if (bounds.top < viewportHeight && bounds.bottom > 0) {
+					item.classList.add('is-visible');
+				} else {
+					deferredRevealItems.push(item);
+				}
+			});
+
 			const observer = new IntersectionObserver(function (entries, currentObserver) {
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
@@ -176,7 +187,7 @@
 					}
 				});
 			}, { rootMargin: '0px 0px -48px 0px', threshold: 0.08 });
-			revealItems.forEach(function (item) {
+			deferredRevealItems.forEach(function (item) {
 				observer.observe(item);
 			});
 			root.classList.add('has-motion');
