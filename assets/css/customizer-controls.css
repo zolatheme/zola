@@ -1,0 +1,117 @@
+/* Keep these styles limited to the top-level Customizer navigation. */
+#customize-theme-controls #accordion-section-title_tagline {
+	--zola-section-icon: "\f319";
+}
+
+#customize-theme-controls #accordion-section-zola_header {
+	--zola-section-icon: "\f343";
+}
+
+#customize-theme-controls #accordion-section-zola_style {
+	--zola-section-icon: "\f100";
+}
+
+#customize-theme-controls #accordion-section-zola_blog {
+	--zola-section-icon: "\f109";
+}
+
+#customize-theme-controls #accordion-section-zola_layout {
+	--zola-section-icon: "\f538";
+}
+
+#customize-theme-controls #accordion-section-zola_footer {
+	--zola-section-icon: "\f347";
+}
+
+#customize-theme-controls #accordion-section-zola_pages {
+	--zola-section-icon: "\f105";
+}
+
+#customize-theme-controls #accordion-section-zola_portfolio {
+	--zola-section-icon: "\f322";
+}
+
+#customize-theme-controls #accordion-panel-nav_menus {
+	--zola-section-icon: "\f333";
+}
+
+#customize-theme-controls #accordion-panel-widgets {
+	--zola-section-icon: "\f180";
+}
+
+#customize-theme-controls #accordion-section-static_front_page {
+	--zola-section-icon: "\f102";
+}
+
+#customize-theme-controls #accordion-section-zola_share {
+	--zola-section-icon: "\f237";
+}
+
+#customize-theme-controls #accordion-section-custom_css {
+	--zola-section-icon: "\f186";
+}
+
+#customize-theme-controls :is(
+	#accordion-section-title_tagline,
+	#accordion-section-zola_header,
+	#accordion-section-zola_style,
+	#accordion-section-zola_blog,
+	#accordion-section-zola_layout,
+	#accordion-section-zola_footer,
+	#accordion-section-zola_pages,
+	#accordion-section-zola_portfolio,
+	#accordion-panel-nav_menus,
+	#accordion-panel-widgets,
+	#accordion-section-static_front_page,
+	#accordion-section-zola_share,
+	#accordion-section-custom_css
+) > h3 > button::before {
+	content: var(--zola-section-icon);
+	color: #8c8f94;
+	display: inline-block;
+	flex: 0 0 26px;
+	font: normal 24px/1 dashicons;
+	margin-inline-end: 14px;
+	text-align: center;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+#customize-theme-controls :is(
+	#accordion-section-title_tagline,
+	#accordion-section-zola_header,
+	#accordion-section-zola_style,
+	#accordion-section-zola_blog,
+	#accordion-section-zola_layout,
+	#accordion-section-zola_footer,
+	#accordion-section-zola_pages,
+	#accordion-section-zola_portfolio,
+	#accordion-panel-nav_menus,
+	#accordion-panel-widgets,
+	#accordion-section-static_front_page,
+	#accordion-section-zola_share,
+	#accordion-section-custom_css
+) > h3 > button {
+	padding-left: 14px;
+}
+
+@media (max-width: 782px) {
+	#customize-theme-controls :is(
+		#accordion-section-title_tagline,
+		#accordion-section-zola_header,
+		#accordion-section-zola_style,
+		#accordion-section-zola_blog,
+		#accordion-section-zola_layout,
+		#accordion-section-zola_footer,
+		#accordion-section-zola_pages,
+		#accordion-section-zola_portfolio,
+		#accordion-panel-nav_menus,
+		#accordion-panel-widgets,
+		#accordion-section-static_front_page,
+		#accordion-section-zola_share,
+		#accordion-section-custom_css
+	) > h3 > button::before {
+		font-size: 22px;
+		margin-inline-end: 11px;
+	}
+}

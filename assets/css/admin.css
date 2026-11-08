@@ -1,0 +1,92 @@
+.zola-admin-page,
+.zola-dashboard,
+.zola-site-builder {
+	max-width: 1120px;
+}
+
+.zola-admin-page > .description,
+.zola-dashboard > .description,
+.zola-site-builder > .description {
+	margin-block: 8px 24px;
+}
+
+.zola-admin-grid,
+.zola-dashboard__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	margin-block-start: 20px;
+}
+
+.zola-admin-card,
+.zola-dashboard__card {
+	min-width: 0;
+	padding: 22px;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	background: #fff;
+}
+
+.zola-dashboard__card--primary {
+	border-color: #c7d8fa;
+	background: #f5f8ff;
+}
+
+.zola-admin-card h2,
+.zola-dashboard__card h2 {
+	margin: 0 0 9px;
+	font-size: 16px;
+}
+
+.zola-admin-card p,
+.zola-dashboard__card p {
+	max-width: 64ch;
+}
+
+.zola-admin-card .button {
+	margin-block-start: 4px;
+}
+
+.zola-dashboard__footer {
+	margin-block-start: 22px;
+	color: #646970;
+}
+
+.zola-status-table {
+	max-width: 900px;
+	margin-block-start: 22px;
+}
+
+.zola-status-table th {
+	width: 220px;
+}
+
+.zola-status {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 9px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.zola-status--ok {
+	background: #edfaef;
+	color: #176b2c;
+}
+
+.zola-status--notice {
+	background: #fcf0d8;
+	color: #79520c;
+}
+
+@media (max-width: 782px) {
+	.zola-admin-grid,
+	.zola-dashboard__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.zola-status-table th {
+		width: auto;
+	}
+}
