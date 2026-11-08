@@ -11,5 +11,5 @@
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main-content"><?php esc_html_e( 'Skip to content', 'zola' ); ?></a>
 <?php do_action( 'zola_before_header' ); ?>
-<?php if ( ! zola_has_elementor_location( 'header' ) && ! zola_render_elementor_layout( 'header' ) ) { zola_render_header_builder(); } ?>
+<?php zola_render_header_builder(); ?>
 <?php do_action( 'zola_after_header' ); ?>

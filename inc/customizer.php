@@ -317,7 +317,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		),
 		'zola_header' => array(
 			'title'       => esc_html__( 'Header Main', 'zola' ),
-			'description' => esc_html__( 'Set header content, Elementor template and display options here.', 'zola' ),
+			'description' => esc_html__( 'Set content and display options for your single site-wide Header Builder layout.', 'zola' ),
 			'panel'       => 'zola_header_panel',
 			'priority'    => 10,
 		),
@@ -700,7 +700,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		zola_add_customizer_control( $wp_customize, 'zola_share', $setting_id, $control );
 	}
 
-	$elementor_choices = array( 0 => esc_html__( 'Use the theme header', 'zola' ) );
+	$footer_choices = array( 0 => esc_html__( 'Use the theme footer', 'zola' ) );
 	if ( post_type_exists( 'elementor_library' ) ) {
 		$elementor_templates = get_posts( array(
 			'post_type'      => 'elementor_library',
@@ -710,21 +710,9 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 			'order'          => 'ASC',
 		) );
 		foreach ( $elementor_templates as $elementor_template ) {
-			$elementor_choices[ $elementor_template->ID ] = $elementor_template->post_title;
+			$footer_choices[ $elementor_template->ID ] = $elementor_template->post_title;
 		}
 	}
-
-	zola_add_customizer_control( $wp_customize, 'zola_header', 'zola_header_template', array(
-		'label'       => esc_html__( 'Elementor header template', 'zola' ),
-		'description' => esc_html__( 'Select a published Elementor template. Add the Zola Navigation Menu widget to display a WordPress menu. Elementor Theme Builder headers take priority when active.', 'zola' ),
-		'type'        => 'select',
-		'default'     => 0,
-		'sanitize'    => 'absint',
-		'choices'     => $elementor_choices,
-	) );
-
-	$footer_choices = $elementor_choices;
-	$footer_choices[0] = esc_html__( 'Use the theme footer', 'zola' );
 	zola_add_customizer_control( $wp_customize, 'zola_footer', 'zola_footer_template', array(
 		'label'       => esc_html__( 'Elementor footer template', 'zola' ),
 		'description' => esc_html__( 'Select a published Elementor template. Elementor Theme Builder footers take priority when active.', 'zola' ),

@@ -108,7 +108,7 @@ svg {
 	outline-offset: 3px;
 }
 
-/* Theme fallback header. Elementor templates own their own visual layout. */
+/* Shared structure for the Zola Header Builder. */
 .site-header {
 	position: relative;
 	z-index: 100;
@@ -726,7 +726,6 @@ body.zola-has-announcement:not(.zola-home) .page-main {
 }
 
 body.zola-home.zola-elementor-page .site-main,
-body.zola-has-elementor-header .site-main,
 body.zola-nonsticky-header .site-main {
 	padding-block-start: 0;
 }
@@ -1434,7 +1433,6 @@ body.zola-home .site-main--full-width {
 	min-height: 100vh;
 }
 
-.zola-elementor-header,
 .zola-elementor-footer {
 	width: 100%;
 }

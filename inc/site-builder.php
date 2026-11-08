@@ -29,15 +29,8 @@ function zola_render_site_builder_page(): void {
 
 	$elementor_active = class_exists( '\\Elementor\\Plugin' );
 	$templates        = zola_get_elementor_templates();
-	$header_id        = absint( get_theme_mod( 'zola_header_template', 0 ) );
 	$footer_id        = absint( get_theme_mod( 'zola_footer_template', 0 ) );
 	$template_parts   = array(
-		'header' => array(
-			'label'       => esc_html__( 'Header', 'zola' ),
-			'description' => esc_html__( 'Build your site navigation, logo, calls to action and mobile layout in Elementor.', 'zola' ),
-			'fallback'    => esc_html__( 'Use the Zola header', 'zola' ),
-			'template_id' => $header_id,
-		),
 		'footer' => array(
 			'label'       => esc_html__( 'Footer', 'zola' ),
 			'description' => esc_html__( 'Build your footer content, navigation, contact details and social links in Elementor.', 'zola' ),
@@ -50,22 +43,22 @@ function zola_render_site_builder_page(): void {
 	?>
 	<div class="wrap zola-site-builder">
 		<h1><?php esc_html_e( 'Site Builder', 'zola' ); ?></h1>
-		<p class="description"><?php esc_html_e( 'Create global site parts with Elementor, then assign them to your whole site.', 'zola' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Configure the site-wide Header Builder and assign a global Elementor Footer.', 'zola' ); ?></p>
 
 		<?php if ( $builder_saved ) : ?>
 			<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Site parts saved.', 'zola' ); ?></p></div>
 		<?php endif; ?>
 		<?php if ( $builder_error ) : ?>
-			<div class="notice notice-error is-dismissible"><p><?php esc_html_e( 'Choose a published Elementor template, or use the theme part.', 'zola' ); ?></p></div>
+			<div class="notice notice-error is-dismissible"><p><?php esc_html_e( 'Choose a published Elementor footer template, or use the theme footer.', 'zola' ); ?></p></div>
 		<?php endif; ?>
 
 		<?php if ( ! $elementor_active ) : ?>
-			<div class="notice notice-warning inline"><p><?php esc_html_e( 'Install and activate Elementor to build and assign site parts.', 'zola' ); ?> <a href="<?php echo esc_url( admin_url( 'plugin-install.php?s=elementor&tab=search&type=term' ) ); ?>"><?php esc_html_e( 'Find Elementor', 'zola' ); ?></a></p></div>
+			<div class="notice notice-warning inline"><p><?php esc_html_e( 'Install and activate Elementor to assign an Elementor footer. The Header Builder is available without Elementor.', 'zola' ); ?> <a href="<?php echo esc_url( admin_url( 'plugin-install.php?s=elementor&tab=search&type=term' ) ); ?>"><?php esc_html_e( 'Find Elementor', 'zola' ); ?></a></p></div>
 		<?php else : ?>
 			<div class="zola-site-builder__intro">
 				<div>
-					<h2><?php esc_html_e( 'Build once. Use across the site.', 'zola' ); ?></h2>
-					<p><?php esc_html_e( 'Create or edit each layout in Elementor. The assigned Header and Footer appear site-wide. Elementor Theme Builder templates with matching display conditions take priority.', 'zola' ); ?></p>
+					<h2><?php esc_html_e( 'One Header Builder and one global Footer.', 'zola' ); ?></h2>
+					<p><?php esc_html_e( 'Configure the site-wide responsive header in Header Builder. Use Elementor to design and assign the global Footer.', 'zola' ); ?></p>
 				</div>
 				<a class="button" href="<?php echo esc_url( admin_url( 'edit.php?post_type=elementor_library' ) ); ?>"><?php esc_html_e( 'Manage Elementor templates', 'zola' ); ?></a>
 			</div>
@@ -74,6 +67,16 @@ function zola_render_site_builder_page(): void {
 				<input type="hidden" name="action" value="zola_save_site_parts">
 				<?php wp_nonce_field( 'zola_save_site_parts' ); ?>
 				<div class="zola-site-builder__grid">
+					<section class="zola-site-builder__card">
+						<div class="zola-site-builder__card-head">
+							<span class="zola-site-builder__icon" aria-hidden="true">↑</span>
+							<div>
+								<h2><?php esc_html_e( 'Header Builder', 'zola' ); ?></h2>
+								<p><?php esc_html_e( 'There is one responsive site-wide header. Arrange its desktop and mobile layout in the Zola Header Builder.', 'zola' ); ?></p>
+							</div>
+						</div>
+						<p class="zola-site-builder__actions"><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-header-builder' ) ); ?>"><?php esc_html_e( 'Open Header Builder', 'zola' ); ?></a></p>
+					</section>
 					<?php foreach ( $template_parts as $part => $settings ) : ?>
 						<section class="zola-site-builder__card">
 							<div class="zola-site-builder__card-head">
@@ -111,8 +114,8 @@ function zola_render_site_builder_page(): void {
 			</form>
 
 			<div class="zola-site-builder__note">
-				<h2><?php esc_html_e( 'Design in Elementor', 'zola' ); ?></h2>
-				<p><?php esc_html_e( 'Create a Section or Container template in Elementor, design it, and publish it. Return here to assign it. Use Elementor responsive controls for desktop, tablet and mobile. Add the Zola Navigation Menu widget to show a WordPress menu.', 'zola' ); ?></p>
+				<h2><?php esc_html_e( 'Design your Footer in Elementor', 'zola' ); ?></h2>
+				<p><?php esc_html_e( 'Create a Section or Container template, design it, and publish it. Return here to assign it as the site-wide Footer. Use Elementor responsive controls for desktop, tablet and mobile.', 'zola' ); ?></p>
 				<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'Open shared theme settings', 'zola' ); ?></a>
 			</div>
 		<?php endif; ?>
@@ -148,7 +151,7 @@ function zola_save_site_parts(): void {
 	check_admin_referer( 'zola_save_site_parts' );
 
 	$validated_parts = array();
-	foreach ( array( 'header', 'footer' ) as $part ) {
+	foreach ( array( 'footer' ) as $part ) {
 		$field          = $part . '_template';
 		$raw_template_id = isset( $_POST[ $field ] ) ? wp_unslash( $_POST[ $field ] ) : 0;
 		$template_id    = is_scalar( $raw_template_id ) ? absint( $raw_template_id ) : 0;

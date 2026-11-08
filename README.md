@@ -1,13 +1,13 @@
 # Zola
 
-ธีม WordPress แบบ **Elementor-only สำหรับออกแบบหน้าและส่วนประกอบเว็บไซต์** ใช้เริ่มเว็บได้หลายประเภท พร้อมระบบ Header/Footer, design settings, layout templates และจุดเชื่อมต่อ เนื้อหาเพจและ site templates สร้างและแก้ใน Elementor ไม่มีหน้า agency ตัวอย่างที่เขียนตายตัวใน PHP; โพสต์บล็อกยังใช้ระบบโพสต์ของ WordPress
+ธีม WordPress สำหรับทำเว็บหลายประเภท โดยใช้ Elementor ออกแบบหน้าและ Footer พร้อม Header Builder สำหรับจัดการ Header หลักเพียงชุดเดียว เนื้อหาเพจสร้างและแก้ใน Elementor ไม่มีหน้า agency ตัวอย่างที่เขียนตายตัวใน PHP; โพสต์บล็อกยังใช้ระบบโพสต์ของ WordPress
 
 ## เวอร์ชันและข้อกำหนด
 
 - Theme version: **1.0.0** (ระหว่างพัฒนา)
 - WordPress: **6.8 ขึ้นไป**
 - PHP: **8.4 ขึ้นไป**; รองรับ PHP 8.5 ตามสายการทำงานปัจจุบันของ WordPress
-- Elementor ใช้สำหรับแก้หน้าและสร้าง Saved Template สำหรับ Header/Footer; เมื่อปิดปลั๊กอิน ธีมยังแสดง Header/Footer พื้นฐานได้
+- Elementor ใช้สำหรับแก้หน้าและสร้าง Saved Template สำหรับ Footer; Header Builder ยังใช้งานได้โดยไม่ต้องใช้ Elementor
 
 โค้ดใช้ type declarations ของ PHP 8, ตรวจชนิดข้อมูลก่อนนำไปสร้าง CSS/HTML, sanitize ค่าตอนรับเข้า และ escape ตอนแสดงผล ส่วนคำสั่งบันทึกใน Dashboard ตรวจ capability และ nonce ก่อนเปลี่ยนค่า การแสดง Elementor template ใช้เฉพาะ template ที่เผยแพร่แล้วและผ่านการตรวจประเภทโพสต์
 
@@ -25,18 +25,17 @@
 
 ## Header, Footer และ Site Builder
 
-- จัดการ template ที่ใช้ทั่วเว็บไซต์ได้ที่ **Zola → Site Builder** เลือก Saved Template สำหรับ Header/Footer แล้วกดแก้ไขเพื่อเปิด Elementor
-- ใช้ Elementor Theme Builder สำหรับ Header, Footer, Single และ Archive พร้อม display conditions (ใช้แพ็กเกจ Elementor ที่มี Theme Builder)
-- หากใช้ Elementor Free ให้สร้าง Header/Footer เป็น Saved Template แล้วเลือกได้ที่ **Appearance → Customize → Header / Footer**
-- ใน Header template ใช้วิดเจ็ต **Zola → Navigation Menu** เพื่อแสดงเมนู WordPress; สร้างรายการเมนูที่ **Appearance → Menus** แล้วเลือกเมนูในวิดเจ็ต
-- ยังใช้ Header/Footer พื้นฐานของธีมได้ โดยแก้โลโก้ เมนู ปุ่ม CTA แถบประกาศ และตัวเลือก sticky/transparent ใน WordPress Customizer
+- สร้างและจัดวาง Header หลักชุดเดียวสำหรับ Desktop และ Mobile/Tablet ได้ที่ **Zola → Header Builder** หรือ **Appearance → Customize → Header → Header Presets**
+- **Zola → Site Builder** ใช้กำหนด Elementor Saved Template สำหรับ Footer; หากไม่กำหนด จะใช้ Footer พื้นฐานของธีม
+- ใช้ Elementor Theme Builder สำหรับ Footer, Single และ Archive พร้อม display conditions (ใช้แพ็กเกจ Elementor ที่มี Theme Builder)
+- แก้โลโก้ เมนู ปุ่ม CTA แถบประกาศ และตัวเลือก sticky/transparent ของ Header Builder ได้จาก Customizer; สร้างรายการเมนูที่ **Appearance → Menus**
 - **Zola Full Width** เก็บ Header/Footer ของธีมไว้; **Zola Canvas** ซ่อนทั้งคู่
 
 ## Customizer sections
 
 ที่ **Appearance → Customize** มีหมวด Header, Style, Blog, Layout, Footer, Pages, Portfolio และ Share ส่วน Menus, Widgets, Homepage Settings และ Additional CSS ใช้แผงมาตรฐานของ WordPress:
 
-- **Header / Footer:** สร้าง layout ด้วย Elementor และมอบหมายเทมเพลตใน Site Builder; CTA/announcement/sticky settings, copyright, footer menu และ back-to-top ปรับได้จาก Customizer
+- **Header / Footer:** Header Builder จัดการ Header หลักชุดเดียวพร้อม layout แยก Desktop/Mobile; Elementor Footer กำหนดได้ใน Site Builder และตั้ง copyright, footer menu กับ back-to-top ใน Customizer
 - **Style / Layout:** สี ฟอนต์ มุมปุ่ม ความกว้างเว็บไซต์ และความกว้างบทความ
 - **Blog:** Grid/List/Cover, 2–4 คอลัมน์, วัน/หมวดหมู่/excerpt, sidebar และจำนวนคำของ excerpt
 - **Pages:** แสดง/ซ่อน title block และแก้ข้อความ label บนหน้า WordPress ปกติ; หน้า Elementor จัดการ title เอง
@@ -81,7 +80,7 @@ add_action( 'zola_hero_media', function ( $fallback_image, $prioritize_image ) {
 - `inc/customizer.php` — Customizer sections สำหรับ Header, Style, Blog, Layout, Footer, Pages, Portfolio, Share และ WooCommerce
 - `functions.php` — theme supports, Elementor integration และ Blog sidebar สำหรับ Widgets
 - `inc/elementor/class-zola-hero-widget.php` — Hero widget สำหรับ Elementor
-- `inc/elementor/class-zola-menu-widget.php` — Navigation Menu widget สำหรับ Header template ใน Elementor Free/Pro
+- `inc/elementor/class-zola-menu-widget.php` — Navigation Menu widget สำหรับแสดง WordPress menus ในงานออกแบบ Elementor
 - `inc/template-tags.php` — Elementor template locations และ helpers
 - `assets/css/theme.css` — shared theme styles, responsive layouts, animation และ WooCommerce
 - `assets/js/theme.js` — เมนูมือถือ, scroll reveal และ interaction ของธีม

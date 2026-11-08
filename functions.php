@@ -180,11 +180,7 @@ function zola_body_classes( array $classes ): array {
 	if ( ! get_theme_mod( 'zola_sticky_header', true ) ) {
 		$classes[] = 'zola-nonsticky-header';
 	}
-	$header_template_id = absint( get_theme_mod( 'zola_header_template', 0 ) );
-	if ( $header_template_id && did_action( 'elementor/loaded' ) && 'publish' === get_post_status( $header_template_id ) ) {
-		$classes[] = 'zola-has-elementor-header';
-	}
-	if ( trim( (string) get_theme_mod( 'zola_announcement_text', '' ) ) && zola_header_builder_has_module( 'announcement' ) && ! $header_template_id ) {
+	if ( trim( (string) get_theme_mod( 'zola_announcement_text', '' ) ) && zola_header_builder_has_module( 'announcement' ) ) {
 		$classes[] = 'zola-has-announcement';
 	}
 	return $classes;

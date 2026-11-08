@@ -5,9 +5,9 @@ Zola is built as a reusable Elementor theme center. It does not ship a fixed bus
 | Feature group | Included in Zola | Optional integration |
 | --- | --- | --- |
 | Customizer | Separate Header, Style, Blog, Layout, Footer, Pages, Portfolio and Share sections; WordPress keeps its Menus, Widgets, Homepage Settings and Additional CSS sections | Elementor Site Settings handles Elementor global styles |
-| Elementor workflow | Dashboard shortcut creates a draft Home page and opens Elementor; full-width and canvas templates; Zola Navigation Menu widget supports editable Elementor headers | Elementor plugin is required |
-| Site Builder | Zola Site Builder screen assigns global Elementor Header/Footer templates; core Theme Builder locations are registered for Header, Footer, Single and Archive | Elementor plan with Theme Builder for conditional display rules |
-| Header/Footer | Elementor Saved Templates can replace either site part; Zola Navigation Menu widget renders WordPress menus in Elementor Free; responsive layout stays editable in Elementor | Elementor Theme Builder adds display conditions when available |
+| Elementor workflow | Dashboard shortcut creates a draft Home page and opens Elementor; full-width and canvas templates; Zola Navigation Menu widget can display WordPress menus in Elementor designs | Elementor plugin is required for Elementor page editing and footer templates |
+| Site Builder | Zola Site Builder assigns one global Elementor Footer template; Header Builder opens from the Zola menu and Customizer | Elementor Theme Builder remains available for Footer, Single and Archive locations |
+| Header/Footer | Header Builder manages one site-wide responsive header with separate desktop and mobile layouts; Elementor Saved Templates can replace the theme footer | Elementor Theme Builder adds footer display conditions when available |
 | Style and layout | Accent/surface/text colors, font family, button radius, site width and reading width | Elementor Site Settings owns Elementor global colors, fonts and spacing |
 | Hero | Elementor Hero widget with editable image, copy, alignment, height, typography, colors, overlay and optional links; image priority can be set per widget | `zola_hero_image` filter and `zola_hero_media` action support slide/media plugins |
 | Pages | Control default page title block and eyebrow on standard WordPress pages; Elementor pages manage their own titles | Build page content and layout with Elementor |

@@ -69,8 +69,8 @@ function zola_render_theme_options_page(): void {
 		<h1><?php esc_html_e( 'Theme Options', 'zola' ); ?></h1>
 		<p class="description"><?php esc_html_e( 'Open the right editor for each shared site setting.', 'zola' ); ?></p>
 		<div class="zola-admin-grid">
-			<section class="zola-admin-card"><h2><?php esc_html_e( 'Global Design', 'zola' ); ?></h2><p><?php esc_html_e( 'Colors, typography, widths, blog layout and fallback header/footer settings.', 'zola' ); ?></p><a class="button button-primary" href="<?php echo esc_url( $customizer_url ); ?>"><?php esc_html_e( 'Open Customizer', 'zola' ); ?></a></section>
-			<section class="zola-admin-card"><h2><?php esc_html_e( 'Header & Footer', 'zola' ); ?></h2><p><?php esc_html_e( 'Create and assign global Elementor site parts, or keep the theme fallback parts.', 'zola' ); ?></p><a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-site-builder' ) ); ?>"><?php esc_html_e( 'Open Site Builder', 'zola' ); ?></a></section>
+			<section class="zola-admin-card"><h2><?php esc_html_e( 'Global Design', 'zola' ); ?></h2><p><?php esc_html_e( 'Colors, typography, widths, blog layout and theme header/footer settings.', 'zola' ); ?></p><a class="button button-primary" href="<?php echo esc_url( $customizer_url ); ?>"><?php esc_html_e( 'Open Customizer', 'zola' ); ?></a></section>
+			<section class="zola-admin-card"><h2><?php esc_html_e( 'Header & Footer', 'zola' ); ?></h2><p><?php esc_html_e( 'Configure one site-wide header in Header Builder and assign an Elementor footer in Site Builder.', 'zola' ); ?></p><a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-site-builder' ) ); ?>"><?php esc_html_e( 'Open Site Builder', 'zola' ); ?></a></section>
 			<section class="zola-admin-card"><h2><?php esc_html_e( 'WordPress Menus', 'zola' ); ?></h2><p><?php esc_html_e( 'Create menus here, then choose them in the Zola Navigation Menu widget or theme locations.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( $menus_url ); ?>"><?php esc_html_e( 'Manage Menus', 'zola' ); ?></a></section>
 			<section class="zola-admin-card"><h2><?php esc_html_e( 'Elementor Templates', 'zola' ); ?></h2><p><?php esc_html_e( 'Create and edit Saved Templates for use across your pages and site parts.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( $templates_url ); ?>"><?php esc_html_e( 'Manage Templates', 'zola' ); ?></a></section>
 		</div>
@@ -85,7 +85,7 @@ function zola_render_features_page(): void {
 	}
 	$features = array(
 		__( 'Elementor page building', 'zola' ) => __( 'Build page content and layouts with Elementor. The theme does not insert a fixed business homepage.', 'zola' ),
-		__( 'Editable site parts', 'zola' ) => __( 'Assign global Header and Footer Saved Templates from the Site Builder.', 'zola' ),
+		__( 'Header and Footer', 'zola' ) => __( 'Build one responsive site-wide header with Header Builder and assign a global Elementor Footer from the Site Builder.', 'zola' ),
 		__( 'Theme widgets', 'zola' ) => __( 'Use the Hero and Navigation Menu widgets in Elementor templates.', 'zola' ),
 		__( 'Blog and archive layouts', 'zola' ) => __( 'Choose grid, list or cover cards, columns, excerpts, metadata and sidebar settings.', 'zola' ),
 		__( 'WooCommerce support', 'zola' ) => __( 'Use the shared theme layout with WooCommerce product grids and gallery support.', 'zola' ),
@@ -143,8 +143,8 @@ function zola_render_help_page(): void {
 		<p class="description"><?php esc_html_e( 'Quick steps for building and managing a Zola site.', 'zola' ); ?></p>
 		<div class="zola-admin-grid">
 			<section class="zola-admin-card"><h2><?php esc_html_e( 'Build a page', 'zola' ); ?></h2><p><?php esc_html_e( 'Create a page, choose the Zola Full Width template if needed, then edit its content with Elementor.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>"><?php esc_html_e( 'Open Pages', 'zola' ); ?></a></section>
-			<section class="zola-admin-card"><h2><?php esc_html_e( 'Build a Header or Footer', 'zola' ); ?></h2><p><?php esc_html_e( 'Create a Saved Template in Elementor, design it, then assign it in the Site Builder. Elementor Theme Builder display conditions take priority when available.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-site-builder' ) ); ?>"><?php esc_html_e( 'Open Site Builder', 'zola' ); ?></a></section>
-			<section class="zola-admin-card"><h2><?php esc_html_e( 'Set shared styles', 'zola' ); ?></h2><p><?php esc_html_e( 'Use the Customizer for theme colors, typography, blog layouts and fallback header/footer options. Use Elementor Site Settings for Elementor global styles.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'Open Customizer', 'zola' ); ?></a></section>
+			<section class="zola-admin-card"><h2><?php esc_html_e( 'Build the Header and Footer', 'zola' ); ?></h2><p><?php esc_html_e( 'Configure the single site-wide header with Header Builder. Design and assign the global footer in Elementor Site Builder.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-site-builder' ) ); ?>"><?php esc_html_e( 'Open Site Builder', 'zola' ); ?></a></section>
+			<section class="zola-admin-card"><h2><?php esc_html_e( 'Set shared styles', 'zola' ); ?></h2><p><?php esc_html_e( 'Use the Customizer for theme colors, typography, blog layouts and header/footer options. Use Elementor Site Settings for Elementor global styles.', 'zola' ); ?></p><a class="button" href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'Open Customizer', 'zola' ); ?></a></section>
 		</div>
 	</div>
 	<?php
@@ -197,7 +197,7 @@ function zola_render_admin_page(): void {
 
 			<section class="zola-dashboard__card">
 				<h2><?php esc_html_e( 'Site Builder', 'zola' ); ?></h2>
-				<p><?php esc_html_e( 'Create and assign global Header and Footer layouts in Elementor. Responsive settings stay in the Elementor editor.', 'zola' ); ?></p>
+				<p><?php esc_html_e( 'Configure one responsive site-wide header with Header Builder. Assign the global footer template in Elementor Site Builder.', 'zola' ); ?></p>
 				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zola-site-builder' ) ); ?>"><?php esc_html_e( 'Open Site Builder', 'zola' ); ?></a>
 			</section>
 
