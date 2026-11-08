@@ -317,7 +317,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		),
 		'zola_header' => array(
 			'title'       => esc_html__( 'Header Main', 'zola' ),
-			'description' => esc_html__( 'Arrange the header with the builder below, then set its content, Elementor template and display options here.', 'zola' ),
+			'description' => esc_html__( 'Set header content, Elementor template and display options here.', 'zola' ),
 			'panel'       => 'zola_header_panel',
 			'priority'    => 10,
 		),
@@ -367,26 +367,15 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'sanitize_callback' => 'zola_sanitize_header_builder_layout',
 		'transport'         => 'refresh',
 	) );
-	if ( ! class_exists( 'Zola_Header_Builder_Customize_Control' ) ) {
-		class Zola_Header_Builder_Customize_Control extends WP_Customize_Control {
-			public $type = 'zola-header-builder';
-
-			public function render_content(): void {
-				?>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span><?php endif; ?>
-				<div class="zola-header-builder-control" data-zola-header-builder-control="<?php echo esc_attr( $this->id ); ?>"><div data-zola-header-builder-ui></div></div>
-				<?php
-			}
-		}
-	}
 	if ( ! class_exists( 'Zola_Header_Presets_Customize_Control' ) ) {
 		class Zola_Header_Presets_Customize_Control extends WP_Customize_Control {
 			public $type = 'zola-header-presets';
 
 			public function render_content(): void {
 				?>
-				<div class="zola-header-presets-control"><div data-zola-header-presets-ui></div></div>
+				<div class="zola-header-presets-control">
+					<div data-zola-header-presets-ui></div>
+				</div>
 				<?php
 			}
 		}
@@ -395,12 +384,6 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'settings'    => 'zola_header_builder_layout',
 		'section'     => 'zola_header_presets',
 	) ) );
-	$wp_customize->add_control( new Zola_Header_Builder_Customize_Control( $wp_customize, 'zola_header_builder_layout', array(
-		'label'       => esc_html__( 'Arrange your header', 'zola' ),
-		'description' => esc_html__( 'Choose a preset, then drag items between the Top Bar, Header Main and Header Bottom rows.', 'zola' ),
-		'section'     => 'zola_header',
-	) ) );
-
 	$colors_and_style = array(
 		'zola_accent_color' => array(
 			'label' => esc_html__( 'Accent color', 'zola' ),
@@ -852,7 +835,6 @@ function zola_customize_controls_enqueue_styles(): void {
 		'headerPresets'  => zola_header_builder_presets(),
 		'clearLayout'    => esc_html__( 'Clear All', 'zola' ),
 		'clearConfirm'   => esc_html__( 'Clear the current device header layout?', 'zola' ),
-		'openBuilder'    => esc_html__( 'Open Header Builder', 'zola' ),
 		'builderTitle'   => esc_html__( 'Header Builder', 'zola' ),
 		'currentLayout'  => esc_html__( 'Current layout', 'zola' ),
 		'customLayout'   => esc_html__( 'Custom', 'zola' ),
@@ -866,7 +848,6 @@ function zola_customize_controls_enqueue_styles(): void {
 		'remove'         => esc_html__( 'Remove', 'zola' ),
 		'elements'       => esc_html__( 'Add elements', 'zola' ),
 		'activePosition' => esc_html__( 'Selected position', 'zola' ),
-		'dragHint'       => esc_html__( 'Open the builder to arrange header elements across rows for desktop and mobile.', 'zola' ),
 	) );
 }
 add_action( 'customize_controls_enqueue_scripts', 'zola_customize_controls_enqueue_styles' );

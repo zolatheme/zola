@@ -164,58 +164,6 @@
 			});
 			root.appendChild(devices);
 
-			const builder = document.createElement('section');
-			builder.className = 'zola-header-presets-control__builder';
-			const builderHeader = document.createElement('div');
-			builderHeader.className = 'zola-header-presets-control__builder-header';
-			const builderTitle = document.createElement('h3');
-			builderTitle.textContent = strings.builderTitle || 'Header Builder';
-			builderHeader.appendChild(builderTitle);
-			const selectedPreset = headerPresets.find(function (preset) {
-				return JSON.stringify(layout[activeBuilderDevice].rows) === JSON.stringify(preset[activeBuilderDevice]);
-			});
-			const builderStatus = document.createElement('span');
-			builderStatus.className = 'zola-header-presets-control__builder-status';
-			builderStatus.textContent = selectedPreset ? selectedPreset.title : (strings.customLayout || 'Custom');
-			builderHeader.appendChild(builderStatus);
-			const openBuilder = makeButton(strings.openBuilder || 'Open Header Builder', 'button button-secondary zola-header-presets-control__open-builder', { 'data-zola-open-full-builder': 'true' });
-			builderHeader.appendChild(openBuilder);
-			builder.appendChild(builderHeader);
-
-			const builderRows = document.createElement('div');
-			builderRows.className = 'zola-header-presets-control__builder-rows';
-			['top', 'main', 'bottom'].forEach(function (rowName) {
-				const row = document.createElement('div');
-				row.className = 'zola-header-presets-control__builder-row';
-				const rowTitle = document.createElement('span');
-				rowTitle.className = 'zola-header-presets-control__builder-row-title';
-				rowTitle.textContent = rowNames[rowName] || rowName;
-				row.appendChild(rowTitle);
-				const columns = document.createElement('div');
-				columns.className = 'zola-header-presets-control__builder-columns';
-				['left', 'center', 'right'].forEach(function (columnName) {
-					const slot = document.createElement('div');
-					slot.className = 'zola-header-presets-control__builder-slot zola-header-presets-control__builder-slot--' + columnName;
-					const modules = layout[activeBuilderDevice].rows[rowName][columnName];
-					if (modules.length) {
-						modules.forEach(function (module) {
-							const chip = document.createElement('span');
-							chip.className = 'zola-header-presets-control__builder-chip';
-							chip.textContent = moduleNames[module] || module;
-							slot.appendChild(chip);
-						});
-					} else {
-						slot.classList.add('is-empty');
-						slot.textContent = '—';
-					}
-					columns.appendChild(slot);
-				});
-				row.appendChild(columns);
-				builderRows.appendChild(row);
-			});
-			builder.appendChild(builderRows);
-			root.appendChild(builder);
-
 			const gallery = document.createElement('div');
 			gallery.className = 'zola-header-presets-control__grid';
 			headerPresets.forEach(function (preset) {
@@ -230,12 +178,6 @@
 		}
 
 		root.addEventListener('click', function (event) {
-			const openBuilderButton = event.target.closest('[data-zola-open-full-builder]');
-			if (openBuilderButton) {
-				document.dispatchEvent(new CustomEvent('zola-open-header-builder', { detail: { trigger: openBuilderButton } }));
-				return;
-			}
-
 			const deviceButton = event.target.closest('[data-zola-preset-device]');
 			if (deviceButton) {
 				activeBuilderDevice = deviceButton.dataset.zolaPresetDevice;
@@ -265,12 +207,12 @@
 	}
 
 	function setupControl(control) {
-		const root = control.container.find('[data-zola-header-builder-ui]').get(0);
-		if (!root || !control.setting) {
+		const layoutSetting = control.setting || wp.customize('zola_header_builder_layout');
+		if (!layoutSetting) {
 			return;
 		}
 
-		let layout = normalizeLayout(control.setting.get());
+		let layout = normalizeLayout(layoutSetting.get());
 		let activeDevice = activeBuilderDevice;
 		let activePosition = { row: 'main', column: 'left' };
 		let draggedModule = '';
@@ -280,7 +222,7 @@
 		let tutorialOpen = false;
 
 		function save() {
-			control.setting.set(JSON.stringify(layout));
+			layoutSetting.set(JSON.stringify(layout));
 		}
 
 		function makeButton(label, className, attributes) {
@@ -301,7 +243,7 @@
 			}
 			document.body.classList.remove('zola-header-builder-is-open');
 			if (restoreFocus) {
-				const focusTarget = lastFocusTrigger && lastFocusTrigger.isConnected ? lastFocusTrigger : root.querySelector('[data-zola-open-builder]');
+				const focusTarget = lastFocusTrigger && lastFocusTrigger.isConnected ? lastFocusTrigger : null;
 				if (focusTarget) {
 					focusTarget.focus();
 				}
@@ -658,18 +600,7 @@
 			save();
 		}
 
-		const launchButton = makeButton(strings.openBuilder || 'Open Header Builder', 'button button-primary zola-header-builder__launch', { 'data-zola-open-builder': 'true' });
-		const launchHelp = document.createElement('p');
-		launchHelp.className = 'zola-header-builder__launch-help';
-		launchHelp.textContent = strings.dragHint || 'Open the builder to arrange header elements across rows.';
-		root.appendChild(launchButton);
-		root.appendChild(launchHelp);
-		launchButton.addEventListener('click', function (event) { openOverlay(event.currentTarget); });
-		document.addEventListener('zola-open-header-builder', function (event) {
-			openOverlay(event.detail ? event.detail.trigger : null);
-		});
-
-		control.setting.bind(function (value) {
+		layoutSetting.bind(function (value) {
 			const nextLayout = normalizeLayout(value);
 			if (JSON.stringify(nextLayout) !== JSON.stringify(layout)) {
 				layout = nextLayout;
@@ -684,6 +615,20 @@
 				}
 			}
 		});
+
+		const presetsSection = wp.customize.section('zola_header_presets');
+		if (presetsSection && presetsSection.expanded && typeof presetsSection.expanded.bind === 'function') {
+			presetsSection.expanded.bind(function (isExpanded) {
+				if (isExpanded) {
+					openOverlay(document.activeElement);
+				} else if (overlay) {
+					closeOverlay(false);
+				}
+			});
+			if (presetsSection.expanded()) {
+				openOverlay(document.activeElement);
+			}
+		}
 	}
 
 	function updateBuilderAccent(value) {
@@ -725,10 +670,7 @@
 		const presetsControl = wp.customize.control('zola_header_presets_control');
 		if (presetsControl) {
 			setupPresetsControl(presetsControl);
-		}
-		const control = wp.customize.control('zola_header_builder_layout');
-		if (control) {
-			setupControl(control);
+			setupControl(presetsControl);
 		}
 	});
 }(window.wp));
