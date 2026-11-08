@@ -438,6 +438,7 @@
 			if (overlay) {
 				return;
 			}
+			updateBuilderOverlayOffset();
 			lastFocusTrigger = trigger || document.activeElement;
 			overlay = document.createElement('section');
 			overlay.className = 'zola-header-builder__overlay';
@@ -660,7 +661,40 @@
 		root.style.setProperty('--zola-builder-accent-contrast', luminance > 0.179 ? '#1d2327' : '#fff');
 	}
 
+	function updateBuilderOverlayOffset() {
+		const controls = document.getElementById('customize-controls');
+		const preview = document.getElementById('customize-preview');
+		let sidebarWidth = 0;
+
+		if (controls && preview) {
+			const previewStyle = window.getComputedStyle(preview);
+			const previewWidth = preview.getBoundingClientRect().width;
+			if ('none' !== previewStyle.display && 'hidden' !== previewStyle.visibility && previewWidth > 0) {
+				sidebarWidth = controls.getBoundingClientRect().width;
+			}
+		}
+
+		document.documentElement.style.setProperty('--zola-builder-sidebar-width', Math.max(0, Math.ceil(sidebarWidth)) + 'px');
+	}
+
+	function observeBuilderOverlayOffset() {
+		updateBuilderOverlayOffset();
+		window.addEventListener('resize', updateBuilderOverlayOffset);
+
+		if ('function' === typeof window.ResizeObserver) {
+			const observer = new window.ResizeObserver(updateBuilderOverlayOffset);
+			['customize-controls', 'customize-preview'].forEach(function (id) {
+				const element = document.getElementById(id);
+				if (element) {
+					observer.observe(element);
+				}
+			});
+		}
+	}
+
 	wp.customize.bind('ready', function () {
+		observeBuilderOverlayOffset();
+
 		const accentSetting = wp.customize('zola_accent_color');
 		if (accentSetting) {
 			updateBuilderAccent(accentSetting.get());

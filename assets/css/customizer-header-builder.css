@@ -1,4 +1,5 @@
 :root {
+	--zola-builder-sidebar-width: 300px;
 	--zola-builder-accent: #2563eb;
 	--zola-builder-accent-rgb: 37, 99, 235;
 	--zola-builder-accent-contrast: #fff;
@@ -67,12 +68,12 @@ body.zola-header-builder-is-open {
 .zola-header-builder__overlay {
 	position: fixed;
 	z-index: 1001000;
-	inset-inline: 0;
+	inset-inline: var(--zola-builder-sidebar-width, 300px) 0;
 	bottom: 0;
 	display: flex;
-	height: min(50vh, 470px);
-	min-height: 310px;
-	max-height: 78vh;
+	height: min(32vh, 300px);
+	min-height: 240px;
+	max-height: 60vh;
 	flex-direction: column;
 	background: #08090b;
 	color: #f5f6f7;
@@ -486,15 +487,15 @@ body.zola-header-builder-is-open {
 	display: grid;
 	min-height: 0;
 	flex: 1 1 auto;
-	grid-template-rows: repeat(3, minmax(42px, 1fr));
-	gap: 6px;
+	grid-template-rows: repeat(3, minmax(36px, 1fr));
+	gap: 4px;
 	overflow-y: auto;
-	padding: 12px 14px 9px;
+	padding: 8px 12px 6px;
 }
 
 .zola-header-builder__row {
 	display: grid;
-	min-height: 42px;
+	min-height: 36px;
 	grid-template-columns: 132px minmax(0, 1fr);
 	gap: 8px;
 }
@@ -523,7 +524,7 @@ body.zola-header-builder-is-open {
 	position: relative;
 	display: flex;
 	min-width: 0;
-	min-height: 42px;
+	min-height: 36px;
 	align-items: center;
 	gap: 6px;
 	padding: 4px 7px;
@@ -617,7 +618,7 @@ body.zola-header-builder-is-open {
 
 .zola-header-builder__inventory {
 	display: flex;
-	min-height: 54px;
+	min-height: 48px;
 	align-items: center;
 	gap: 12px;
 	padding: 7px 14px 9px;
@@ -710,7 +711,11 @@ body.zola-header-builder-is-open {
 	}
 
 	.zola-header-builder__rows {
-		grid-template-rows: repeat(3, minmax(58px, 1fr));
+		grid-template-rows: repeat(3, minmax(42px, 1fr));
+	}
+
+	.zola-header-builder__row {
+		min-height: 42px;
 	}
 
 	.zola-header-builder__row {
@@ -720,8 +725,9 @@ body.zola-header-builder-is-open {
 
 @media (max-width: 700px) {
 	.zola-header-builder__overlay {
-		height: min(62vh, 560px);
-		min-height: 360px;
+		height: min(36vh, 310px);
+		min-height: 290px;
+		max-height: 65vh;
 	}
 
 	.zola-header-builder__toolbar {
@@ -750,14 +756,15 @@ body.zola-header-builder-is-open {
 	}
 
 	.zola-header-builder__rows {
-		grid-template-rows: repeat(3, minmax(62px, 1fr));
-		gap: 5px;
-		padding: 8px 8px 6px;
+		grid-template-rows: repeat(3, minmax(44px, 1fr));
+		gap: 4px;
+		padding: 6px 8px 4px;
 	}
 
 	.zola-header-builder__row {
+		min-height: 44px;
 		grid-template-columns: 72px minmax(0, 1fr);
-		gap: 5px;
+		gap: 4px;
 	}
 
 	.zola-header-builder__row-label {
