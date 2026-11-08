@@ -69,9 +69,9 @@
 	content: var(--zola-section-icon);
 	color: #8c8f94;
 	display: inline-block;
-	flex: 0 0 26px;
-	font: normal 24px/1 dashicons;
-	margin-inline-end: 14px;
+	flex: 0 0 22px;
+	font: normal 18px/1 dashicons;
+	margin-inline-end: 10px;
 	text-align: center;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -111,7 +111,7 @@
 		#accordion-section-zola_share,
 		#accordion-section-custom_css
 	) > h3 > button::before {
-		font-size: 22px;
-		margin-inline-end: 11px;
+		font-size: 18px;
+		margin-inline-end: 9px;
 	}
 }

@@ -492,7 +492,7 @@ function zola_customize_controls_enqueue_styles(): void {
 		'zola-customizer-controls',
 		ZOLA_URI . '/assets/css/customizer-controls.css',
 		array( 'customize-controls', 'dashicons' ),
-		ZOLA_VERSION
+		(string) filemtime( ZOLA_DIR . '/assets/css/customizer-controls.css' )
 	);
 }
 add_action( 'customize_controls_enqueue_scripts', 'zola_customize_controls_enqueue_styles' );
