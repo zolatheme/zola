@@ -13,9 +13,26 @@
 	const menuToggles = Array.from(document.querySelectorAll('.menu-toggle, [data-zola-menu-toggle]'));
 	const openMenus = new Set();
 
+	function syncMobileOverlayPosition(menu) {
+		if (!menu.matches('.zola-mobile-menu-overlay')) {
+			return;
+		}
+		const mainRow = menu.closest('.site-header-builder__row--main');
+		if (mainRow) {
+			menu.style.setProperty('--zola-mobile-overlay-top', Math.max(0, mainRow.getBoundingClientRect().bottom) + 'px');
+		}
+	}
+
 	function setMenuOpen(toggle, menu, isOpen) {
+		if (isOpen) {
+			syncMobileOverlayPosition(menu);
+		}
 		toggle.setAttribute('aria-expanded', String(isOpen));
+		menu.setAttribute('aria-hidden', String(!isOpen));
 		menu.classList.toggle('is-open', isOpen);
+		if (menu.matches('.zola-mobile-menu-overlay')) {
+			document.body.classList.toggle('zola-mobile-menu-is-open', isOpen);
+		}
 		openMenus.add({ toggle: toggle, menu: menu });
 		if (!isOpen) {
 			for (const entry of openMenus) {
@@ -36,9 +53,17 @@
 		if (!menu) {
 			return;
 		}
+		menu.setAttribute('aria-hidden', 'true');
 
 		toggle.addEventListener('click', function () {
-			setMenuOpen(toggle, menu, toggle.getAttribute('aria-expanded') !== 'true');
+			const isOpen = toggle.getAttribute('aria-expanded') !== 'true';
+			setMenuOpen(toggle, menu, isOpen);
+			if (isOpen && menu.matches('.zola-mobile-menu-overlay')) {
+				const firstControl = menu.querySelector('a[href], button, input:not([type="hidden"])');
+				if (firstControl) {
+					firstControl.focus({ preventScroll: true });
+				}
+			}
 		});
 	});
 
@@ -51,7 +76,46 @@
 		}
 	}
 
+	const desktopViewport = window.matchMedia && window.matchMedia('(min-width: 783px)');
+	window.addEventListener('resize', function () {
+		for (const entry of openMenus) {
+			syncMobileOverlayPosition(entry.menu);
+		}
+	}, { passive: true });
+	if (desktopViewport) {
+		const closeMobileOverlays = function (event) {
+			if (!event.matches) {
+				return;
+			}
+			for (const entry of Array.from(openMenus)) {
+				if (entry.menu.matches('.zola-mobile-menu-overlay')) {
+					setMenuOpen(entry.toggle, entry.menu, false);
+				}
+			}
+		};
+		if (desktopViewport.addEventListener) {
+			desktopViewport.addEventListener('change', closeMobileOverlays);
+		} else if (desktopViewport.addListener) {
+			desktopViewport.addListener(closeMobileOverlays);
+		}
+	}
+
 	document.addEventListener('click', function (event) {
+		const closeButton = event.target.closest('[data-zola-menu-close]');
+		if (closeButton) {
+			const menu = closeButton.closest('.zola-mobile-menu-overlay');
+			if (menu) {
+				const controlledId = menu.id;
+				const toggle = menuToggles.find(function (item) {
+					return item.getAttribute('aria-controls') === controlledId;
+				});
+				if (toggle) {
+					setMenuOpen(toggle, menu, false);
+					toggle.focus();
+				}
+			}
+			return;
+		}
 		for (const entry of Array.from(openMenus)) {
 			if (!entry.menu.contains(event.target) && !entry.toggle.contains(event.target)) {
 				setMenuOpen(entry.toggle, entry.menu, false);
@@ -67,6 +131,33 @@
 				return;
 			}
 			closeMenus(true);
+			return;
+		}
+		if ('Tab' === event.key) {
+			const activeOverlay = Array.from(openMenus).find(function (entry) {
+				return entry.menu.matches('.zola-mobile-menu-overlay')
+					&& entry.menu.classList.contains('is-open')
+					&& entry.menu.querySelector('[data-zola-menu-close]');
+			});
+			if (!activeOverlay) {
+				return;
+			}
+			const focusable = Array.from(activeOverlay.menu.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter(function (element) {
+				return element.getClientRects().length > 0;
+			});
+			if (!focusable.length) {
+				event.preventDefault();
+				return;
+			}
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+			if (event.shiftKey && (document.activeElement === first || !activeOverlay.menu.contains(document.activeElement))) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && (document.activeElement === last || !activeOverlay.menu.contains(document.activeElement))) {
+				event.preventDefault();
+				first.focus();
+			}
 		}
 	});
 
@@ -130,6 +221,21 @@
 		toggle.addEventListener('click', function () {
 			const isOpen = toggle.getAttribute('aria-expanded') !== 'true';
 			setSubmenuOpen(toggle, isOpen, false);
+		});
+	});
+
+	document.querySelectorAll('.site-nav[data-submenu-behavior="toggle-submenu"]').forEach(function (navigation) {
+		navigation.addEventListener('click', function (event) {
+			if (window.innerWidth > 782) {
+				return;
+			}
+			const link = event.target.closest('.menu-item-has-children > a');
+			const item = link ? link.closest('.menu-item-has-children') : null;
+			const toggle = item ? item.querySelector(':scope > [data-zola-submenu-toggle]') : null;
+			if (toggle) {
+				event.preventDefault();
+				setSubmenuOpen(toggle, !item.classList.contains('is-submenu-open'), false);
+			}
 		});
 	});
 

@@ -50,8 +50,10 @@ function zola_setup(): void {
 	add_theme_support( 'wc-product-gallery-slider' );
 
 	register_nav_menus( array(
-		'primary' => esc_html__( 'Primary navigation', 'zola' ),
-		'footer'  => esc_html__( 'Footer navigation', 'zola' ),
+		'primary'   => esc_html__( 'Primary navigation', 'zola' ),
+		'secondary' => esc_html__( 'Secondary navigation', 'zola' ),
+		'top_bar'   => esc_html__( 'Top Bar navigation', 'zola' ),
+		'footer'    => esc_html__( 'Footer navigation', 'zola' ),
 	) );
 }
 add_action( 'after_setup_theme', 'zola_setup' );
@@ -172,9 +174,15 @@ function zola_enqueue_assets(): void {
 	$bottom_nav_color = is_string( $bottom_nav_color_setting ) ? sanitize_hex_color( $bottom_nav_color_setting ) : null;
 	$bottom_nav_hover_setting = get_theme_mod( 'zola_header_bottom_nav_hover_color', '' );
 	$bottom_nav_hover = is_string( $bottom_nav_hover_setting ) ? sanitize_hex_color( $bottom_nav_hover_setting ) : null;
+	$mobile_header_height = zola_sanitize_header_height( get_theme_mod( 'zola_mobile_header_height', 70 ) );
+	$mobile_overlay_background_setting = get_theme_mod( 'zola_mobile_overlay_background_color', '#0a0a0a' );
+	$mobile_overlay_background = is_string( $mobile_overlay_background_setting ) ? sanitize_hex_color( $mobile_overlay_background_setting ) : null;
+	$mobile_overlay_text_mode = zola_sanitize_header_text_mode( get_theme_mod( 'zola_mobile_overlay_text_mode', 'light' ) );
+	$mobile_overlay_text_color = 'light' === $mobile_overlay_text_mode ? '#ffffff' : 'var(--zola-text)';
 	$inline = ':root{--zola-accent:' . ( $accent ? $accent : '#2563eb' ) . ';--zola-ink:' . ( $ink ? $ink : '#202124' ) . ';--zola-dark-bg:' . ( $ink ? $ink : '#202124' ) . ';--zola-paper:' . ( $paper ? $paper : '#ffffff' ) . ';--zola-text:' . ( $text ? $text : '#202126' ) . ';--zola-wrap:' . $site_width . 'px;--zola-content-width:' . $content_width . 'px;--zola-radius:' . $button_radius . 'px;--zola-post-columns:' . $post_columns . ';--zola-portfolio-columns:' . $portfolio_columns . ';--zola-shop-columns:' . $shop_columns . ';--zola-font:' . $font_family . ';--zola-header-width:' . $header_width . ';--zola-header-height:' . $header_height . 'px;--zola-header-background:' . ( $header_background ? $header_background : '#ffffff' ) . ';--zola-header-nav-size:' . $nav_size . 'px;--zola-header-nav-spacing:' . $nav_spacing . 'px;--zola-header-nav-height:' . $nav_height . 'px;--zola-header-nav-push:' . $nav_push . 'px;--zola-header-nav-color:' . ( $nav_color ? $nav_color : 'inherit' ) . ';--zola-header-nav-hover-color:' . ( $nav_hover ? $nav_hover : 'var(--zola-accent)' ) . ';--zola-header-icon-color:' . ( $icon_color ? $icon_color : 'inherit' ) . ';--zola-header-icon-hover-color:' . ( $icon_hover ? $icon_hover : 'var(--zola-accent)' ) . ';--zola-transparent-header-height:' . $transparent_header_height . 'px;--zola-transparent-header-background:' . ( $transparent_background ? $transparent_background : 'transparent' ) . ';}';
 	$inline .= ':root{--zola-top-bar-height:' . $top_bar_height . 'px;--zola-top-bar-background:' . ( $top_bar_background ? $top_bar_background : 'var(--zola-dark-bg)' ) . ';--zola-top-bar-nav-height:' . $top_bar_nav_height . 'px;--zola-top-bar-nav-color:' . ( $top_bar_nav_color ? $top_bar_nav_color : 'inherit' ) . ';--zola-top-bar-nav-hover-color:' . ( $top_bar_nav_hover_color ? $top_bar_nav_hover_color : 'var(--zola-accent)' ) . ';}';
 	$inline .= ':root{--zola-header-bottom-height:' . $header_bottom_height . 'px;--zola-header-bottom-background:' . ( $header_bottom_background ? $header_bottom_background : 'transparent' ) . ';--zola-header-bottom-nav-size:' . $bottom_nav_size . 'px;--zola-header-bottom-nav-spacing:' . $bottom_nav_spacing . 'px;--zola-header-bottom-nav-height:' . $bottom_nav_height . 'px;--zola-header-bottom-nav-color:' . ( $bottom_nav_color ? $bottom_nav_color : $bottom_nav_base_color ) . ';--zola-header-bottom-nav-hover-color:' . ( $bottom_nav_hover ? $bottom_nav_hover : 'var(--zola-accent)' ) . ';}';
+	$inline .= ':root{--zola-mobile-header-height:' . $mobile_header_height . 'px;--zola-mobile-overlay-background:' . ( $mobile_overlay_background ? $mobile_overlay_background : '#0a0a0a' ) . ';--zola-mobile-overlay-color:' . $mobile_overlay_text_color . ';}';
 	wp_add_inline_style( 'zola-components', $inline );
 }
 add_action( 'wp_enqueue_scripts', 'zola_enqueue_assets' );
@@ -235,9 +243,6 @@ function zola_body_classes( array $classes ): array {
 	}
 	if ( ! get_theme_mod( 'zola_sticky_header', true ) ) {
 		$classes[] = 'zola-nonsticky-header';
-	}
-	if ( trim( (string) get_theme_mod( 'zola_announcement_text', '' ) ) && zola_header_builder_has_module( 'announcement' ) ) {
-		$classes[] = 'zola-has-announcement';
 	}
 	return $classes;
 }

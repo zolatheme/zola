@@ -16,7 +16,6 @@
 		logo: { type: 'section', id: 'title_tagline' },
 		menu: { type: 'panel', id: 'nav_menus' },
 		button: { type: 'section', id: 'zola_header_buttons' },
-		announcement: { type: 'section', id: 'zola_header_top_bar' },
 		social: { type: 'section', id: 'zola_header_follow_icons' },
 		html_1: { type: 'section', id: 'zola_header_html' },
 		html_2: { type: 'section', id: 'zola_header_html' },
@@ -39,12 +38,12 @@
 	function emptyLayout() {
 		return {
 			desktop: { rows: {
-				top: { left: [], center: ['announcement'], right: [] },
+				top: { left: [], center: [], right: [] },
 				main: { left: ['logo'], center: ['menu'], right: ['button'] },
 				bottom: { left: [], center: [], right: [] }
 			} },
 			mobile: { rows: {
-				top: { left: [], center: ['announcement'], right: [] },
+				top: { left: [], center: [], right: [] },
 				main: { left: ['logo'], center: [], right: ['menu'] },
 				bottom: { left: [], center: [], right: [] }
 			} }
@@ -101,7 +100,7 @@
 		const rows = preset[device] || {};
 		const moduleLabels = {
 			logo: 'Logo', menu: 'HOME   LINK', button: 'SIGN UP', search: '⌕',
-			announcement: 'TOP BAR', social: '●  ●  ●', html_1: 'HTML 1', html_2: 'HTML 2',
+			social: '●  ●  ●', html_1: 'HTML 1', html_2: 'HTML 2',
 			html_3: 'HTML 3', html_4: 'HTML 4', html_5: 'HTML 5', account: 'ACCOUNT', cart: 'CART  3'
 		};
 		['top', 'main', 'bottom'].forEach(function (rowName) {
@@ -736,7 +735,7 @@
 	}
 
 	function setupHeaderRangeOutputs() {
-		['zola_header_height', 'zola_header_nav_height', 'zola_header_nav_push', 'zola_transparent_header_height', 'zola_top_bar_height', 'zola_top_bar_nav_height', 'zola_header_bottom_height', 'zola_header_bottom_nav_height'].forEach(function (settingId) {
+		['zola_header_height', 'zola_header_nav_height', 'zola_header_nav_push', 'zola_transparent_header_height', 'zola_top_bar_height', 'zola_top_bar_nav_height', 'zola_header_bottom_height', 'zola_header_bottom_nav_height', 'zola_mobile_header_height'].forEach(function (settingId) {
 			const control = wp.customize.control(settingId);
 			const container = control && control.container ? control.container[0] : null;
 			const input = container ? container.querySelector('input[type="range"]') : null;
@@ -765,6 +764,149 @@
 				updateValue(input.value);
 			}
 		});
+	}
+
+	function setupMobileMenuElementsControl(control) {
+		const container = control && control.container ? control.container[0] : null;
+		const fieldset = container ? container.querySelector('[data-zola-mobile-menu-elements]') : null;
+		const list = fieldset ? fieldset.querySelector('.zola-mobile-menu-elements__list') : null;
+		if (!fieldset || !list || !control.setting) {
+			return;
+		}
+
+		const items = new Map();
+		list.querySelectorAll('[data-zola-mobile-element]').forEach(function (item) {
+			items.set(item.dataset.zolaMobileElement, item);
+		});
+		let draggedElement = null;
+		const mobileStrings = strings.mobileMenu || {};
+		const formatLabel = function (template, name, fallback) {
+			return (template || fallback).replace('%s', name);
+		};
+
+		function normalize(value) {
+			const available = Array.from(items.keys());
+			const order = [];
+			if (value && Array.isArray(value.order)) {
+				value.order.forEach(function (id) {
+					if (items.has(id) && !order.includes(id)) {
+						order.push(id);
+					}
+				});
+			}
+			available.forEach(function (id) {
+				if (!order.includes(id)) {
+					order.push(id);
+				}
+			});
+			const visible = {};
+			available.forEach(function (id) {
+				const button = items.get(id).querySelector('[data-zola-mobile-visibility]');
+				const defaultValue = button ? 'true' === button.getAttribute('aria-pressed') : false;
+				visible[id] = value && value.visible && Object.prototype.hasOwnProperty.call(value.visible, id)
+					? Boolean(value.visible[id])
+					: defaultValue;
+			});
+			return { order: order, visible: visible };
+		}
+
+		function render(value) {
+			const state = normalize(value);
+			state.order.forEach(function (id) {
+				const item = items.get(id);
+				if (!item) {
+					return;
+				}
+				const button = item.querySelector('[data-zola-mobile-visibility]');
+				const name = item.querySelector('.zola-mobile-menu-elements__name');
+				const isVisible = state.visible[id];
+				item.classList.toggle('is-visible', isVisible);
+				item.classList.toggle('is-hidden', !isVisible);
+				if (button) {
+					button.textContent = isVisible ? (mobileStrings.shown || 'Shown') : (mobileStrings.hidden || 'Hidden');
+					button.setAttribute('aria-pressed', String(isVisible));
+					button.setAttribute('aria-label', formatLabel(isVisible ? mobileStrings.hide : mobileStrings.show, name ? name.textContent : id, isVisible ? 'Hide %s' : 'Show %s'));
+				}
+				list.appendChild(item);
+			});
+		}
+
+		function save() {
+			const order = Array.from(list.querySelectorAll('[data-zola-mobile-element]')).map(function (item) {
+				return item.dataset.zolaMobileElement;
+			});
+			const visible = {};
+			items.forEach(function (item, id) {
+				const button = item.querySelector('[data-zola-mobile-visibility]');
+				visible[id] = Boolean(button && 'true' === button.getAttribute('aria-pressed'));
+			});
+			control.setting.set({ order: order, visible: visible });
+		}
+
+		fieldset.addEventListener('click', function (event) {
+			const button = event.target.closest('[data-zola-mobile-visibility]');
+			if (!button) {
+				return;
+			}
+			const isVisible = 'true' !== button.getAttribute('aria-pressed');
+			const item = button.closest('[data-zola-mobile-element]');
+			const name = item ? item.querySelector('.zola-mobile-menu-elements__name') : null;
+			button.setAttribute('aria-pressed', String(isVisible));
+			button.textContent = isVisible ? (mobileStrings.shown || 'Shown') : (mobileStrings.hidden || 'Hidden');
+			button.setAttribute('aria-label', formatLabel(isVisible ? mobileStrings.hide : mobileStrings.show, name ? name.textContent : 'menu element', isVisible ? 'Hide %s' : 'Show %s'));
+			if (item) {
+				item.classList.toggle('is-visible', isVisible);
+				item.classList.toggle('is-hidden', !isVisible);
+			}
+			save();
+		});
+
+		list.addEventListener('dragstart', function (event) {
+			draggedElement = event.target.closest('[data-zola-mobile-element]');
+			if (draggedElement && event.dataTransfer) {
+				event.dataTransfer.effectAllowed = 'move';
+				event.dataTransfer.setData('text/plain', draggedElement.dataset.zolaMobileElement);
+			}
+		});
+		list.addEventListener('dragover', function (event) {
+			const target = event.target.closest('[data-zola-mobile-element]');
+			if (!draggedElement || !target || target === draggedElement) {
+				return;
+			}
+			event.preventDefault();
+			const bounds = target.getBoundingClientRect();
+			list.insertBefore(draggedElement, event.clientY < bounds.top + bounds.height / 2 ? target : target.nextSibling);
+		});
+		list.addEventListener('drop', function (event) {
+			if (draggedElement) {
+				event.preventDefault();
+				save();
+			}
+			draggedElement = null;
+		});
+		list.addEventListener('dragend', function () {
+			draggedElement = null;
+		});
+		list.addEventListener('keydown', function (event) {
+			if (!['ArrowUp', 'ArrowDown'].includes(event.key) || event.target.matches('[data-zola-mobile-visibility]')) {
+				return;
+			}
+			const item = event.target.closest('[data-zola-mobile-element]');
+			if (!item) {
+				return;
+			}
+			event.preventDefault();
+			if ('ArrowUp' === event.key && item.previousElementSibling) {
+				list.insertBefore(item, item.previousElementSibling);
+			} else if ('ArrowDown' === event.key && item.nextElementSibling) {
+				list.insertBefore(item.nextElementSibling, item);
+			}
+			save();
+			item.focus();
+		});
+
+		control.setting.bind(render);
+		render(control.setting.get());
 	}
 
 	function updateBuilderOverlayOffset() {
@@ -813,6 +955,10 @@
 		if (presetsControl) {
 			setupPresetsControl(presetsControl);
 			setupControl(presetsControl);
+		}
+		const mobileMenuElementsControl = wp.customize.control('zola_mobile_menu_elements_control');
+		if (mobileMenuElementsControl) {
+			setupMobileMenuElementsControl(mobileMenuElementsControl);
 		}
 	});
 }(window.wp));
