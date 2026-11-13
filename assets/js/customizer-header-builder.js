@@ -628,27 +628,54 @@
 		const builderSections = ['zola_header_presets', 'zola_header']
 			.map(function (sectionId) { return wp.customize.section(sectionId); })
 			.filter(function (section) { return section && section.expanded && typeof section.expanded.bind === 'function'; });
+		const headerPanel = wp.customize.panel('zola_header_panel');
+		const expandedSectionState = wp.customize.state('expandedSection');
+
+		function isHeaderPanelSection(section) {
+			return Boolean(
+				section
+				&& typeof section.panel === 'function'
+				&& 'zola_header_panel' === section.panel()
+			);
+		}
+
+		function syncBuilderOverlay() {
+			const expandedSection = expandedSectionState ? expandedSectionState.get() : false;
+			if (expandedSection) {
+				if (builderSections.includes(expandedSection) || isHeaderPanelSection(expandedSection)) {
+					openOverlay(document.activeElement);
+				} else if (overlay) {
+					closeOverlay(false);
+				}
+				return;
+			}
+
+			if (headerPanel && headerPanel.expanded()) {
+				openOverlay(document.activeElement);
+			} else if (overlay) {
+				closeOverlay(false);
+			}
+		}
+
 		builderSections.forEach(function (section) {
 			section.expanded.bind(function (isExpanded) {
 				if (isExpanded) {
 					openOverlay(document.activeElement);
 					return;
 				}
-
-				window.requestAnimationFrame(function () {
-					const anotherBuilderSectionIsOpen = builderSections.some(function (builderSection) {
-						return builderSection.expanded();
-					});
-					if (!anotherBuilderSectionIsOpen && overlay) {
-						closeOverlay(false);
-					}
-				});
+				window.requestAnimationFrame(syncBuilderOverlay);
 			});
-
-			if (section.expanded()) {
-				openOverlay(document.activeElement);
-			}
 		});
+
+		if (expandedSectionState && typeof expandedSectionState.bind === 'function') {
+			expandedSectionState.bind(syncBuilderOverlay);
+		}
+		if (headerPanel && headerPanel.expanded && typeof headerPanel.expanded.bind === 'function') {
+			headerPanel.expanded.bind(function () {
+				window.requestAnimationFrame(syncBuilderOverlay);
+			});
+		}
+		syncBuilderOverlay();
 	}
 
 	function updateBuilderAccent(value) {
@@ -690,6 +717,9 @@
 			}
 
 			function syncChoice(value) {
+				if (fieldset.classList.contains('zola-header-visual-choice--text-color') && 'auto' === value) {
+					value = 'dark';
+				}
 				fieldset.querySelectorAll('[data-zola-visual-choice-input]').forEach(function (input) {
 					input.checked = input.value === value;
 				});
@@ -706,7 +736,7 @@
 	}
 
 	function setupHeaderRangeOutputs() {
-		['zola_header_height', 'zola_header_nav_height', 'zola_header_nav_push', 'zola_transparent_header_height'].forEach(function (settingId) {
+		['zola_header_height', 'zola_header_nav_height', 'zola_header_nav_push', 'zola_transparent_header_height', 'zola_top_bar_height', 'zola_top_bar_nav_height', 'zola_header_bottom_height', 'zola_header_bottom_nav_height'].forEach(function (settingId) {
 			const control = wp.customize.control(settingId);
 			const container = control && control.container ? control.container[0] : null;
 			const input = container ? container.querySelector('input[type="range"]') : null;

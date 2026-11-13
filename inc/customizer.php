@@ -32,12 +32,35 @@ function zola_sanitize_header_width( mixed $value ): string {
 }
 
 function zola_sanitize_header_text_mode( mixed $value ): string {
-	return in_array( $value, array( 'auto', 'light', 'dark' ), true ) ? $value : 'auto';
+	if ( 'auto' === $value ) {
+		return 'dark';
+	}
+	return in_array( $value, array( 'light', 'dark' ), true ) ? $value : 'dark';
 }
 
 function zola_sanitize_header_nav_style( mixed $value ): string {
-	$styles = array( 'plain', 'underline', 'overline', 'divider', 'pills', 'fill', 'outline', 'bold', 'vertical' );
+	$styles = array( 'plain', 'underline', 'overline', 'divider', 'pills', 'fill', 'outline', 'bold', 'compact', 'highlight', 'vertical', 'tabs', 'double', 'shadow', 'chevron' );
 	return in_array( $value, $styles, true ) ? $value : 'plain';
+}
+
+function zola_header_nav_style_choices(): array {
+	return array(
+		'plain'     => esc_html__( 'Plain', 'zola' ),
+		'divider'   => esc_html__( 'Divider', 'zola' ),
+		'compact'   => esc_html__( 'Compact', 'zola' ),
+		'overline'  => esc_html__( 'Overline', 'zola' ),
+		'underline' => esc_html__( 'Underline', 'zola' ),
+		'highlight' => esc_html__( 'Highlight', 'zola' ),
+		'pills'     => esc_html__( 'Pills', 'zola' ),
+		'fill'      => esc_html__( 'Fill', 'zola' ),
+		'vertical'  => esc_html__( 'Vertical', 'zola' ),
+		'outline'   => esc_html__( 'Outline', 'zola' ),
+		'bold'      => esc_html__( 'Bold', 'zola' ),
+		'tabs'      => esc_html__( 'Tabs', 'zola' ),
+		'double'    => esc_html__( 'Double Line', 'zola' ),
+		'shadow'    => esc_html__( 'Shadow', 'zola' ),
+		'chevron'   => esc_html__( 'Chevron', 'zola' ),
+	);
 }
 
 function zola_sanitize_header_nav_scale( mixed $value ): string {
@@ -54,6 +77,47 @@ function zola_sanitize_header_nav_height( mixed $value ): int {
 
 function zola_sanitize_header_nav_push( mixed $value ): int {
 	return min( 40, max( 0, absint( $value ) ) );
+}
+
+function zola_sanitize_top_bar_height( mixed $value ): int {
+	return min( 100, max( 24, absint( $value ) ) );
+}
+
+function zola_sanitize_header_bottom_height( mixed $value ): int {
+	return min( 100, max( 10, absint( $value ) ) );
+}
+
+function zola_sanitize_logo_position( mixed $value ): string {
+	return in_array( $value, array( 'left', 'center' ), true ) ? $value : 'left';
+}
+
+function zola_sanitize_logo_container_width( mixed $value ): int {
+	return min( 100, max( 20, absint( $value ) ) );
+}
+
+function zola_sanitize_logo_max_width( mixed $value ): string {
+	if ( ! is_scalar( $value ) ) {
+		return '';
+	}
+
+	$value = trim( (string) $value );
+	if ( '' === $value ) {
+		return '';
+	}
+
+	return (string) min( 1200, max( 24, absint( $value ) ) );
+}
+
+function zola_sanitize_logo_padding( mixed $value ): int {
+	return min( 80, max( 0, absint( $value ) ) );
+}
+
+function zola_sanitize_logo_link( mixed $value ): string {
+	if ( ! is_scalar( $value ) ) {
+		return '';
+	}
+
+	return esc_url_raw( trim( (string) $value ) );
 }
 
 /** Return the starter positions for the drag-and-drop header builder. */
@@ -348,7 +412,7 @@ function zola_add_header_visual_control( WP_Customize_Manager $wp_customize, str
 
 	$wp_customize->add_control( new Zola_Header_Visual_Customize_Control( $wp_customize, $setting_id . '_visual_control', array(
 		'settings'    => $setting_id,
-		'section'     => 'zola_header',
+		'section'     => isset( $control['section'] ) ? $control['section'] : 'zola_header',
 		'label'       => $control['label'],
 		'description' => isset( $control['description'] ) ? $control['description'] : '',
 		'choices'     => $control['choices'],
@@ -358,10 +422,10 @@ function zola_add_header_visual_control( WP_Customize_Manager $wp_customize, str
 }
 
 /** Add a visual heading between related Header Main controls. */
-function zola_add_header_group_control( WP_Customize_Manager $wp_customize, string $control_id, string $label, int $priority ): void {
+function zola_add_header_group_control( WP_Customize_Manager $wp_customize, string $control_id, string $label, int $priority, string $section_id = 'zola_header' ): void {
 	$wp_customize->add_control( new Zola_Header_Group_Customize_Control( $wp_customize, $control_id, array(
 		'settings' => array(),
-		'section'  => 'zola_header',
+		'section'  => $section_id,
 		'label'    => $label,
 		'priority' => $priority,
 	) ) );
@@ -388,12 +452,13 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		),
 		'zola_header_top_bar' => array(
 			'title'       => esc_html__( 'Top Bar', 'zola' ),
-			'description' => esc_html__( 'Edit the announcement shown in the Header Builder Top Bar.', 'zola' ),
+			'description' => esc_html__( 'Set the Top Bar layout, colors and navigation. Top Bar navigation settings are independent from Header Main.', 'zola' ),
 			'panel'       => 'zola_header_panel',
 			'priority'    => 20,
 		),
 		'zola_header_bottom' => array(
 			'title'       => esc_html__( 'Header Bottom', 'zola' ),
+			'description' => esc_html__( 'Set the bottom row layout and navigation style. Arrange its elements in Header Builder.', 'zola' ),
 			'panel'       => 'zola_header_panel',
 			'priority'    => 40,
 		),
@@ -546,14 +611,18 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 
 			public function render_content(): void {
 				$setting_id = $this->setting instanceof WP_Customize_Setting ? $this->setting->id : '';
+				$current_value = $this->value();
+				if ( 'text-color' === $this->visual_type && 'auto' === $current_value ) {
+					$current_value = 'dark';
+				}
 				?>
 				<fieldset class="zola-header-visual-choice zola-header-visual-choice--<?php echo esc_attr( $this->visual_type ); ?>" data-zola-visual-choice data-zola-setting="<?php echo esc_attr( $setting_id ); ?>">
 					<legend class="customize-control-title"><?php echo esc_html( $this->label ); ?></legend>
 					<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span><?php endif; ?>
 					<div class="zola-header-visual-choice__options">
 						<?php foreach ( $this->choices as $value => $label ) : ?>
-							<label class="zola-header-visual-choice__option zola-header-visual-choice__option--<?php echo esc_attr( sanitize_html_class( $value ) ); ?>">
-								<input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $this->value(), $value ); ?> data-zola-visual-choice-input>
+							<label class="zola-header-visual-choice__option zola-header-visual-choice__option--<?php echo esc_attr( sanitize_html_class( $value ) ); ?>" title="<?php echo esc_attr( $label ); ?>">
+								<input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $current_value, $value ); ?> data-zola-visual-choice-input>
 								<?php if ( 'scale' === $this->visual_type ) : ?>
 									<span class="zola-header-visual-choice__segment"><?php echo esc_html( $label ); ?></span>
 								<?php else : ?>
@@ -563,7 +632,9 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 									<?php elseif ( 'text-color' === $this->visual_type ) : ?>
 										<span class="zola-header-visual-choice__abc">Abc</span>
 									<?php else : ?>
-										<span class="zola-header-visual-choice__nav zola-header-visual-choice__nav--<?php echo esc_attr( sanitize_html_class( $value ) ); ?>">NAV</span>
+										<span class="zola-header-visual-choice__nav zola-header-visual-choice__nav--<?php echo esc_attr( sanitize_html_class( $value ) ); ?>">
+											NAV
+										</span>
 									<?php endif; ?>
 								</span>
 									<span class="zola-header-visual-choice__label"><?php echo esc_html( $label ); ?></span>
@@ -578,7 +649,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 	}
 	$header_section_notes = array(
 		'zola_header'          => esc_html__( 'Use the Header Builder in the preview area to add, remove and position header elements.', 'zola' ),
-		'zola_header_bottom'   => esc_html__( 'Arrange elements in the bottom row with Header Builder. Open Header Main or Presets to access the builder.', 'zola' ),
+		'zola_header_bottom'   => esc_html__( 'Use Header Builder in the preview area to arrange elements in the bottom row.', 'zola' ),
 		'zola_header_mobile'   => esc_html__( 'Choose Mobile / Tablet in Header Builder to arrange the mobile menu and header elements.', 'zola' ),
 		'zola_header_dropdown' => esc_html__( 'Dropdown menus open on hover or keyboard focus on desktop, and can be opened by tap on mobile.', 'zola' ),
 		'zola_header_account'  => esc_html__( 'Add or remove the Account element and choose its position in Header Builder.', 'zola' ),
@@ -618,10 +689,10 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 	) );
 	zola_add_header_visual_control( $wp_customize, 'zola_header_text_mode', array(
 		'label'       => esc_html__( 'Text color', 'zola' ),
-		'default'     => 'auto',
+		'default'     => 'dark',
 		'sanitize'    => 'zola_sanitize_header_text_mode',
 		'visual_type' => 'text-color',
-		'choices'     => array( 'auto' => esc_html__( 'Auto', 'zola' ), 'light' => esc_html__( 'Light', 'zola' ), 'dark' => esc_html__( 'Dark', 'zola' ) ),
+		'choices'     => array( 'light' => esc_html__( 'Light', 'zola' ), 'dark' => esc_html__( 'Dark', 'zola' ) ),
 		'priority'    => 8,
 	) );
 	zola_add_customizer_control( $wp_customize, 'zola_header', 'zola_header_background_color', array(
@@ -652,17 +723,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'default'     => 'plain',
 		'sanitize'    => 'zola_sanitize_header_nav_style',
 		'visual_type' => 'nav-style',
-		'choices'     => array(
-			'plain'     => esc_html__( 'Plain', 'zola' ),
-			'underline' => esc_html__( 'Underline', 'zola' ),
-			'overline'  => esc_html__( 'Overline', 'zola' ),
-			'divider'   => esc_html__( 'Divider', 'zola' ),
-			'pills'     => esc_html__( 'Pills', 'zola' ),
-			'fill'      => esc_html__( 'Fill', 'zola' ),
-			'outline'   => esc_html__( 'Outline', 'zola' ),
-			'bold'      => esc_html__( 'Bold', 'zola' ),
-			'vertical'  => esc_html__( 'Vertical', 'zola' ),
-		),
+		'choices'     => zola_header_nav_style_choices(),
 		'priority'    => 21,
 	) );
 	$nav_scales = array(
@@ -696,13 +757,21 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'sanitize' => 'wp_validate_boolean',
 		'priority' => 24,
 	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header', 'zola_header_nav_overlay', array(
+		'label'       => esc_html__( 'Add overlay on hover', 'zola' ),
+		'description' => esc_html__( 'Show a subtle background when a Header Main navigation item is hovered or focused.', 'zola' ),
+		'type'        => 'checkbox',
+		'default'     => false,
+		'sanitize'    => 'wp_validate_boolean',
+		'priority'    => 25,
+	) );
 	zola_add_customizer_control( $wp_customize, 'zola_header', 'zola_header_nav_height', array(
 		'label'       => esc_html__( 'Nav Height', 'zola' ),
 		'type'        => 'range',
 		'default'     => 16,
 		'sanitize'    => 'zola_sanitize_header_nav_height',
 		'input_attrs' => array( 'min' => 12, 'max' => 40, 'step' => 1 ),
-		'priority'    => 25,
+		'priority'    => 26,
 	) );
 	zola_add_customizer_control( $wp_customize, 'zola_header', 'zola_header_nav_push', array(
 		'label'       => esc_html__( 'Nav Push', 'zola' ),
@@ -710,13 +779,13 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'default'     => 9,
 		'sanitize'    => 'zola_sanitize_header_nav_push',
 		'input_attrs' => array( 'min' => 0, 'max' => 40, 'step' => 1 ),
-		'priority'    => 26,
+		'priority'    => 27,
 	) );
 	foreach ( array(
-		'zola_header_nav_color'        => array( 'label' => esc_html__( 'Nav Color', 'zola' ), 'priority' => 27 ),
-		'zola_header_nav_hover_color'  => array( 'label' => esc_html__( 'Nav Color :hover', 'zola' ), 'priority' => 28 ),
-		'zola_header_icon_color'       => array( 'label' => esc_html__( 'Icons Color', 'zola' ), 'priority' => 29 ),
-		'zola_header_icon_hover_color' => array( 'label' => esc_html__( 'Icons Color :hover', 'zola' ), 'priority' => 30 ),
+		'zola_header_nav_color'        => array( 'label' => esc_html__( 'Nav Color', 'zola' ), 'priority' => 28 ),
+		'zola_header_nav_hover_color'  => array( 'label' => esc_html__( 'Nav Color :hover', 'zola' ), 'priority' => 29 ),
+		'zola_header_icon_color'       => array( 'label' => esc_html__( 'Icons Color', 'zola' ), 'priority' => 30 ),
+		'zola_header_icon_hover_color' => array( 'label' => esc_html__( 'Icons Color :hover', 'zola' ), 'priority' => 31 ),
 	) as $setting_id => $color_control ) {
 		zola_add_customizer_control( $wp_customize, 'zola_header', $setting_id, array(
 			'label'    => $color_control['label'],
@@ -895,22 +964,178 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		zola_add_customizer_control( $wp_customize, 'zola_header_buttons', $setting_id, $control );
 	}
 
-	$top_bar_controls = array(
-		'zola_announcement_text' => array(
-			'label'    => esc_html__( 'Announcement bar text', 'zola' ),
-			'type'     => 'text',
+	zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', 'zola_top_bar_enabled', array(
+		'label'    => esc_html__( 'Enable Top Bar', 'zola' ),
+		'type'     => 'checkbox',
+		'default'  => true,
+		'sanitize' => 'wp_validate_boolean',
+		'priority' => 1,
+	) );
+	zola_add_header_group_control( $wp_customize, 'zola_top_bar_layout_group', esc_html__( 'Layout', 'zola' ), 5, 'zola_header_top_bar' );
+	zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', 'zola_top_bar_height', array(
+		'label'       => esc_html__( 'Height', 'zola' ),
+		'type'        => 'range',
+		'default'     => 40,
+		'sanitize'    => 'zola_sanitize_top_bar_height',
+		'input_attrs' => array( 'min' => 24, 'max' => 100, 'step' => 1 ),
+		'priority'    => 6,
+	) );
+	zola_add_header_visual_control( $wp_customize, 'zola_top_bar_text_mode', array(
+		'label'       => esc_html__( 'Text Color', 'zola' ),
+		'default'     => 'light',
+		'sanitize'    => 'zola_sanitize_header_text_mode',
+		'visual_type' => 'text-color',
+		'choices'     => array( 'light' => esc_html__( 'Light', 'zola' ), 'dark' => esc_html__( 'Dark', 'zola' ) ),
+		'priority'    => 7,
+		'section'     => 'zola_header_top_bar',
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', 'zola_top_bar_background_color', array(
+		'label'    => esc_html__( 'Background Color', 'zola' ),
+		'type'     => 'color',
+		'default'  => '',
+		'sanitize' => 'sanitize_hex_color',
+		'priority' => 8,
+	) );
+	zola_add_header_group_control( $wp_customize, 'zola_top_bar_navigation_group', esc_html__( 'Navigation', 'zola' ), 20, 'zola_header_top_bar' );
+	zola_add_header_visual_control( $wp_customize, 'zola_top_bar_nav_style', array(
+		'label'       => esc_html__( 'Navigation Style', 'zola' ),
+		'default'     => 'plain',
+		'sanitize'    => 'zola_sanitize_header_nav_style',
+		'visual_type' => 'nav-style',
+		'choices'     => zola_header_nav_style_choices(),
+		'priority'    => 21,
+		'section'     => 'zola_header_top_bar',
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', 'zola_top_bar_nav_uppercase', array(
+		'label'    => esc_html__( 'Uppercase', 'zola' ),
+		'type'     => 'checkbox',
+		'default'  => false,
+		'sanitize' => 'wp_validate_boolean',
+		'priority' => 22,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', 'zola_top_bar_nav_overlay', array(
+		'label'    => esc_html__( 'Add overlay on hover', 'zola' ),
+		'type'     => 'checkbox',
+		'default'  => false,
+		'sanitize' => 'wp_validate_boolean',
+		'priority' => 23,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', 'zola_top_bar_nav_height', array(
+		'label'       => esc_html__( 'Nav Height', 'zola' ),
+		'type'        => 'range',
+		'default'     => 16,
+		'sanitize'    => 'zola_sanitize_header_nav_height',
+		'input_attrs' => array( 'min' => 12, 'max' => 40, 'step' => 1 ),
+		'priority'    => 24,
+	) );
+	foreach ( array(
+		'zola_top_bar_nav_color'       => array( 'label' => esc_html__( 'Nav Color', 'zola' ), 'priority' => 25 ),
+		'zola_top_bar_nav_hover_color' => array( 'label' => esc_html__( 'Nav Color :hover', 'zola' ), 'priority' => 26 ),
+	) as $setting_id => $color_control ) {
+		zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', $setting_id, array(
+			'label'    => $color_control['label'],
+			'type'     => 'color',
 			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
-		),
-		'zola_announcement_url' => array(
-			'label'    => esc_html__( 'Announcement bar link', 'zola' ),
-			'type'     => 'url',
-			'default'  => '',
-			'sanitize' => 'esc_url_raw',
-		),
+			'sanitize' => 'sanitize_hex_color',
+			'priority' => $color_control['priority'],
+		) );
+	}
+
+	// Header Bottom layout and navigation settings.
+	zola_add_header_group_control( $wp_customize, 'zola_header_bottom_layout_group', esc_html__( 'Layout', 'zola' ), 20, 'zola_header_bottom' );
+	zola_add_customizer_control( $wp_customize, 'zola_header_bottom', 'zola_header_bottom_height', array(
+		'label'       => esc_html__( 'Height', 'zola' ),
+		'type'        => 'range',
+		'default'     => 10,
+		'sanitize'    => 'zola_sanitize_header_bottom_height',
+		'input_attrs' => array( 'min' => 10, 'max' => 100, 'step' => 1 ),
+		'priority'    => 21,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_bottom', 'zola_header_bottom_background_color', array(
+		'label'    => esc_html__( 'Background color', 'zola' ),
+		'type'     => 'color',
+		'default'  => '',
+		'sanitize' => 'sanitize_hex_color',
+		'priority' => 22,
+	) );
+	zola_add_header_group_control( $wp_customize, 'zola_header_bottom_navigation_group', esc_html__( 'Navigation', 'zola' ), 30, 'zola_header_bottom' );
+	zola_add_header_visual_control( $wp_customize, 'zola_header_bottom_nav_style', array(
+		'label'       => esc_html__( 'Nav Style', 'zola' ),
+		'default'     => 'plain',
+		'sanitize'    => 'zola_sanitize_header_nav_style',
+		'visual_type' => 'nav-style',
+		'choices'     => zola_header_nav_style_choices(),
+		'priority'    => 31,
+		'section'     => 'zola_header_bottom',
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_bottom', 'zola_header_bottom_nav_height', array(
+		'label'       => esc_html__( 'Nav Height', 'zola' ),
+		'type'        => 'range',
+		'default'     => 16,
+		'sanitize'    => 'zola_sanitize_header_nav_height',
+		'input_attrs' => array( 'min' => 12, 'max' => 40, 'step' => 1 ),
+		'priority'    => 32,
+	) );
+	$bottom_nav_scales = array(
+		'xs'      => 'XS',
+		's'       => 'S',
+		'default' => esc_html__( 'Default', 'zola' ),
+		'm'       => 'M',
+		'l'       => 'L',
+		'xl'      => 'XL',
 	);
-	foreach ( $top_bar_controls as $setting_id => $control ) {
-		zola_add_customizer_control( $wp_customize, 'zola_header_top_bar', $setting_id, $control );
+	zola_add_header_visual_control( $wp_customize, 'zola_header_bottom_nav_size', array(
+		'label'       => esc_html__( 'Nav Size', 'zola' ),
+		'default'     => 'default',
+		'sanitize'    => 'zola_sanitize_header_nav_scale',
+		'visual_type' => 'scale',
+		'choices'     => $bottom_nav_scales,
+		'priority'    => 33,
+		'section'     => 'zola_header_bottom',
+	) );
+	zola_add_header_visual_control( $wp_customize, 'zola_header_bottom_nav_spacing', array(
+		'label'       => esc_html__( 'Nav Spacing', 'zola' ),
+		'default'     => 'default',
+		'sanitize'    => 'zola_sanitize_header_nav_scale',
+		'visual_type' => 'scale',
+		'choices'     => $bottom_nav_scales,
+		'priority'    => 34,
+		'section'     => 'zola_header_bottom',
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_bottom', 'zola_header_bottom_nav_uppercase', array(
+		'label'    => esc_html__( 'Uppercase', 'zola' ),
+		'type'     => 'checkbox',
+		'default'  => false,
+		'sanitize' => 'wp_validate_boolean',
+		'priority' => 35,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_header_bottom', 'zola_header_bottom_nav_overlay', array(
+		'label'    => esc_html__( 'Add overlay on hover', 'zola' ),
+		'type'     => 'checkbox',
+		'default'  => false,
+		'sanitize' => 'wp_validate_boolean',
+		'priority' => 36,
+	) );
+	zola_add_header_visual_control( $wp_customize, 'zola_header_bottom_nav_base_color', array(
+		'label'       => esc_html__( 'Nav Base Color', 'zola' ),
+		'default'     => 'dark',
+		'sanitize'    => 'zola_sanitize_header_text_mode',
+		'visual_type' => 'text-color',
+		'choices'     => array( 'light' => esc_html__( 'Light', 'zola' ), 'dark' => esc_html__( 'Dark', 'zola' ) ),
+		'priority'    => 37,
+		'section'     => 'zola_header_bottom',
+	) );
+	foreach ( array(
+		'zola_header_bottom_nav_color'       => array( 'label' => esc_html__( 'Nav Color', 'zola' ), 'priority' => 38 ),
+		'zola_header_bottom_nav_hover_color' => array( 'label' => esc_html__( 'Nav Color :hover', 'zola' ), 'priority' => 39 ),
+	) as $setting_id => $color_control ) {
+		zola_add_customizer_control( $wp_customize, 'zola_header_bottom', $setting_id, array(
+			'label'    => $color_control['label'],
+			'type'     => 'color',
+			'default'  => '',
+			'sanitize' => 'sanitize_hex_color',
+			'priority' => $color_control['priority'],
+		) );
 	}
 
 	$sticky_header_controls = array(
@@ -1152,6 +1377,134 @@ function zola_customize_reorder_core_sections( WP_Customize_Manager $wp_customiz
 	}
 }
 add_action( 'customize_register', 'zola_customize_reorder_core_sections', 200 );
+
+/** Add theme logo controls to the native Site Identity section. */
+function zola_customize_register_logo_identity_controls( WP_Customize_Manager $wp_customize ): void {
+	if ( ! $wp_customize->get_section( 'title_tagline' ) ) {
+		return;
+	}
+
+	$core_control_settings = array(
+		'blogname'        => 10,
+		'blogdescription' => 20,
+		'custom_logo'     => 40,
+		'site_icon'       => 110,
+	);
+	foreach ( $core_control_settings as $control_id => $priority ) {
+		$control = $wp_customize->get_control( $control_id );
+		if ( $control ) {
+			$control->priority = $priority;
+		}
+	}
+
+	$logo_control = $wp_customize->get_control( 'custom_logo' );
+	if ( $logo_control ) {
+		$logo_control->label       = esc_html__( 'Logo image', 'zola' );
+		$logo_control->description = esc_html__( 'Upload the standard logo used in the header.', 'zola' );
+	}
+
+	zola_add_customizer_control( $wp_customize, 'title_tagline', 'zola_logo_show_site_info', array(
+		'label'       => esc_html__( 'Display below Logo', 'zola' ),
+		'description' => esc_html__( 'Show the site title and tagline beneath the logo.', 'zola' ),
+		'type'        => 'checkbox',
+		'default'     => false,
+		'sanitize'    => 'wp_validate_boolean',
+		'priority'    => 25,
+	) );
+
+	if ( ! class_exists( 'Zola_Logo_Position_Customize_Control' ) ) {
+		class Zola_Logo_Position_Customize_Control extends WP_Customize_Control {
+			public $type = 'zola-logo-position';
+
+			public function render_content(): void {
+				$setting_id = $this->setting instanceof WP_Customize_Setting ? $this->setting->id : '';
+				?>
+				<fieldset class="zola-header-visual-choice zola-header-visual-choice--logo-position" data-zola-visual-choice data-zola-setting="<?php echo esc_attr( $setting_id ); ?>">
+					<legend class="customize-control-title"><?php echo esc_html( $this->label ); ?></legend>
+					<div class="zola-header-visual-choice__options">
+						<?php foreach ( $this->choices as $value => $label ) : ?>
+							<label class="zola-header-visual-choice__option zola-header-visual-choice__option--<?php echo esc_attr( sanitize_html_class( $value ) ); ?>" title="<?php echo esc_attr( $label ); ?>">
+								<input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $this->value(), $value ); ?> data-zola-visual-choice-input>
+								<span class="zola-header-visual-choice__sample" aria-hidden="true">
+									<span class="zola-logo-position__mark"></span>
+									<span class="zola-logo-position__links"></span>
+								</span>
+								<span class="zola-header-visual-choice__label"><?php echo esc_html( $label ); ?></span>
+							</label>
+						<?php endforeach; ?>
+					</div>
+				</fieldset>
+				<?php
+			}
+		}
+	}
+	$wp_customize->add_setting( 'zola_logo_position', array(
+		'default'           => 'left',
+		'sanitize_callback' => 'zola_sanitize_logo_position',
+		'transport'         => 'refresh',
+	) );
+	$wp_customize->add_control( new Zola_Logo_Position_Customize_Control( $wp_customize, 'zola_logo_position_control', array(
+		'settings' => 'zola_logo_position',
+		'section'  => 'title_tagline',
+		'label'    => esc_html__( 'Logo position', 'zola' ),
+		'choices'  => array(
+			'left'   => esc_html__( 'Left', 'zola' ),
+			'center' => esc_html__( 'Center', 'zola' ),
+		),
+		'priority' => 30,
+	) ) );
+
+	$wp_customize->add_setting( 'zola_logo_light_image', array(
+		'default'           => 0,
+		'sanitize_callback' => 'absint',
+		'transport'         => 'refresh',
+	) );
+	$wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'zola_logo_light_image_control', array(
+		'settings'    => 'zola_logo_light_image',
+		'section'     => 'title_tagline',
+		'label'       => esc_html__( 'Logo image - Light Version', 'zola' ),
+		'description' => esc_html__( 'Upload an alternative light logo for dark and transparent headers.', 'zola' ),
+		'mime_type'   => 'image',
+		'priority'    => 50,
+	) ) );
+
+	zola_add_customizer_control( $wp_customize, 'title_tagline', 'zola_logo_container_width', array(
+		'label'       => esc_html__( 'Logo container width', 'zola' ),
+		'description' => esc_html__( 'Set the width of the logo area as a percentage of its Header Builder position.', 'zola' ),
+		'type'        => 'range',
+		'default'     => 42,
+		'sanitize'    => 'zola_sanitize_logo_container_width',
+		'input_attrs' => array( 'min' => 20, 'max' => 100, 'step' => 1 ),
+		'priority'    => 60,
+	) );
+	zola_add_customizer_control( $wp_customize, 'title_tagline', 'zola_logo_max_width', array(
+		'label'       => esc_html__( 'Logo max width (px)', 'zola' ),
+		'description' => esc_html__( 'Set a maximum width in pixels. Leave blank to fit the available container.', 'zola' ),
+		'type'        => 'number',
+		'default'     => '',
+		'sanitize'    => 'zola_sanitize_logo_max_width',
+		'input_attrs' => array( 'min' => 24, 'max' => 1200, 'step' => 1, 'placeholder' => esc_attr__( 'Auto', 'zola' ) ),
+		'priority'    => 70,
+	) );
+	zola_add_customizer_control( $wp_customize, 'title_tagline', 'zola_logo_padding', array(
+		'label'       => esc_html__( 'Logo Padding', 'zola' ),
+		'description' => esc_html__( 'Add space around the logo in pixels.', 'zola' ),
+		'type'        => 'range',
+		'default'     => 0,
+		'sanitize'    => 'zola_sanitize_logo_padding',
+		'input_attrs' => array( 'min' => 0, 'max' => 80, 'step' => 1 ),
+		'priority'    => 80,
+	) );
+	zola_add_customizer_control( $wp_customize, 'title_tagline', 'zola_logo_link', array(
+		'label'       => esc_html__( 'Logo link', 'zola' ),
+		'description' => esc_html__( 'Custom logo link. Leave blank to link to the home page.', 'zola' ),
+		'type'        => 'url',
+		'default'     => '',
+		'sanitize'    => 'zola_sanitize_logo_link',
+		'priority'    => 90,
+	) );
+}
+add_action( 'customize_register', 'zola_customize_register_logo_identity_controls', 220 );
 
 /** Load decorative icons for the top-level Customizer sections and panels. */
 function zola_customize_controls_enqueue_styles(): void {

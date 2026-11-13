@@ -42,12 +42,7 @@ function zola_render_header_builder(): void {
 	$is_homepage  = 'page' === get_option( 'show_on_front' ) && is_front_page();
 	$header_class .= $is_homepage && get_theme_mod( 'zola_transparent_header', true ) ? ' site-header--overlay' : ' site-header--solid';
 	$header_class .= get_theme_mod( 'zola_sticky_header', true ) ? ' site-header--sticky' : ' site-header--flow';
-	$header_text_mode = zola_sanitize_header_text_mode( get_theme_mod( 'zola_header_text_mode', 'auto' ) );
-	$header_nav_style = zola_sanitize_header_nav_style( get_theme_mod( 'zola_header_nav_style', 'plain' ) );
-	$header_class .= ' site-header--nav-' . sanitize_html_class( $header_nav_style );
-	if ( get_theme_mod( 'zola_header_nav_uppercase', false ) ) {
-		$header_class .= ' site-header--nav-uppercase';
-	}
+	$header_text_mode = zola_sanitize_header_text_mode( get_theme_mod( 'zola_header_text_mode', 'dark' ) );
 	if ( 'auto' !== $header_text_mode ) {
 		$header_class .= ' site-header--text-' . sanitize_html_class( $header_text_mode );
 	}
@@ -66,6 +61,9 @@ function zola_render_header_builder(): void {
 		$rows            = isset( $device_settings['rows'] ) && is_array( $device_settings['rows'] ) ? $device_settings['rows'] : array();
 		echo '<div class="site-header-builder__device site-header-builder__device--' . esc_attr( $device ) . '">';
 		foreach ( array( 'top', 'main', 'bottom' ) as $row_name ) {
+			if ( 'top' === $row_name && ! wp_validate_boolean( get_theme_mod( 'zola_top_bar_enabled', true ) ) ) {
+				continue;
+			}
 			$row = isset( $rows[ $row_name ] ) && is_array( $rows[ $row_name ] ) ? $rows[ $row_name ] : array();
 			$slots_markup = '';
 			$row_has_content = false;
@@ -85,6 +83,21 @@ function zola_render_header_builder(): void {
 				continue;
 			}
 			$row_class = 'site-header-builder__row site-header-builder__row--' . sanitize_html_class( $row_name );
+			$nav_settings_prefix = 'top' === $row_name
+				? 'zola_top_bar_nav_'
+				: ( 'bottom' === $row_name ? 'zola_header_bottom_nav_' : 'zola_header_nav_' );
+			$nav_style = zola_sanitize_header_nav_style( get_theme_mod( $nav_settings_prefix . 'style', 'plain' ) );
+			$row_class .= ' site-header-builder__row--nav-' . sanitize_html_class( $nav_style );
+			if ( wp_validate_boolean( get_theme_mod( $nav_settings_prefix . 'uppercase', false ) ) ) {
+				$row_class .= ' site-header-builder__row--nav-uppercase';
+			}
+			if ( wp_validate_boolean( get_theme_mod( $nav_settings_prefix . 'overlay', false ) ) ) {
+				$row_class .= ' site-header-builder__row--nav-overlay';
+			}
+			if ( 'top' === $row_name ) {
+				$top_bar_text_mode = zola_sanitize_header_text_mode( get_theme_mod( 'zola_top_bar_text_mode', 'light' ) );
+				$row_class .= ' site-header-builder__row--text-' . sanitize_html_class( $top_bar_text_mode );
+			}
 			$inner_class = 'site-header-builder__inner';
 			if ( 'main' === $row_name ) {
 				$inner_class .= ' site-header__inner';
@@ -250,34 +263,104 @@ function zola_share_links_visible(): bool {
 		) );
 }
 
-/** Keep the site logo eager and exclude it from LiteSpeed's image lazy loading. */
-function zola_header_logo_image_attributes( array $attributes, WP_Post $attachment ): array {
-	if ( absint( get_theme_mod( 'custom_logo', 0 ) ) !== absint( $attachment->ID ) ) {
-		return $attributes;
-	}
-
-	$attributes['loading']       = 'eager';
-	$attributes['decoding']      = 'async';
-	$attributes['data-no-lazy']  = '1';
-	return $attributes;
-}
-
 function zola_site_brand( bool $footer = false ): void {
-	$brand_class = $footer ? 'site-brand site-brand--footer' : 'site-brand';
-	if ( has_custom_logo() ) {
-		if ( ! $footer ) {
-			add_filter( 'wp_get_attachment_image_attributes', 'zola_header_logo_image_attributes', 10, 2 );
-		}
-		the_custom_logo();
-		if ( ! $footer ) {
-			remove_filter( 'wp_get_attachment_image_attributes', 'zola_header_logo_image_attributes', 10 );
-		}
-		return;
-	}
 	$site_name = get_bloginfo( 'name' );
 	$tagline   = get_bloginfo( 'description' );
+	$logo_link = trim( (string) get_theme_mod( 'zola_logo_link', '' ) );
+	$logo_href = ! $footer && '' !== $logo_link ? $logo_link : home_url( '/' );
+
+	if ( $footer ) {
+		if ( has_custom_logo() ) {
+			the_custom_logo();
+			return;
+		}
+		$brand_class = 'site-brand site-brand--footer';
+	} else {
+		$logo_position = zola_sanitize_logo_position( get_theme_mod( 'zola_logo_position', 'left' ) );
+		$brand_class   = 'site-brand site-brand--header site-brand--position-' . $logo_position;
+	}
+
+	if ( ! $footer && has_custom_logo() ) {
+		$logo_id       = absint( get_theme_mod( 'custom_logo', 0 ) );
+		$light_logo_id = absint( get_theme_mod( 'zola_logo_light_image', 0 ) );
+		$header_mode   = zola_sanitize_header_text_mode( get_theme_mod( 'zola_header_text_mode', 'dark' ) );
+		$is_transparent_home = 'page' === get_option( 'show_on_front' )
+			&& is_front_page()
+			&& get_theme_mod( 'zola_transparent_header', true );
+		$use_light_logo = $light_logo_id && ( 'light' === $header_mode || $is_transparent_home );
+		$show_site_info = wp_validate_boolean( get_theme_mod( 'zola_logo_show_site_info', false ) );
+		$container_width = zola_sanitize_logo_container_width( get_theme_mod( 'zola_logo_container_width', 42 ) );
+		$logo_padding    = zola_sanitize_logo_padding( get_theme_mod( 'zola_logo_padding', 0 ) );
+		$max_width       = trim( (string) get_theme_mod( 'zola_logo_max_width', '' ) );
+		$style           = sprintf(
+			'--zola-logo-container-width:%1$d%%;--zola-logo-padding:%2$dpx;',
+			$container_width,
+			$logo_padding
+		);
+		if ( '' !== $max_width ) {
+			$style .= sprintf( '--zola-logo-max-width:%dpx;', min( 1200, max( 24, absint( $max_width ) ) ) );
+		}
+
+		$logo_alt = trim( (string) get_post_meta( $logo_id, '_wp_attachment_image_alt', true ) );
+		if ( '' === $logo_alt ) {
+			$logo_alt = $site_name ? $site_name : esc_html__( 'Site logo', 'zola' );
+		}
+		$render_logo = static function ( int $attachment_id, string $class, bool $eager ) use ( $logo_alt ): string {
+			$attributes = array(
+				'class'    => $class,
+				'alt'      => $logo_alt,
+				'decoding' => 'async',
+				'loading'  => $eager ? 'eager' : 'lazy',
+			);
+			if ( $eager ) {
+				$attributes['data-no-lazy']  = '1';
+			}
+
+			return (string) wp_get_attachment_image( $attachment_id, 'full', false, $attributes );
+		};
+
+		$standard_logo = $render_logo(
+			$logo_id,
+			'custom-logo site-brand__logo site-brand__logo--standard',
+			! $use_light_logo
+		);
+		if ( '' !== $standard_logo ) {
+			$brand_classes = $brand_class . ( $light_logo_id ? ' site-brand--has-light-logo' : '' );
+			printf( '<a class="%1$s" href="%2$s" style="%3$s" rel="home">', esc_attr( $brand_classes ), esc_url( $logo_href ), esc_attr( $style ) );
+			echo '<span class="site-brand__logos">' . $standard_logo; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Image HTML is generated by wp_get_attachment_image().
+			if ( $light_logo_id ) {
+				$light_logo = $render_logo(
+					$light_logo_id,
+					'custom-logo site-brand__logo site-brand__logo--light',
+					(bool) $use_light_logo
+				);
+				echo $light_logo; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Image HTML is generated by wp_get_attachment_image().
+			}
+			echo '</span>';
+			if ( $show_site_info ) {
+				echo '<span class="site-brand__copy site-brand__copy--below">';
+				if ( $site_name ) {
+					echo '<strong>' . esc_html( $site_name ) . '</strong>';
+				}
+				if ( $tagline ) {
+					echo '<small>' . esc_html( $tagline ) . '</small>';
+				}
+				echo '</span>';
+			}
+			echo '</a>';
+			return;
+		}
+	}
+	$style     = '';
+	if ( ! $footer ) {
+		$style = sprintf(
+			' style="--zola-logo-container-width:%1$d%%;--zola-logo-padding:%2$dpx;"',
+			zola_sanitize_logo_container_width( get_theme_mod( 'zola_logo_container_width', 42 ) ),
+			zola_sanitize_logo_padding( get_theme_mod( 'zola_logo_padding', 0 ) )
+		);
+	}
 	?>
-	<a class="<?php echo esc_attr( $brand_class ); ?>" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+	<a class="<?php echo esc_attr( $brand_class ); ?>" href="<?php echo esc_url( $logo_href ); ?>"<?php echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Contains only bounded integer CSS values. ?> rel="home">
 		<span class="site-brand__copy">
 			<strong><?php echo esc_html( $site_name ? $site_name : 'Zola' ); ?></strong>
 			<?php if ( $tagline ) : ?><small><?php echo esc_html( $tagline ); ?></small><?php endif; ?>
