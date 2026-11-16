@@ -1,0 +1,19 @@
+/* Shared RTL behavior only. Demo-specific RTL belongs with that demo. */
+body {
+	direction: rtl;
+}
+
+.site-header__inner,
+.site-nav,
+.site-nav .menu,
+.site-footer__main,
+.site-footer__bottom {
+	direction: rtl;
+}
+
+.site-nav .sub-menu,
+.zola-menu__list .sub-menu,
+.zola-menu .menu .children {
+	inset-inline-start: auto;
+	inset-inline-end: 0;
+}
