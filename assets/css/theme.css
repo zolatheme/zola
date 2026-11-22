@@ -2068,6 +2068,142 @@ body.zola-home .site-main--full-width {
 	border-color: var(--zola-border);
 }
 
+/* Cookie notice */
+.zola-cookie-notice {
+	position: fixed;
+	z-index: 9999;
+	inset: auto 20px 20px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px 24px;
+	width: min(100% - 40px, 1120px);
+	margin-inline: auto;
+	padding: 18px 22px;
+	border-radius: 6px;
+	background: var(--zola-cookie-background, #202124);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.zola-cookie-notice[hidden] {
+	display: none;
+}
+
+.zola-cookie-notice--light {
+	color: #fff;
+}
+
+.zola-cookie-notice--dark {
+	color: #202124;
+}
+
+.zola-cookie-notice__content {
+	min-width: 0;
+}
+
+.zola-cookie-notice__content p {
+	margin: 0;
+}
+
+.zola-cookie-notice__content p + p {
+	margin-top: 8px;
+}
+
+.zola-cookie-notice__content a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.zola-cookie-notice__actions {
+	display: flex;
+	flex: 0 0 auto;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+.zola-cookie-notice .zola-cookie-notice__button {
+	box-sizing: border-box;
+	display: inline-flex;
+	min-height: 38px;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 14px;
+	border: 1px solid currentColor;
+	border-radius: 4px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.zola-cookie-notice--default .zola-cookie-notice__button,
+.zola-cookie-notice--shade .zola-cookie-notice__button,
+.zola-cookie-notice--bevel .zola-cookie-notice__button,
+.zola-cookie-notice--gloss .zola-cookie-notice__button {
+	border-color: var(--zola-accent, #2563eb);
+	background-color: var(--zola-accent, #2563eb);
+	color: #fff;
+}
+
+.zola-cookie-notice--underline .zola-cookie-notice__button,
+.zola-cookie-notice--link .zola-cookie-notice__button {
+	border-color: transparent;
+}
+
+.zola-cookie-notice--underline .zola-cookie-notice__button {
+	text-decoration: underline;
+	text-underline-offset: .2em;
+}
+
+.zola-cookie-notice--shade .zola-cookie-notice__button {
+	background-image: linear-gradient(rgba(0, 0, 0, .08), rgba(0, 0, 0, .08));
+}
+
+.zola-cookie-notice--bevel .zola-cookie-notice__button {
+	box-shadow: inset 0 -2px rgba(0, 0, 0, .18);
+}
+
+.zola-cookie-notice--gloss .zola-cookie-notice__button {
+	background-image: linear-gradient(rgba(255, 255, 255, .24), rgba(255, 255, 255, 0));
+}
+
+.zola-cookie-notice--link .zola-cookie-notice__button:hover {
+	text-decoration: underline;
+	text-underline-offset: .2em;
+}
+
+.zola-cookie-notice .zola-cookie-notice__button:hover {
+	opacity: .8;
+}
+
+.zola-cookie-notice .zola-cookie-notice__button:focus-visible,
+.zola-cookie-notice__content a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 3px;
+}
+
+@media (max-width: 782px) {
+	.zola-cookie-notice {
+		inset: auto 12px 12px;
+		width: calc(100% - 24px);
+		flex-direction: column;
+		align-items: stretch;
+		padding: 16px;
+	}
+
+	.zola-cookie-notice__actions {
+		flex: 0 1 auto;
+	}
+}
+
 /* Elementor owns page layout and site-wide typography/color controls. */
 .zola-canvas {
 	background: transparent;

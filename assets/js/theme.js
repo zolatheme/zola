@@ -10,6 +10,43 @@
 	const strings = window.ZolaStrings || {};
 	root.classList.add('has-js');
 
+	const cookieNotice = document.querySelector('[data-zola-cookie-notice]');
+	if (cookieNotice) {
+		const storageKey = cookieNotice.dataset.storageKey;
+		const version = cookieNotice.dataset.version;
+		const isPreview = cookieNotice.dataset.preview === '1';
+		let savedChoice = null;
+		try {
+			savedChoice = JSON.parse(window.localStorage.getItem(storageKey) || 'null');
+		} catch (error) {
+			savedChoice = null;
+		}
+		const hasChoice = savedChoice && savedChoice.version === version &&
+			(savedChoice.choice === 'accepted' || savedChoice.choice === 'rejected');
+		cookieNotice.hidden = !isPreview && Boolean(hasChoice);
+		if (hasChoice && !isPreview) {
+			window.dispatchEvent(new CustomEvent('zola:cookie-consent', { detail: savedChoice }));
+		}
+		cookieNotice.querySelectorAll('[data-zola-cookie-choice]').forEach(function (button) {
+			button.addEventListener('click', function () {
+				const choice = button.dataset.zolaCookieChoice;
+				if (choice !== 'accepted' && choice !== 'rejected') {
+					return;
+				}
+				const consent = { version: version, choice: choice };
+				if (!isPreview) {
+					try {
+						window.localStorage.setItem(storageKey, JSON.stringify(consent));
+					} catch (error) {
+						// The notice will be shown again if browser storage is unavailable.
+					}
+					window.dispatchEvent(new CustomEvent('zola:cookie-consent', { detail: consent }));
+				}
+				cookieNotice.hidden = true;
+			});
+		});
+	}
+
 	const menuToggles = Array.from(document.querySelectorAll('.menu-toggle, [data-zola-menu-toggle]'));
 	const openMenus = new Set();
 

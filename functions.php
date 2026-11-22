@@ -14,6 +14,8 @@ define( 'ZOLA_DIR', get_template_directory() );
 define( 'ZOLA_URI', get_template_directory_uri() );
 
 require_once ZOLA_DIR . '/inc/customizer.php';
+require_once ZOLA_DIR . '/inc/cookie-consent.php';
+require_once ZOLA_DIR . '/inc/internationalization.php';
 require_once ZOLA_DIR . '/inc/template-tags.php';
 require_once ZOLA_DIR . '/inc/site-builder.php';
 require_once ZOLA_DIR . '/inc/admin.php';

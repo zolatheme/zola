@@ -39,6 +39,10 @@
 	--zola-section-icon: "\f102";
 }
 
+#customize-theme-controls #accordion-section-zola_cookie_consent {
+	--zola-section-icon: "\f332";
+}
+
 #customize-theme-controls #accordion-section-zola_share {
 	--zola-section-icon: "\f237";
 }
@@ -58,6 +62,7 @@
 	#accordion-panel-nav_menus,
 	#accordion-panel-widgets,
 	#accordion-section-static_front_page,
+	#accordion-section-zola_cookie_consent,
 	#accordion-section-zola_share,
 	#accordion-section-custom_css
 ) > h3 > button::before {
@@ -83,6 +88,7 @@
 	#accordion-panel-nav_menus,
 	#accordion-panel-widgets,
 	#accordion-section-static_front_page,
+	#accordion-section-zola_cookie_consent,
 	#accordion-section-zola_share,
 	#accordion-section-custom_css
 ) > h3 > button {
@@ -101,6 +107,7 @@
 		#accordion-panel-nav_menus,
 		#accordion-panel-widgets,
 		#accordion-section-static_front_page,
+		#accordion-section-zola_cookie_consent,
 		#accordion-section-zola_share,
 		#accordion-section-custom_css
 	) > h3 > button::before {

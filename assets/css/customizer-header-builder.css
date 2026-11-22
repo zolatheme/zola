@@ -84,6 +84,18 @@
 	border-bottom: 1px solid #dcdcde;
 }
 
+#sub-accordion-section-zola_cookie_consent .customize-control {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 12px 0;
+	border-bottom: 1px solid #dcdcde;
+}
+
+#sub-accordion-section-zola_cookie_consent textarea {
+	width: 100%;
+	min-height: 120px;
+}
+
 #sub-accordion-section-colors #customize-control-zola_style_colors_main_group,
 #sub-accordion-section-colors #customize-control-zola_style_colors_type_group,
 #sub-accordion-section-colors #customize-control-zola_style_colors_links_group,
@@ -662,30 +674,20 @@
 	background: #dfe7ee;
 }
 
-.zola-header-visual-choice__abc {
+.zola-header-visual-choice--text-color .zola-header-visual-choice__sample {
+	box-sizing: border-box;
+	width: 76px;
+	height: 57px;
+	min-height: 57px;
+	padding: 1px;
+	border-radius: 6px;
+}
+
+.zola-header-visual-choice--text-color .zola-header-visual-choice__sample img {
 	display: block;
-	font-size: 22px;
-	line-height: 1;
-}
-
-.zola-header-visual-choice__option--light .zola-header-visual-choice__sample {
-	width: 54px;
-	height: 40px;
-	min-height: 40px;
-	border: 2px solid #83b9df;
-	border-radius: 9px;
-	background: #83b9df;
-	color: #fff;
-}
-
-.zola-header-visual-choice__option--dark .zola-header-visual-choice__sample {
-	width: 54px;
-	height: 40px;
-	min-height: 40px;
-	border: 2px solid #83b9df;
-	border-radius: 9px;
-	background: #fff;
-	color: #3194d4;
+	width: 70px;
+	height: 51px;
+	object-fit: contain;
 }
 
 .zola-header-visual-choice--header-width .zola-header-visual-choice__option > input:checked + .zola-header-visual-choice__sample,
@@ -702,21 +704,6 @@
 .zola-header-visual-choice--dropdown-link-style .zola-header-visual-choice__option > input:checked + .zola-header-visual-choice__sample {
 	border-color: var(--zola-builder-accent);
 	box-shadow: 0 2px 8px rgba(26, 39, 52, .14);
-}
-
-.zola-header-visual-choice--text-color .zola-header-visual-choice__option--light > input:checked + .zola-header-visual-choice__sample {
-	background: #83b9df;
-	color: #fff;
-}
-
-.zola-header-visual-choice--text-color .zola-header-visual-choice__option--dark > input:checked + .zola-header-visual-choice__sample {
-	background: #fff;
-	color: #3194d4;
-}
-
-.zola-header-visual-choice--text-color .zola-header-visual-choice__abc {
-	font-size: 26px;
-	font-weight: 300;
 }
 
 .zola-header-visual-choice--nav-style .zola-header-visual-choice__options {

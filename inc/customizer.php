@@ -138,6 +138,32 @@ function zola_sanitize_header_text_mode( mixed $value ): string {
 	return in_array( $value, array( 'light', 'dark' ), true ) ? $value : 'dark';
 }
 
+/** Available presentation styles for the cookie notice buttons. */
+function zola_cookie_button_style_choices(): array {
+	return array(
+		'default'   => esc_html__( 'Default', 'zola' ),
+		'outline'   => esc_html__( 'Outline', 'zola' ),
+		'underline' => esc_html__( 'Underline', 'zola' ),
+		'shade'     => esc_html__( 'Shade', 'zola' ),
+		'bevel'     => esc_html__( 'Bevel', 'zola' ),
+		'gloss'     => esc_html__( 'Gloss', 'zola' ),
+		'link'      => esc_html__( 'Link', 'zola' ),
+	);
+}
+
+function zola_sanitize_cookie_button_style( mixed $value ): string {
+	if ( 'filled' === $value ) {
+		return 'default';
+	}
+	return is_string( $value ) && array_key_exists( $value, zola_cookie_button_style_choices() ) ? $value : 'outline';
+}
+add_filter( 'theme_mod_zola_cookie_button_style', 'zola_sanitize_cookie_button_style' );
+
+/** Default notice copy; browsing the site alone is not treated as consent. */
+function zola_cookie_notice_default_text(): string {
+	return __( 'We use cookies to improve your experience. Please choose whether to accept or reject optional cookies.', 'zola' );
+}
+
 function zola_sanitize_header_nav_style( mixed $value ): string {
 	$styles = array( 'plain', 'underline', 'overline', 'divider', 'pills', 'fill', 'outline', 'bold', 'compact', 'highlight', 'vertical', 'tabs', 'double', 'shadow', 'chevron' );
 	return in_array( $value, $styles, true ) ? $value : 'plain';
@@ -815,6 +841,10 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 			'description' => esc_html__( 'These archive settings apply to portfolio or project post types registered by your portfolio plugin.', 'zola' ),
 			'priority'    => 90,
 		),
+		'zola_cookie_consent' => array(
+			'title'    => esc_html__( 'Cookie Consent', 'zola' ),
+			'priority' => 125,
+		),
 		'zola_share' => array(
 			'title'       => esc_html__( 'Share', 'zola' ),
 			'description' => esc_html__( 'Choose which sharing links appear on standard blog posts.', 'zola' ),
@@ -958,7 +988,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 									<?php if ( 'header-width' === $this->visual_type ) : ?>
 										<span class="zola-header-visual-choice__page"><i></i></span>
 									<?php elseif ( 'text-color' === $this->visual_type ) : ?>
-										<span class="zola-header-visual-choice__abc">Abc</span>
+										<img src="<?php echo esc_url( ZOLA_URI . '/assets/images/' . ( 'light' === $value ? 'text-light.svg' : 'text-dark.svg' ) ); ?>" width="70" height="51" alt="" decoding="async">
 									<?php elseif ( 'dropdown-link-style' === $this->visual_type ) : ?>
 										<?php
 										$dropdown_icon_index = array_search( $value, array( 'highlight', 'divider', 'pill' ), true );
@@ -1030,6 +1060,62 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 			'priority' => 'zola_header' === $section_id ? 1 : 10,
 		) ) );
 	}
+	zola_add_customizer_control( $wp_customize, 'zola_cookie_consent', 'zola_cookie_notice_enabled', array(
+		'label'    => esc_html__( 'Enable cookie notice', 'zola' ),
+		'type'     => 'checkbox',
+		'default'  => false,
+		'sanitize' => 'wp_validate_boolean',
+		'priority' => 10,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_cookie_consent', 'zola_cookie_notice_text', array(
+		'label'       => esc_html__( 'Custom cookie text', 'zola' ),
+		'description' => esc_html__( 'Add HTML or a shortcode here.', 'zola' ),
+		'type'        => 'textarea',
+		'default'     => zola_cookie_notice_default_text(),
+		'sanitize'    => 'wp_kses_post',
+		'input_attrs' => array( 'rows' => 6 ),
+		'priority'    => 20,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_cookie_consent', 'zola_cookie_privacy_page', array(
+		'label'       => esc_html__( 'Privacy policy page', 'zola' ),
+		'description' => esc_html__( 'Show a button linked to the privacy policy page.', 'zola' ),
+		'type'        => 'dropdown-pages',
+		'default'     => absint( get_option( 'wp_page_for_privacy_policy', 0 ) ),
+		'sanitize'    => 'absint',
+		'priority'    => 30,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_cookie_consent', 'zola_cookie_button_style', array(
+		'label'    => esc_html__( 'Button style', 'zola' ),
+		'type'     => 'select',
+		'default'  => 'outline',
+		'sanitize' => 'zola_sanitize_cookie_button_style',
+		'choices'  => zola_cookie_button_style_choices(),
+		'priority' => 40,
+	) );
+	zola_add_header_visual_control( $wp_customize, 'zola_cookie_text_color', array(
+		'label'       => esc_html__( 'Text color', 'zola' ),
+		'default'     => 'light',
+		'sanitize'    => 'zola_sanitize_header_text_mode',
+		'visual_type' => 'text-color',
+		'choices'     => array( 'light' => esc_html__( 'Light', 'zola' ), 'dark' => esc_html__( 'Dark', 'zola' ) ),
+		'priority'    => 50,
+		'section'     => 'zola_cookie_consent',
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_cookie_consent', 'zola_cookie_background_color', array(
+		'label'    => esc_html__( 'Background color', 'zola' ),
+		'type'     => 'color',
+		'default'  => '#202124',
+		'sanitize' => 'sanitize_hex_color',
+		'priority' => 60,
+	) );
+	zola_add_customizer_control( $wp_customize, 'zola_cookie_consent', 'zola_cookie_notice_version', array(
+		'label'       => esc_html__( 'Version', 'zola' ),
+		'description' => esc_html__( 'Change the version to show the notice again to visitors who have already made a choice.', 'zola' ),
+		'type'        => 'text',
+		'default'     => '1',
+		'sanitize'    => 'sanitize_text_field',
+		'priority'    => 70,
+	) );
 
 	// Dropdown presentation controls.
 	zola_add_header_group_control( $wp_customize, 'zola_dropdown_all_group', esc_html__( 'All Dropdowns', 'zola' ), 5, 'zola_header_dropdown' );
@@ -1110,7 +1196,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'label'       => esc_html__( 'Text Color', 'zola' ),
 		'default'     => 'dark',
 		'sanitize'    => 'zola_sanitize_header_text_mode',
-		'visual_type' => 'scale',
+		'visual_type' => 'text-color',
 		'choices'     => array( 'dark' => esc_html__( 'Dark', 'zola' ), 'light' => esc_html__( 'Light', 'zola' ) ),
 		'priority'    => 23,
 		'section'     => 'zola_header_dropdown',
