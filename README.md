@@ -43,6 +43,14 @@
 - **Share:** เปิด/ปิด Facebook, X, LinkedIn และ Copy link บนบทความ
 - **Widgets:** พื้นที่ Blog sidebar จะแสดงเมื่อมี widgets และเปิดตัวเลือก sidebar ในหมวด Blog
 
+## หลายภาษาและการแปลธีม
+
+- ธีมใช้ text domain `zola` และมีไฟล์แม่แบบคำแปล `languages/zola.pot`; ใช้ **Loco Translate → Themes → Zola** เพื่อสร้าง/แก้คำแปลของข้อความที่เขียนไว้ในไฟล์ธีม แล้วบันทึกไฟล์ภาษาในตำแหน่ง Custom ของ Loco เพื่อไม่ให้ถูกเขียนทับเมื่ออัปเดตธีม
+- เมื่อติดตั้ง Polylang ให้เพิ่มภาษาที่ **Languages** และสร้าง/เชื่อมคำแปลของหน้า โพสต์ เมนู และ Elementor templates ตามภาษาที่ต้องการ; เมนูภาษาบนมือถือจะแสดงเมื่อเพิ่มโมดูล Languages ใน Header Builder
+- ข้อความที่กรอกใน Customizer เช่น CTA, copyright, HTML ใน Header, ข้อความ Cookie Consent และ label ต่าง ๆ จะถูกลงทะเบียนใน **Languages → Translations** กลุ่ม **Zola Theme** เมื่อ Polylang ทำงาน
+- หากเพิ่มข้อความใน Zola Child ให้ใช้ text domain `zola-child` และเก็บไฟล์คำแปลไว้ใน `zola-child/languages`; ข้อความเดิมของธีมแม่ให้แปลใน Zola ด้วย domain `zola`
+- Loco Translate แปลข้อความของธีมที่อยู่ในโค้ด ส่วน Polylang จัดการเนื้อหาแต่ละภาษาและข้อความที่ตั้งค่าผ่าน Customizer; คำแปลใน Polylang สำหรับข้อความ Customizer จะไม่ถูกแทนที่ด้วยข้อความที่ Loco แปล
+
 การตั้งค่าส่วนกลางของ Elementor เช่น global colors, typography และ spacing อยู่ใน Elementor Site Settings แยกต่างหาก
 
 ## จุดเชื่อมต่อ Hero / image slide

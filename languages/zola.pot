@@ -1,0 +1,2213 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Zola 1.0.0\n"
+"Report-Msgid-Bugs-To: https://zairosoft.com\n"
+"POT-Creation-Date: 2026-11-22 11:56+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: 404.php:4
+msgid "Page not found"
+msgstr ""
+
+#: 404.php:4
+msgid "Let’s find a better direction."
+msgstr ""
+
+#: 404.php:4
+msgid "The page may have moved or the link may be out of date."
+msgstr ""
+
+#: 404.php:4
+msgid "Back to home"
+msgstr ""
+
+#: archive.php:5 inc/customizer.php:840 inc/customizer.php:2319
+msgid "Portfolio"
+msgstr ""
+
+#: archive.php:5
+msgid "Archive"
+msgstr ""
+
+#: archive.php:13 index.php:18
+msgid "Newer"
+msgstr ""
+
+#: archive.php:13 index.php:18
+msgid "Older"
+msgstr ""
+
+#: archive.php:14
+msgid "Nothing published here yet."
+msgstr ""
+
+#: footer.php:16 functions.php:58
+msgid "Footer navigation"
+msgstr ""
+
+#: footer.php:33
+msgid "Back to top"
+msgstr ""
+
+#: functions.php:55 inc/elementor/class-zola-menu-widget.php:45
+#: inc/elementor/class-zola-menu-widget.php:110 inc/template-tags.php:317
+msgid "Primary navigation"
+msgstr ""
+
+#: functions.php:56
+msgid "Secondary navigation"
+msgstr ""
+
+#: functions.php:57
+msgid "Top Bar navigation"
+msgstr ""
+
+#: functions.php:66 inc/template-tags.php:479
+msgid "Blog sidebar"
+msgstr ""
+
+#: functions.php:68
+msgid ""
+"Widgets shown beside blog archives and single posts when enabled in the Blog "
+"Customizer section."
+msgstr ""
+
+#: functions.php:214
+msgid "Open navigation"
+msgstr ""
+
+#: functions.php:215
+msgid "Close navigation"
+msgstr ""
+
+#: functions.php:216
+msgid "Open submenu"
+msgstr ""
+
+#: functions.php:217
+msgid "Close submenu"
+msgstr ""
+
+#: functions.php:218
+msgid "Copied"
+msgstr ""
+
+#: functions.php:365 inc/admin.php:10 inc/admin.php:11 inc/admin.php:167
+msgid "Zola"
+msgstr ""
+
+#: header.php:12
+msgid "Skip to content"
+msgstr ""
+
+#: inc/admin.php:18 inc/admin.php:69
+msgid "Theme Options"
+msgstr ""
+
+#: inc/admin.php:19 inc/admin.php:193 inc/customizer.php:2642
+#: inc/site-builder.php:74
+msgid "Header Builder"
+msgstr ""
+
+#: inc/admin.php:20 inc/admin.php:199 inc/site-builder.php:45
+msgid "Site Builder"
+msgstr ""
+
+#: inc/admin.php:21
+msgid "Features"
+msgstr ""
+
+#: inc/admin.php:22 inc/admin.php:124
+msgid "System Status"
+msgstr ""
+
+#: inc/admin.php:23 inc/admin.php:142
+msgid "Help & Guides"
+msgstr ""
+
+#: inc/admin.php:70
+msgid "Open the right editor for each shared site setting."
+msgstr ""
+
+#: inc/admin.php:72
+msgid "Global Design"
+msgstr ""
+
+#: inc/admin.php:72
+msgid ""
+"Colors, typography, widths, blog layout and theme header/footer settings."
+msgstr ""
+
+#: inc/admin.php:72 inc/admin.php:147 inc/admin.php:189
+msgid "Open Customizer"
+msgstr ""
+
+#: inc/admin.php:73
+msgid "Header & Footer"
+msgstr ""
+
+#: inc/admin.php:73
+msgid ""
+"Configure one site-wide header in Header Builder and assign an Elementor "
+"footer in Site Builder."
+msgstr ""
+
+#: inc/admin.php:73 inc/admin.php:146 inc/admin.php:201
+msgid "Open Site Builder"
+msgstr ""
+
+#: inc/admin.php:74
+msgid "WordPress Menus"
+msgstr ""
+
+#: inc/admin.php:74
+msgid ""
+"Create menus here, then choose them in the Zola Navigation Menu widget or "
+"theme locations."
+msgstr ""
+
+#: inc/admin.php:74
+msgid "Manage Menus"
+msgstr ""
+
+#: inc/admin.php:75
+msgid "Elementor Templates"
+msgstr ""
+
+#: inc/admin.php:75
+msgid ""
+"Create and edit Saved Templates for use across your pages and site parts."
+msgstr ""
+
+#: inc/admin.php:75
+msgid "Manage Templates"
+msgstr ""
+
+#: inc/admin.php:87
+msgid "Elementor page building"
+msgstr ""
+
+#: inc/admin.php:87
+msgid ""
+"Build page content and layouts with Elementor. The theme does not insert a "
+"fixed business homepage."
+msgstr ""
+
+#: inc/admin.php:88
+msgid "Header and Footer"
+msgstr ""
+
+#: inc/admin.php:88
+msgid ""
+"Build one responsive site-wide header with Header Builder and assign a "
+"global Elementor Footer from the Site Builder."
+msgstr ""
+
+#: inc/admin.php:89
+msgid "Theme widgets"
+msgstr ""
+
+#: inc/admin.php:89
+msgid "Use the Hero and Navigation Menu widgets in Elementor templates."
+msgstr ""
+
+#: inc/admin.php:90
+msgid "Blog and archive layouts"
+msgstr ""
+
+#: inc/admin.php:90
+msgid ""
+"Choose grid, list or cover cards, columns, excerpts, metadata and sidebar "
+"settings."
+msgstr ""
+
+#: inc/admin.php:91
+msgid "WooCommerce support"
+msgstr ""
+
+#: inc/admin.php:91
+msgid ""
+"Use the shared theme layout with WooCommerce product grids and gallery "
+"support."
+msgstr ""
+
+#: inc/admin.php:92
+msgid "Performance and accessibility"
+msgstr ""
+
+#: inc/admin.php:92
+msgid ""
+"Deferred lightweight interactions, responsive images, reduced-motion support "
+"and keyboard-friendly navigation."
+msgstr ""
+
+#: inc/admin.php:96
+msgid "Zola Features"
+msgstr ""
+
+#: inc/admin.php:97
+msgid "Theme-wide features available before adding any demo design."
+msgstr ""
+
+#: inc/admin.php:114 inc/admin.php:120
+msgid "Not active"
+msgstr ""
+
+#: inc/admin.php:116
+msgid "Theme version"
+msgstr ""
+
+#: inc/admin.php:117
+msgid "WordPress"
+msgstr ""
+
+#: inc/admin.php:118
+msgid "PHP"
+msgstr ""
+
+#: inc/admin.php:119
+msgid "Elementor"
+msgstr ""
+
+#: inc/admin.php:120 inc/customizer.php:2406
+msgid "WooCommerce"
+msgstr ""
+
+#: inc/admin.php:125
+msgid "Review the theme environment and optional integrations."
+msgstr ""
+
+#: inc/admin.php:128
+msgid "Ready"
+msgstr ""
+
+#: inc/admin.php:128
+msgid "Check required"
+msgstr ""
+
+#: inc/admin.php:143
+msgid "Quick steps for building and managing a Zola site."
+msgstr ""
+
+#: inc/admin.php:145
+msgid "Build a page"
+msgstr ""
+
+#: inc/admin.php:145
+msgid ""
+"Create a page, choose the Zola Full Width template if needed, then edit its "
+"content with Elementor."
+msgstr ""
+
+#: inc/admin.php:145
+msgid "Open Pages"
+msgstr ""
+
+#: inc/admin.php:146
+msgid "Build the Header and Footer"
+msgstr ""
+
+#: inc/admin.php:146
+msgid ""
+"Configure the single site-wide header with Header Builder. Design and assign "
+"the global footer in Elementor Site Builder."
+msgstr ""
+
+#: inc/admin.php:147
+msgid "Set shared styles"
+msgstr ""
+
+#: inc/admin.php:147
+msgid ""
+"Use the Customizer for theme colors, typography, blog layouts and header/"
+"footer options. Use Elementor Site Settings for Elementor global styles."
+msgstr ""
+
+#: inc/admin.php:162 inc/admin.php:227
+msgid "Edit homepage with Elementor"
+msgstr ""
+
+#: inc/admin.php:162 inc/admin.php:227
+msgid "Edit homepage"
+msgstr ""
+
+#: inc/admin.php:163
+msgid "Create an Elementor page"
+msgstr ""
+
+#: inc/admin.php:163 inc/admin.php:170 inc/site-builder.php:56
+msgid "Find Elementor"
+msgstr ""
+
+#: inc/admin.php:168
+msgid ""
+"Your Elementor theme center. Build pages in Elementor and manage shared site "
+"settings here."
+msgstr ""
+
+#: inc/admin.php:170
+msgid "Install and activate Elementor to edit page layouts and site templates."
+msgstr ""
+
+#: inc/admin.php:175
+msgid "Homepage"
+msgstr ""
+
+#: inc/admin.php:177
+#, php-format
+msgid "Current homepage: %s"
+msgstr ""
+
+#: inc/admin.php:178
+msgid "This page is using Elementor."
+msgstr ""
+
+#: inc/admin.php:178
+msgid "Open this page in Elementor to start building its content."
+msgstr ""
+
+#: inc/admin.php:178
+msgid "Activate Elementor to edit this page with Elementor."
+msgstr ""
+
+#: inc/admin.php:180
+msgid ""
+"Your site currently shows the posts feed. Create a Home page in Elementor, "
+"then assign it as the static homepage in Settings → Reading."
+msgstr ""
+
+#: inc/admin.php:183
+msgid "Homepage settings"
+msgstr ""
+
+#: inc/admin.php:187
+msgid "Global design"
+msgstr ""
+
+#: inc/admin.php:188
+msgid ""
+"Set theme colors, typography, content width, button shape, blog layout and "
+"header options."
+msgstr ""
+
+#: inc/admin.php:194
+msgid ""
+"Arrange your logo, menu, buttons and other elements across header rows for "
+"desktop and mobile."
+msgstr ""
+
+#: inc/admin.php:195
+msgid "Customize header"
+msgstr ""
+
+#: inc/admin.php:200
+msgid ""
+"Configure one responsive site-wide header with Header Builder. Assign the "
+"global footer template in Elementor Site Builder."
+msgstr ""
+
+#: inc/admin.php:205
+msgid "Elementor widgets"
+msgstr ""
+
+#: inc/admin.php:206
+msgid ""
+"Add Hero and Navigation Menu widgets from the Zola category to your "
+"Elementor templates."
+msgstr ""
+
+#: inc/admin.php:207
+msgid ""
+"Navigation Menu displays WordPress menus; Hero can connect to compatible "
+"image or slide plugins."
+msgstr ""
+
+#: inc/admin.php:211
+msgid ""
+"Pages and page sections are built with Elementor. Standard WordPress posts "
+"remain available for the blog."
+msgstr ""
+
+#: inc/admin.php:228
+msgid "Set up Elementor homepage"
+msgstr ""
+
+#: inc/admin.php:241
+msgid "You do not have permission to create pages."
+msgstr ""
+
+#: inc/admin.php:255
+msgid "Home"
+msgstr ""
+
+#: inc/cookie-consent.php:26
+msgid "Cookie notice"
+msgstr ""
+
+#: inc/cookie-consent.php:36
+msgid "Privacy policy"
+msgstr ""
+
+#: inc/cookie-consent.php:38
+msgid "Reject"
+msgstr ""
+
+#: inc/cookie-consent.php:39
+msgid "Accept"
+msgstr ""
+
+#: inc/customizer.php:11
+msgid "System sans serif"
+msgstr ""
+
+#: inc/customizer.php:28
+msgid "Same as Base Text Font"
+msgstr ""
+
+#: inc/customizer.php:62 inc/customizer.php:144 inc/customizer.php:1274
+#: inc/customizer.php:1794 inc/customizer.php:1810 inc/customizer.php:1994
+msgid "Default"
+msgstr ""
+
+#: inc/customizer.php:64
+msgid "regular"
+msgstr ""
+
+#: inc/customizer.php:145 inc/customizer.php:183 inc/customizer.php:1795
+msgid "Outline"
+msgstr ""
+
+#: inc/customizer.php:146 inc/customizer.php:178 inc/customizer.php:1796
+msgid "Underline"
+msgstr ""
+
+#: inc/customizer.php:147 inc/customizer.php:1797
+msgid "Shade"
+msgstr ""
+
+#: inc/customizer.php:148 inc/customizer.php:1798
+msgid "Bevel"
+msgstr ""
+
+#: inc/customizer.php:149 inc/customizer.php:1799
+msgid "Gloss"
+msgstr ""
+
+#: inc/customizer.php:150 inc/customizer.php:959 inc/customizer.php:1823
+msgid "Link"
+msgstr ""
+
+#: inc/customizer.php:164
+msgid ""
+"We use cookies to improve your experience. Please choose whether to accept "
+"or reject optional cookies."
+msgstr ""
+
+#: inc/customizer.php:174 inc/customizer.php:1781 inc/customizer.php:2077
+msgid "Plain"
+msgstr ""
+
+#: inc/customizer.php:175 inc/customizer.php:1189
+msgid "Divider"
+msgstr ""
+
+#: inc/customizer.php:176 inc/elementor/class-zola-hero-widget.php:97
+msgid "Compact"
+msgstr ""
+
+#: inc/customizer.php:177
+msgid "Overline"
+msgstr ""
+
+#: inc/customizer.php:179 inc/customizer.php:1188
+msgid "Highlight"
+msgstr ""
+
+#: inc/customizer.php:180
+msgid "Pills"
+msgstr ""
+
+#: inc/customizer.php:181
+msgid "Fill"
+msgstr ""
+
+#: inc/customizer.php:182 inc/elementor/class-zola-menu-widget.php:54
+msgid "Vertical"
+msgstr ""
+
+#: inc/customizer.php:184
+msgid "Bold"
+msgstr ""
+
+#: inc/customizer.php:185
+msgid "Tabs"
+msgstr ""
+
+#: inc/customizer.php:186
+msgid "Double Line"
+msgstr ""
+
+#: inc/customizer.php:187
+msgid "Shadow"
+msgstr ""
+
+#: inc/customizer.php:188
+msgid "Chevron"
+msgstr ""
+
+#: inc/customizer.php:306
+msgid "Search Form"
+msgstr ""
+
+#: inc/customizer.php:307
+msgid "Main Menu"
+msgstr ""
+
+#: inc/customizer.php:308 inc/template-tags.php:263
+msgid "Languages"
+msgstr ""
+
+#: inc/customizer.php:309 inc/customizer.php:785 inc/customizer.php:2637
+#: inc/template-tags.php:440
+msgid "Cart"
+msgstr ""
+
+#: inc/customizer.php:310 inc/customizer.php:780 inc/customizer.php:2636
+#: inc/template-tags.php:433
+msgid "Account"
+msgstr ""
+
+#: inc/customizer.php:311
+msgid "Nav Icon"
+msgstr ""
+
+#: inc/customizer.php:312
+msgid "Secondary Menu"
+msgstr ""
+
+#: inc/customizer.php:313
+msgid "Top Bar Menu"
+msgstr ""
+
+#: inc/customizer.php:443
+msgid "Classic"
+msgstr ""
+
+#: inc/customizer.php:444
+msgid "Logo, navigation and call to action."
+msgstr ""
+
+#: inc/customizer.php:456
+msgid "Centered Logo"
+msgstr ""
+
+#: inc/customizer.php:457
+msgid "Place the logo in the middle with navigation below."
+msgstr ""
+
+#: inc/customizer.php:470
+msgid "Split Navigation"
+msgstr ""
+
+#: inc/customizer.php:471
+msgid "Keep the logo at the left and navigation at the right."
+msgstr ""
+
+#: inc/customizer.php:485
+msgid "Search Header"
+msgstr ""
+
+#: inc/customizer.php:486
+msgid "Give the search field a central place in the header."
+msgstr ""
+
+#: inc/customizer.php:500
+msgid "Store Header"
+msgstr ""
+
+#: inc/customizer.php:501
+msgid "Show account and cart links in a slim top row."
+msgstr ""
+
+#: inc/customizer.php:515
+msgid "Two Row Navigation"
+msgstr ""
+
+#: inc/customizer.php:516
+msgid "Separate the main navigation into its own row."
+msgstr ""
+
+#: inc/customizer.php:530
+msgid "Call to Action"
+msgstr ""
+
+#: inc/customizer.php:531
+msgid "Highlight an action button beside the navigation."
+msgstr ""
+
+#: inc/customizer.php:545
+msgid "Utility Top Bar"
+msgstr ""
+
+#: inc/customizer.php:546
+msgid "Keep account and cart links in a compact utility row."
+msgstr ""
+
+#: inc/customizer.php:559
+msgid "Brand + Search"
+msgstr ""
+
+#: inc/customizer.php:560
+msgid "Place a search field beside the logo and navigation."
+msgstr ""
+
+#: inc/customizer.php:574
+msgid "Minimal"
+msgstr ""
+
+#: inc/customizer.php:575
+msgid "A clean single row with only logo and navigation."
+msgstr ""
+
+#: inc/customizer.php:725
+msgid "Header"
+msgstr ""
+
+#: inc/customizer.php:729 inc/customizer.php:1789
+#: inc/elementor/class-zola-hero-widget.php:128
+#: inc/elementor/class-zola-menu-widget.php:76
+msgid "Style"
+msgstr ""
+
+#: inc/customizer.php:730
+msgid ""
+"Set the shared colors, typography and button shape used across the theme."
+msgstr ""
+
+#: inc/customizer.php:736 inc/customizer.php:2645
+msgid "Presets"
+msgstr ""
+
+#: inc/customizer.php:737
+msgid ""
+"Choose a layout for desktop or mobile, then arrange its elements in Header "
+"Builder."
+msgstr ""
+
+#: inc/customizer.php:742 inc/customizer.php:2612
+msgid "Header Main"
+msgstr ""
+
+#: inc/customizer.php:743
+msgid ""
+"Arrange the main header layout with Header Builder. The builder opens in the "
+"preview area."
+msgstr ""
+
+#: inc/customizer.php:748 inc/customizer.php:2611
+msgid "Top Bar"
+msgstr ""
+
+#: inc/customizer.php:749
+msgid ""
+"Set the Top Bar layout, colors and navigation. Top Bar navigation settings "
+"are independent from Header Main."
+msgstr ""
+
+#: inc/customizer.php:754 inc/customizer.php:2613
+msgid "Header Bottom"
+msgstr ""
+
+#: inc/customizer.php:755
+msgid ""
+"Set the bottom row layout and navigation style. Arrange its elements in "
+"Header Builder."
+msgstr ""
+
+#: inc/customizer.php:760
+msgid "Header Mobile Menu / Overlay"
+msgstr ""
+
+#: inc/customizer.php:765
+msgid "Sticky Header"
+msgstr ""
+
+#: inc/customizer.php:770
+msgid "Dropdown Style"
+msgstr ""
+
+#: inc/customizer.php:775 inc/customizer.php:810 inc/customizer.php:1652
+msgid "Buttons"
+msgstr ""
+
+#: inc/customizer.php:790 inc/customizer.php:2629 search.php:4
+msgid "Search"
+msgstr ""
+
+#: inc/customizer.php:795
+msgid "HTML"
+msgstr ""
+
+#: inc/customizer.php:800
+msgid "Follow Icons"
+msgstr ""
+
+#: inc/customizer.php:805
+msgid "Typography"
+msgstr ""
+
+#: inc/customizer.php:815 inc/customizer.php:860
+msgid "Custom CSS"
+msgstr ""
+
+#: inc/customizer.php:820 index.php:8
+msgid "Blog"
+msgstr ""
+
+#: inc/customizer.php:821
+msgid "Choose how posts appear in blog, search and category listings."
+msgstr ""
+
+#: inc/customizer.php:825 inc/customizer.php:1215 inc/customizer.php:1886
+#: inc/customizer.php:1957 inc/elementor/class-zola-hero-widget.php:87
+#: inc/elementor/class-zola-menu-widget.php:49
+msgid "Layout"
+msgstr ""
+
+#: inc/customizer.php:826
+msgid "Set the shared site and reading widths used by theme templates."
+msgstr ""
+
+#: inc/customizer.php:830 inc/site-builder.php:35
+msgid "Footer"
+msgstr ""
+
+#: inc/customizer.php:831
+msgid ""
+"Build the Footer in Elementor and assign a saved template in Zola → Site "
+"Builder."
+msgstr ""
+
+#: inc/customizer.php:835
+msgid "Pages"
+msgstr ""
+
+#: inc/customizer.php:836
+msgid ""
+"Control the title block shown on standard WordPress pages. Elementor pages "
+"keep their own layout."
+msgstr ""
+
+#: inc/customizer.php:841
+msgid ""
+"These archive settings apply to portfolio or project post types registered "
+"by your portfolio plugin."
+msgstr ""
+
+#: inc/customizer.php:845
+msgid "Cookie Consent"
+msgstr ""
+
+#: inc/customizer.php:849 inc/customizer.php:2350 single.php:17
+msgid "Share"
+msgstr ""
+
+#: inc/customizer.php:850
+msgid "Choose which sharing links appear on standard blog posts."
+msgstr ""
+
+#: inc/customizer.php:861
+msgid "Custom Tablet CSS"
+msgstr ""
+
+#: inc/customizer.php:862
+msgid "Custom Mobile CSS"
+msgstr ""
+
+#: inc/customizer.php:937
+msgid "Clear typography cache"
+msgstr ""
+
+#: inc/customizer.php:1035 inc/customizer.php:2666
+#, php-format
+msgid "Hide %s"
+msgstr ""
+
+#: inc/customizer.php:1035 inc/customizer.php:2665
+#, php-format
+msgid "Show %s"
+msgstr ""
+
+#: inc/customizer.php:1035 inc/customizer.php:2663
+msgid "Shown"
+msgstr ""
+
+#: inc/customizer.php:1035 inc/customizer.php:2664
+msgid "Hidden"
+msgstr ""
+
+#: inc/customizer.php:1047
+msgid ""
+"Use the Header Builder in the preview area to add, remove and position "
+"header elements."
+msgstr ""
+
+#: inc/customizer.php:1048
+msgid ""
+"Use Header Builder in the preview area to arrange elements in the bottom row."
+msgstr ""
+
+#: inc/customizer.php:1049
+msgid ""
+"Choose Mobile / Tablet in Header Builder to arrange the mobile menu and "
+"header elements."
+msgstr ""
+
+#: inc/customizer.php:1050
+msgid ""
+"Add or remove the Account element and choose its position in Header Builder."
+msgstr ""
+
+#: inc/customizer.php:1051
+msgid ""
+"Add or remove the Cart element and choose its position in Header Builder. "
+"Cart requires WooCommerce."
+msgstr ""
+
+#: inc/customizer.php:1052
+msgid ""
+"Add or remove the Search element and choose its position in Header Builder."
+msgstr ""
+
+#: inc/customizer.php:1064
+msgid "Enable cookie notice"
+msgstr ""
+
+#: inc/customizer.php:1071
+msgid "Custom cookie text"
+msgstr ""
+
+#: inc/customizer.php:1072
+msgid "Add HTML or a shortcode here."
+msgstr ""
+
+#: inc/customizer.php:1080
+msgid "Privacy policy page"
+msgstr ""
+
+#: inc/customizer.php:1081
+msgid "Show a button linked to the privacy policy page."
+msgstr ""
+
+#: inc/customizer.php:1088
+msgid "Button style"
+msgstr ""
+
+#: inc/customizer.php:1096 inc/customizer.php:1233
+msgid "Text color"
+msgstr ""
+
+#: inc/customizer.php:1100 inc/customizer.php:1200 inc/customizer.php:1237
+#: inc/customizer.php:1900 inc/customizer.php:2036 inc/customizer.php:2136
+msgid "Light"
+msgstr ""
+
+#: inc/customizer.php:1100 inc/customizer.php:1200 inc/customizer.php:1237
+#: inc/customizer.php:1900 inc/customizer.php:2036 inc/customizer.php:2136
+msgid "Dark"
+msgstr ""
+
+#: inc/customizer.php:1105 inc/customizer.php:1124 inc/customizer.php:1967
+msgid "Background color"
+msgstr ""
+
+#: inc/customizer.php:1112
+msgid "Version"
+msgstr ""
+
+#: inc/customizer.php:1113
+msgid ""
+"Change the version to show the notice again to visitors who have already "
+"made a choice."
+msgstr ""
+
+#: inc/customizer.php:1121
+msgid "All Dropdowns"
+msgstr ""
+
+#: inc/customizer.php:1131
+msgid "Add border"
+msgstr ""
+
+#: inc/customizer.php:1138
+msgid "Border Color"
+msgstr ""
+
+#: inc/customizer.php:1145
+msgid "Add shadow"
+msgstr ""
+
+#: inc/customizer.php:1152
+msgid "Dropdown Content Size (%)"
+msgstr ""
+
+#: inc/customizer.php:1164
+msgid "Dropdown radius"
+msgstr ""
+
+#: inc/customizer.php:1173
+msgid "Default Dropdowns"
+msgstr ""
+
+#: inc/customizer.php:1175
+msgid "Add arrow"
+msgstr ""
+
+#: inc/customizer.php:1176
+msgid "Shows a pointer from the dropdown toward its parent menu item."
+msgstr ""
+
+#: inc/customizer.php:1183
+msgid "Link Style"
+msgstr ""
+
+#: inc/customizer.php:1190
+msgid "Pill"
+msgstr ""
+
+#: inc/customizer.php:1196 inc/customizer.php:1896
+msgid "Text Color"
+msgstr ""
+
+#: inc/customizer.php:1205
+msgid "Text Style"
+msgstr ""
+
+#: inc/customizer.php:1209
+msgid "Simple"
+msgstr ""
+
+#: inc/customizer.php:1209 inc/customizer.php:1663
+msgid "UPPERCASE"
+msgstr ""
+
+#: inc/customizer.php:1217
+msgid "Header Width"
+msgstr ""
+
+#: inc/customizer.php:1221
+msgid "Contained"
+msgstr ""
+
+#: inc/customizer.php:1221
+msgid "Full Width"
+msgstr ""
+
+#: inc/customizer.php:1225 inc/customizer.php:1888 inc/customizer.php:1959
+msgid "Height"
+msgstr ""
+
+#: inc/customizer.php:1241 inc/customizer.php:1905 inc/customizer.php:2141
+msgid "Background Color"
+msgstr ""
+
+#: inc/customizer.php:1248
+msgid "Add Shadow"
+msgstr ""
+
+#: inc/customizer.php:1255
+msgid "Add Divider"
+msgstr ""
+
+#: inc/customizer.php:1262 inc/customizer.php:1532 inc/customizer.php:1911
+#: inc/customizer.php:1973
+msgid "Navigation"
+msgstr ""
+
+#: inc/customizer.php:1264 inc/customizer.php:1913
+msgid "Navigation Style"
+msgstr ""
+
+#: inc/customizer.php:1280 inc/customizer.php:2000
+msgid "Nav Size"
+msgstr ""
+
+#: inc/customizer.php:1288 inc/customizer.php:2009
+msgid "Nav Spacing"
+msgstr ""
+
+#: inc/customizer.php:1296 inc/customizer.php:1922 inc/customizer.php:2018
+msgid "Uppercase"
+msgstr ""
+
+#: inc/customizer.php:1303 inc/customizer.php:1929 inc/customizer.php:2025
+msgid "Add overlay on hover"
+msgstr ""
+
+#: inc/customizer.php:1304
+msgid ""
+"Show a subtle background when a Header Main navigation item is hovered or "
+"focused."
+msgstr ""
+
+#: inc/customizer.php:1311 inc/customizer.php:1936 inc/customizer.php:1984
+msgid "Nav Height"
+msgstr ""
+
+#: inc/customizer.php:1319
+msgid "Nav Push"
+msgstr ""
+
+#: inc/customizer.php:1327 inc/customizer.php:1944 inc/customizer.php:2041
+msgid "Nav Color"
+msgstr ""
+
+#: inc/customizer.php:1328 inc/customizer.php:1945 inc/customizer.php:2042
+msgid "Nav Color :hover"
+msgstr ""
+
+#: inc/customizer.php:1329
+msgid "Icons Color"
+msgstr ""
+
+#: inc/customizer.php:1330
+msgid "Icons Color :hover"
+msgstr ""
+
+#: inc/customizer.php:1341
+msgid "Transparent Header"
+msgstr ""
+
+#: inc/customizer.php:1343
+msgid "Use a transparent header on the static homepage"
+msgstr ""
+
+#: inc/customizer.php:1344
+msgid "Use this when the first section has a dark or photographic background."
+msgstr ""
+
+#: inc/customizer.php:1351
+msgid "Height - Transparent Header"
+msgstr ""
+
+#: inc/customizer.php:1359
+msgid "Transparent Header Background Color"
+msgstr ""
+
+#: inc/customizer.php:1366
+msgid "Main Colors"
+msgstr ""
+
+#: inc/customizer.php:1367
+msgid "Type"
+msgstr ""
+
+#: inc/customizer.php:1368
+msgid "Links"
+msgstr ""
+
+#: inc/customizer.php:1369
+msgid "Tooltip colors"
+msgstr ""
+
+#: inc/customizer.php:1377
+msgid "Primary Color"
+msgstr ""
+
+#: inc/customizer.php:1378
+msgid "Change primary color."
+msgstr ""
+
+#: inc/customizer.php:1385
+msgid "Secondary Color"
+msgstr ""
+
+#: inc/customizer.php:1386
+msgid "Change secondary color."
+msgstr ""
+
+#: inc/customizer.php:1393
+msgid "Success Color"
+msgstr ""
+
+#: inc/customizer.php:1394
+msgid "Change the success color. Used for global success messages."
+msgstr ""
+
+#: inc/customizer.php:1401
+msgid "Alert Color"
+msgstr ""
+
+#: inc/customizer.php:1402
+msgid "Change the alert color. Used for global error messages."
+msgstr ""
+
+#: inc/customizer.php:1409
+msgid "Dark surface color"
+msgstr ""
+
+#: inc/customizer.php:1410
+msgid "Used for dark surfaces and button text."
+msgstr ""
+
+#: inc/customizer.php:1417
+msgid "Site background color"
+msgstr ""
+
+#: inc/customizer.php:1418
+msgid "Used for the main site background."
+msgstr ""
+
+#: inc/customizer.php:1425
+msgid "Base Color"
+msgstr ""
+
+#: inc/customizer.php:1426
+msgid "Used for all normal text."
+msgstr ""
+
+#: inc/customizer.php:1433
+msgid "Headline Color"
+msgstr ""
+
+#: inc/customizer.php:1434
+msgid "Used for all headlines on white backgrounds (H1, H2, H3, etc.)."
+msgstr ""
+
+#: inc/customizer.php:1441
+msgid "Divider Color"
+msgstr ""
+
+#: inc/customizer.php:1442
+msgid "Used for dividers and borders."
+msgstr ""
+
+#: inc/customizer.php:1449
+msgid "Link Colors"
+msgstr ""
+
+#: inc/customizer.php:1456
+msgid "Link Colors :hover"
+msgstr ""
+
+#: inc/customizer.php:1463
+msgid "Widget Link Colors"
+msgstr ""
+
+#: inc/customizer.php:1470
+msgid "Widget Link Colors :hover"
+msgstr ""
+
+#: inc/customizer.php:1477
+msgid "Tooltip color"
+msgstr ""
+
+#: inc/customizer.php:1484
+msgid "Tooltip background color"
+msgstr ""
+
+#: inc/customizer.php:1491 inc/customizer.php:1593 inc/customizer.php:1609
+#: inc/customizer.php:1625
+msgid "Font Family"
+msgstr ""
+
+#: inc/customizer.php:1499
+msgid "Button corner radius (px)"
+msgstr ""
+
+#: inc/customizer.php:1530
+msgid "Headlines"
+msgstr ""
+
+#: inc/customizer.php:1531
+msgid "Base"
+msgstr ""
+
+#: inc/customizer.php:1533
+msgid "Alt Fonts"
+msgstr ""
+
+#: inc/customizer.php:1534
+msgid "Text Transforms"
+msgstr ""
+
+#: inc/customizer.php:1541 inc/customizer.php:1543
+msgid "Font"
+msgstr ""
+
+#: inc/customizer.php:1541
+msgid "This is the font for all H1–H6 titles."
+msgstr ""
+
+#: inc/customizer.php:1542
+msgid "Base Text Font"
+msgstr ""
+
+#: inc/customizer.php:1544
+msgid "Alt font (.alt-font)"
+msgstr ""
+
+#: inc/customizer.php:1544
+msgid "Alt font can be selected in the Format dropdown in Text Editor."
+msgstr ""
+
+#: inc/customizer.php:1552
+msgid "Disable fonts"
+msgstr ""
+
+#: inc/customizer.php:1559
+msgid "Load Google Fonts from CDN"
+msgstr ""
+
+#: inc/customizer.php:1560
+msgid ""
+"Enabling this is not recommended due to GDPR regulations. <a href=\"https://"
+"developers.google.com/fonts/faq/privacy\" target=\"_blank\" rel=\"noopener "
+"noreferrer\">Learn more</a>"
+msgstr ""
+
+#: inc/customizer.php:1567 inc/customizer.php:1601 inc/customizer.php:1617
+#: inc/customizer.php:1633
+msgid "Variant"
+msgstr ""
+
+#: inc/customizer.php:1575
+msgid "Base Font Size"
+msgstr ""
+
+#: inc/customizer.php:1576
+msgid "Set base font size in %."
+msgstr ""
+
+#: inc/customizer.php:1584
+msgid "Mobile Base Font Size"
+msgstr ""
+
+#: inc/customizer.php:1585
+msgid "Set mobile base font size in %."
+msgstr ""
+
+#: inc/customizer.php:1651
+msgid "Breadcrumbs"
+msgstr ""
+
+#: inc/customizer.php:1653
+msgid "Navigation / Tabs"
+msgstr ""
+
+#: inc/customizer.php:1654
+msgid "Section Titles"
+msgstr ""
+
+#: inc/customizer.php:1655
+msgid "Widget Titles"
+msgstr ""
+
+#: inc/customizer.php:1663
+msgid "Normal"
+msgstr ""
+
+#: inc/customizer.php:1671
+msgid "Site width (px)"
+msgstr ""
+
+#: inc/customizer.php:1678
+msgid "Reading width (px)"
+msgstr ""
+
+#: inc/customizer.php:1679
+msgid "Maximum width of text in standard pages and posts."
+msgstr ""
+
+#: inc/customizer.php:1692
+msgid "Post layout"
+msgstr ""
+
+#: inc/customizer.php:1697 inc/customizer.php:2304
+msgid "Grid"
+msgstr ""
+
+#: inc/customizer.php:1698 inc/customizer.php:2305
+msgid "List"
+msgstr ""
+
+#: inc/customizer.php:1699 inc/customizer.php:2306
+msgid "Cover cards"
+msgstr ""
+
+#: inc/customizer.php:1703
+msgid "Post columns"
+msgstr ""
+
+#: inc/customizer.php:1710
+msgid "Excerpt words"
+msgstr ""
+
+#: inc/customizer.php:1717
+msgid "Show post date"
+msgstr ""
+
+#: inc/customizer.php:1723
+msgid "Show post categories"
+msgstr ""
+
+#: inc/customizer.php:1729
+msgid "Show post excerpt"
+msgstr ""
+
+#: inc/customizer.php:1735
+msgid "Show blog sidebar when it has widgets"
+msgstr ""
+
+#: inc/customizer.php:1736
+msgid "Add widgets in the Widgets section below, then enable this option."
+msgstr ""
+
+#: inc/customizer.php:1751 inc/customizer.php:1752 inc/customizer.php:2627
+msgid "Button 1"
+msgstr ""
+
+#: inc/customizer.php:1759 inc/customizer.php:1760 inc/customizer.php:2628
+msgid "Button 2"
+msgstr ""
+
+#: inc/customizer.php:1769
+msgid "Letter case"
+msgstr ""
+
+#: inc/customizer.php:1776
+msgid "Color"
+msgstr ""
+
+#: inc/customizer.php:1782
+msgid "Primary"
+msgstr ""
+
+#: inc/customizer.php:1783
+msgid "Secondary"
+msgstr ""
+
+#: inc/customizer.php:1784
+msgid "Success"
+msgstr ""
+
+#: inc/customizer.php:1785
+msgid "Alert"
+msgstr ""
+
+#: inc/customizer.php:1803
+msgid "Size"
+msgstr ""
+
+#: inc/customizer.php:1819
+msgid "Text"
+msgstr ""
+
+#: inc/customizer.php:1826
+msgid "Target"
+msgstr ""
+
+#: inc/customizer.php:1827
+msgid "Same window"
+msgstr ""
+
+#: inc/customizer.php:1827
+msgid "New window"
+msgstr ""
+
+#: inc/customizer.php:1830
+msgid "Rel"
+msgstr ""
+
+#: inc/customizer.php:1833
+msgid "Radius (px)"
+msgstr ""
+
+#: inc/customizer.php:1837
+msgid "Icon"
+msgstr ""
+
+#: inc/customizer.php:1839
+msgid "None"
+msgstr ""
+
+#: inc/customizer.php:1840
+msgid "Arrow right"
+msgstr ""
+
+#: inc/customizer.php:1841
+msgid "External link"
+msgstr ""
+
+#: inc/customizer.php:1842
+msgid "Phone"
+msgstr ""
+
+#: inc/customizer.php:1843
+msgid "Email"
+msgstr ""
+
+#: inc/customizer.php:1851
+msgid "Depth"
+msgstr ""
+
+#: inc/customizer.php:1855
+msgid "Depth :hover"
+msgstr ""
+
+#: inc/customizer.php:1880
+msgid "Enable Top Bar"
+msgstr ""
+
+#: inc/customizer.php:1975
+msgid "Nav Style"
+msgstr ""
+
+#: inc/customizer.php:2032
+msgid "Nav Base Color"
+msgstr ""
+
+#: inc/customizer.php:2055
+msgid "Mobile Header Height"
+msgstr ""
+
+#: inc/customizer.php:2063 inc/customizer.php:2523
+msgid "Logo position"
+msgstr ""
+
+#: inc/customizer.php:2067 inc/customizer.php:2098 inc/customizer.php:2528
+#: inc/customizer.php:2616 inc/elementor/class-zola-hero-widget.php:105
+#: inc/elementor/class-zola-menu-widget.php:62
+msgid "Left"
+msgstr ""
+
+#: inc/customizer.php:2067 inc/customizer.php:2529 inc/customizer.php:2617
+#: inc/elementor/class-zola-hero-widget.php:106
+#: inc/elementor/class-zola-menu-widget.php:63
+msgid "Center"
+msgstr ""
+
+#: inc/customizer.php:2072
+msgid "Menu Icon Style"
+msgstr ""
+
+#: inc/customizer.php:2078
+msgid "Circle outline"
+msgstr ""
+
+#: inc/customizer.php:2079
+msgid "Circle fill"
+msgstr ""
+
+#: inc/customizer.php:2080
+msgid "Square fill"
+msgstr ""
+
+#: inc/customizer.php:2081
+msgid "Square outline"
+msgstr ""
+
+#: inc/customizer.php:2087
+msgid "Show Menu title"
+msgstr ""
+
+#: inc/customizer.php:2094
+msgid "Menu Overlay"
+msgstr ""
+
+#: inc/customizer.php:2098 inc/customizer.php:2618
+#: inc/elementor/class-zola-hero-widget.php:107
+#: inc/elementor/class-zola-menu-widget.php:64
+msgid "Right"
+msgstr ""
+
+#: inc/customizer.php:2098
+msgid "Fullscreen"
+msgstr ""
+
+#: inc/customizer.php:2103
+msgid "Menu item behavior"
+msgstr ""
+
+#: inc/customizer.php:2104
+msgid "Choose how a menu item with a submenu responds when tapped."
+msgstr ""
+
+#: inc/customizer.php:2108
+msgid "Open link"
+msgstr ""
+
+#: inc/customizer.php:2108
+msgid "Toggle submenu"
+msgstr ""
+
+#: inc/customizer.php:2112
+msgid "Top content"
+msgstr ""
+
+#: inc/customizer.php:2113
+msgid "Optional HTML or shortcode displayed above the mobile menu."
+msgstr ""
+
+#: inc/customizer.php:2127
+msgid "Menu elements"
+msgstr ""
+
+#: inc/customizer.php:2132
+msgid "Overlay Color"
+msgstr ""
+
+#: inc/customizer.php:2150
+msgid "Header Height on Sticky"
+msgstr ""
+
+#: inc/customizer.php:2158
+msgid "Sticky Logo Padding"
+msgstr ""
+
+#: inc/customizer.php:2166
+msgid "Nav Height on Sticky"
+msgstr ""
+
+#: inc/customizer.php:2174
+msgid "Top Bar - Sticky on Scroll"
+msgstr ""
+
+#: inc/customizer.php:2181
+msgid "Header Main - Sticky on Scroll"
+msgstr ""
+
+#: inc/customizer.php:2188
+msgid "Header Bottom - Sticky on Scroll"
+msgstr ""
+
+#: inc/customizer.php:2195
+msgid "Sticky Style"
+msgstr ""
+
+#: inc/customizer.php:2200
+msgid "Jump Down"
+msgstr ""
+
+#: inc/customizer.php:2201
+msgid "Fade"
+msgstr ""
+
+#: inc/customizer.php:2202
+msgid "Shrink"
+msgstr ""
+
+#: inc/customizer.php:2207
+msgid "Hide sticky when scrolling down"
+msgstr ""
+
+#: inc/customizer.php:2224
+msgid "Custom Sticky Logo"
+msgstr ""
+
+#: inc/customizer.php:2245
+#, php-format
+msgid "HTML %d"
+msgstr ""
+
+#: inc/customizer.php:2246
+msgid ""
+"Add HTML or a shortcode here. HTML is sanitized before it appears in the "
+"header."
+msgstr ""
+
+#: inc/customizer.php:2255
+msgid "Copyright text"
+msgstr ""
+
+#: inc/customizer.php:2256
+msgid ""
+"Use {year} to insert the current year. Leave empty to show the site name."
+msgstr ""
+
+#: inc/customizer.php:2262
+msgid "Show footer menu"
+msgstr ""
+
+#: inc/customizer.php:2268
+msgid "Show back-to-top link"
+msgstr ""
+
+#: inc/customizer.php:2280
+msgid "Show default page title block"
+msgstr ""
+
+#: inc/customizer.php:2281
+msgid ""
+"Applies to standard pages. Pages built in Elementor control their own titles."
+msgstr ""
+
+#: inc/customizer.php:2287
+msgid "Small label above page title"
+msgstr ""
+
+#: inc/customizer.php:2289 page.php:7
+msgid "Page"
+msgstr ""
+
+#: inc/customizer.php:2299
+msgid "Project layout"
+msgstr ""
+
+#: inc/customizer.php:2310
+msgid "Project columns"
+msgstr ""
+
+#: inc/customizer.php:2317
+msgid "Archive label"
+msgstr ""
+
+#: inc/customizer.php:2323
+msgid "Project excerpt words"
+msgstr ""
+
+#: inc/customizer.php:2330
+msgid "Show project date"
+msgstr ""
+
+#: inc/customizer.php:2342
+msgid "Show sharing links on posts"
+msgstr ""
+
+#: inc/customizer.php:2348
+msgid "Sharing label"
+msgstr ""
+
+#: inc/customizer.php:2372
+msgid "Copy link button"
+msgstr ""
+
+#: inc/customizer.php:2382
+msgid "Use the theme footer"
+msgstr ""
+
+#: inc/customizer.php:2396
+msgid "Elementor footer template"
+msgstr ""
+
+#: inc/customizer.php:2397
+msgid ""
+"Select a published Elementor template. Elementor Theme Builder footers take "
+"priority when active."
+msgstr ""
+
+#: inc/customizer.php:2407
+msgid "Set the product grid and number of products per shop page."
+msgstr ""
+
+#: inc/customizer.php:2412
+msgid "Product columns"
+msgstr ""
+
+#: inc/customizer.php:2419
+msgid "Products per shop page"
+msgstr ""
+
+#: inc/customizer.php:2437
+msgid "You are not allowed to clear this cache."
+msgstr ""
+
+#: inc/customizer.php:2440
+msgid "Typography cache cleared."
+msgstr ""
+
+#: inc/customizer.php:2448
+msgid "Logo & Site Identity"
+msgstr ""
+
+#: inc/customizer.php:2467
+msgid "Colors"
+msgstr ""
+
+#: inc/customizer.php:2481
+msgid "Additional CSS"
+msgstr ""
+
+#: inc/customizer.php:2509
+msgid "Logo image"
+msgstr ""
+
+#: inc/customizer.php:2510
+msgid "Upload the standard logo used in the header."
+msgstr ""
+
+#: inc/customizer.php:2514
+msgid "Display below Logo"
+msgstr ""
+
+#: inc/customizer.php:2515
+msgid "Show the site title and tagline beneath the logo."
+msgstr ""
+
+#: inc/customizer.php:2543
+msgid "Logo image - Light Version"
+msgstr ""
+
+#: inc/customizer.php:2544
+msgid "Upload an alternative light logo for dark and transparent headers."
+msgstr ""
+
+#: inc/customizer.php:2550
+msgid "Logo container width"
+msgstr ""
+
+#: inc/customizer.php:2551
+msgid ""
+"Set the width of the logo area as a percentage of its Header Builder "
+"position."
+msgstr ""
+
+#: inc/customizer.php:2559
+msgid "Logo max width (px)"
+msgstr ""
+
+#: inc/customizer.php:2560
+msgid ""
+"Set a maximum width in pixels. Leave blank to fit the available container."
+msgstr ""
+
+#: inc/customizer.php:2564
+msgid "Auto"
+msgstr ""
+
+#: inc/customizer.php:2568
+msgid "Logo Padding"
+msgstr ""
+
+#: inc/customizer.php:2569
+msgid "Add space around the logo in pixels."
+msgstr ""
+
+#: inc/customizer.php:2577
+msgid "Logo link"
+msgstr ""
+
+#: inc/customizer.php:2578
+msgid "Custom logo link. Leave blank to link to the home page."
+msgstr ""
+
+#: inc/customizer.php:2621
+msgid "Desktop"
+msgstr ""
+
+#: inc/customizer.php:2622
+msgid "Mobile / Tablet"
+msgstr ""
+
+#: inc/customizer.php:2625
+msgid "Site Logo"
+msgstr ""
+
+#: inc/customizer.php:2626
+msgid "Primary Menu"
+msgstr ""
+
+#: inc/customizer.php:2630
+msgid "Social Links"
+msgstr ""
+
+#: inc/customizer.php:2631
+msgid "HTML 1"
+msgstr ""
+
+#: inc/customizer.php:2632
+msgid "HTML 2"
+msgstr ""
+
+#: inc/customizer.php:2633
+msgid "HTML 3"
+msgstr ""
+
+#: inc/customizer.php:2634
+msgid "HTML 4"
+msgstr ""
+
+#: inc/customizer.php:2635
+msgid "HTML 5"
+msgstr ""
+
+#: inc/customizer.php:2640
+msgid "Clear All"
+msgstr ""
+
+#: inc/customizer.php:2641
+msgid "Clear the current device header layout?"
+msgstr ""
+
+#: inc/customizer.php:2643
+msgid "Current layout"
+msgstr ""
+
+#: inc/customizer.php:2644
+msgid "Custom"
+msgstr ""
+
+#: inc/customizer.php:2646
+msgid "Close"
+msgstr ""
+
+#: inc/customizer.php:2647
+msgid "Tutorial"
+msgstr ""
+
+#: inc/customizer.php:2648
+msgid ""
+"Choose Desktop or Mobile / Tablet, then use Presets to select a layout for "
+"that device. You can also select a position, add an element below or drag "
+"elements between positions."
+msgstr ""
+
+#: inc/customizer.php:2649
+msgid "Reset to default"
+msgstr ""
+
+#: inc/customizer.php:2653
+msgid "Clearing cache…"
+msgstr ""
+
+#: inc/customizer.php:2654
+msgid "Could not clear the typography cache. Please try again."
+msgstr ""
+
+#: inc/customizer.php:2656
+msgid "Drop elements here"
+msgstr ""
+
+#: inc/customizer.php:2657
+msgid "All elements are in this layout."
+msgstr ""
+
+#: inc/customizer.php:2658
+msgid "Settings"
+msgstr ""
+
+#: inc/customizer.php:2659
+msgid "Remove"
+msgstr ""
+
+#: inc/customizer.php:2660
+msgid "Add elements"
+msgstr ""
+
+#: inc/customizer.php:2661
+msgid "Selected position"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:14
+msgid "Hero"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:27
+msgid "Content"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:32
+msgid "Eyebrow"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:39
+msgid "Heading"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:43
+msgid "You can use line breaks or simple emphasis such as <em>this</em>."
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:47
+msgid "Description"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:54
+msgid "Background image"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:60
+msgid "Primary button label"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:66
+msgid "Primary button link"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:73
+msgid "Secondary button label"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:79
+msgid "Secondary button link"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:91
+msgid "Hero height"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:95
+msgid "Full screen"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:96
+msgid "Large"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:101
+msgid "Content alignment"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:113
+msgid "Performance"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:117
+msgid "Prioritize this image"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:119
+msgid "Yes"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:120
+msgid "No"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:123
+msgid ""
+"Keep this on for the first, above-the-fold Hero. Turn it off for Hero "
+"widgets farther down the page."
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:132
+msgid "Heading color"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:142
+msgid "Description color"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:148
+msgid "Image overlay strength"
+msgstr ""
+
+#: inc/elementor/class-zola-hero-widget.php:201
+msgid "Hero section"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:14
+msgid "Navigation Menu"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:26
+msgid "Use Primary navigation location"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:32 inc/template-tags.php:314
+msgid "Menu"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:36
+msgid "WordPress menu"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:40
+msgid ""
+"Create and edit menus in Appearance → Menus. The Primary location is used by "
+"default."
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:43
+msgid "Navigation label"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:53
+msgid "Horizontal"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:58
+msgid "Alignment"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:68
+msgid "Menu depth"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:84
+msgid "Link color"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:89
+msgid "Link hover color"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:94
+msgid "Item spacing"
+msgstr ""
+
+#: inc/elementor/class-zola-menu-widget.php:116 inc/template-tags.php:315
+msgid "Toggle navigation"
+msgstr ""
+
+#: inc/site-builder.php:36
+msgid ""
+"Build your footer content, navigation, contact details and social links in "
+"Elementor."
+msgstr ""
+
+#: inc/site-builder.php:37
+msgid "Use the Zola footer"
+msgstr ""
+
+#: inc/site-builder.php:46
+msgid ""
+"Configure the site-wide Header Builder and assign a global Elementor Footer."
+msgstr ""
+
+#: inc/site-builder.php:49
+msgid "Site parts saved."
+msgstr ""
+
+#: inc/site-builder.php:52
+msgid "Choose a published Elementor footer template, or use the theme footer."
+msgstr ""
+
+#: inc/site-builder.php:56
+msgid ""
+"Install and activate Elementor to assign an Elementor footer. The Header "
+"Builder is available without Elementor."
+msgstr ""
+
+#: inc/site-builder.php:60
+msgid "One Header Builder and one global Footer."
+msgstr ""
+
+#: inc/site-builder.php:61
+msgid ""
+"Configure the site-wide responsive header in Header Builder. Use Elementor "
+"to design and assign the global Footer."
+msgstr ""
+
+#: inc/site-builder.php:63
+msgid "Manage Elementor templates"
+msgstr ""
+
+#: inc/site-builder.php:75
+msgid ""
+"There is one responsive site-wide header. Arrange its desktop and mobile "
+"layout in the Zola Header Builder."
+msgstr ""
+
+#: inc/site-builder.php:78
+msgid "Open Header Builder"
+msgstr ""
+
+#: inc/site-builder.php:90
+msgid "Assigned Elementor template"
+msgstr ""
+
+#: inc/site-builder.php:100
+msgid "Currently assigned:"
+msgstr ""
+
+#: inc/site-builder.php:104
+msgid "No Elementor template is assigned."
+msgstr ""
+
+#: inc/site-builder.php:107
+#, php-format
+msgid "Create %s in Elementor"
+msgstr ""
+
+#: inc/site-builder.php:113
+msgid "Save site parts"
+msgstr ""
+
+#: inc/site-builder.php:117
+msgid "Design your Footer in Elementor"
+msgstr ""
+
+#: inc/site-builder.php:118
+msgid ""
+"Create a Section or Container template, design it, and publish it. Return "
+"here to assign it as the site-wide Footer. Use Elementor responsive controls "
+"for desktop, tablet and mobile."
+msgstr ""
+
+#: inc/site-builder.php:119
+msgid "Open shared theme settings"
+msgstr ""
+
+#: inc/site-builder.php:149
+msgid "You do not have permission to manage site parts."
+msgstr ""
+
+#: inc/template-tags.php:200
+msgid "Close menu"
+msgstr ""
+
+#: inc/template-tags.php:341
+#, php-format
+msgid "Button %d"
+msgstr ""
+
+#: inc/template-tags.php:410
+msgid "Social links"
+msgstr ""
+
+#: inc/template-tags.php:539 inc/template-tags.php:613
+msgid "Site logo"
+msgstr ""
+
+#: index.php:9
+msgid "Latest posts"
+msgstr ""
+
+#: index.php:20
+msgid "Nothing published here yet. Add a post to get started."
+msgstr ""
+
+#: page.php:11
+msgid "Pages:"
+msgstr ""
+
+#: search.php:4
+#, php-format
+msgid "Results for “%s”"
+msgstr ""
+
+#: search.php:12
+msgid "No results yet. Try another search term."
+msgstr ""
+
+#: single.php:13
+msgid "Topics:"
+msgstr ""
+
+#: single.php:16
+msgid "Share this post"
+msgstr ""
+
+#: single.php:21
+msgid "Copy link"
+msgstr ""
+
+#: single.php:40
+msgid "Keep exploring"
+msgstr ""
+
+#: single.php:41
+msgid "Related notes."
+msgstr ""

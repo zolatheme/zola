@@ -1749,7 +1749,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 			'link_id'  => 'zola_header_cta_url',
 			'prefix'   => 'zola_header_button_1_',
 			'title'    => esc_html__( 'Button 1', 'zola' ),
-			'text'     => 'Button 1',
+			'text'     => esc_html__( 'Button 1', 'zola' ),
 			'priority' => 5,
 		),
 		2 => array(
@@ -1757,7 +1757,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 			'link_id'  => 'zola_header_button_2_link',
 			'prefix'   => 'zola_header_button_2_',
 			'title'    => esc_html__( 'Button 2', 'zola' ),
-			'text'     => 'Button 2',
+			'text'     => esc_html__( 'Button 2', 'zola' ),
 			'priority' => 35,
 		),
 	);
@@ -2286,7 +2286,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'zola_page_title_eyebrow' => array(
 			'label'    => esc_html__( 'Small label above page title', 'zola' ),
 			'type'     => 'text',
-			'default'  => 'Page',
+			'default'  => __( 'Page', 'zola' ),
 			'sanitize' => 'sanitize_text_field',
 		),
 	);
@@ -2316,7 +2316,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'zola_portfolio_archive_title' => array(
 			'label'    => esc_html__( 'Archive label', 'zola' ),
 			'type'     => 'text',
-			'default'  => 'Portfolio',
+			'default'  => __( 'Portfolio', 'zola' ),
 			'sanitize' => 'sanitize_text_field',
 		),
 		'zola_portfolio_excerpt_length' => array(
@@ -2347,7 +2347,7 @@ function zola_customize_register( WP_Customize_Manager $wp_customize ): void {
 		'zola_share_label' => array(
 			'label'    => esc_html__( 'Sharing label', 'zola' ),
 			'type'     => 'text',
-			'default'  => 'Share',
+			'default'  => __( 'Share', 'zola' ),
 			'sanitize' => 'sanitize_text_field',
 		),
 		'zola_share_facebook' => array(

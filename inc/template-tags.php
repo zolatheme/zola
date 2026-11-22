@@ -12,7 +12,7 @@ function zola_has_elementor_location( string $location ): bool {
 
 /** Render a selected Elementor Library template as a global header or footer. */
 function zola_render_elementor_layout( string $location ): bool {
-	$template_id = absint( get_theme_mod( 'zola_' . $location . '_template', 0 ) );
+	$template_id = zola_get_translated_post_id( absint( get_theme_mod( 'zola_' . $location . '_template', 0 ) ) );
 	if ( ! $template_id || ! did_action( 'elementor/loaded' ) || 'publish' !== get_post_status( $template_id ) ) {
 		return false;
 	}
@@ -236,7 +236,7 @@ function zola_render_mobile_languages(): void {
 						'url'    => $language['url'] ?? '',
 						'name'   => $language['name'] ?? '',
 						'code'   => $language['slug'] ?? '',
-						'active' => ! empty( $language['current_lang'] ),
+						'active' => ! empty( $language['is_current'] ) || ! empty( $language['current_lang'] ),
 					);
 				}
 			}
@@ -338,7 +338,7 @@ function zola_render_header_module( string $module, string $device = 'desktop' )
 			$button_prefix = 'zola_header_button_' . $button_number . '_';
 			$text_setting  = 1 === $button_number ? 'zola_header_cta_label' : $button_prefix . 'text';
 			$link_setting  = 1 === $button_number ? 'zola_header_cta_url' : $button_prefix . 'link';
-			$button_label  = trim( (string) get_theme_mod( $text_setting, 'Button ' . $button_number ) );
+			$button_label  = trim( (string) get_theme_mod( $text_setting, sprintf( __( 'Button %d', 'zola' ), $button_number ) ) );
 			$button_url    = esc_url( get_theme_mod( $link_setting, '' ) );
 			if ( ! $button_label || ! $button_url ) {
 				break;
@@ -496,7 +496,7 @@ function zola_site_brand( bool $footer = false ): void {
 	$site_name = get_bloginfo( 'name' );
 	$tagline   = get_bloginfo( 'description' );
 	$logo_link = trim( (string) get_theme_mod( 'zola_logo_link', '' ) );
-	$logo_href = ! $footer && '' !== $logo_link ? $logo_link : home_url( '/' );
+	$logo_href = ! $footer && '' !== $logo_link ? $logo_link : zola_get_language_home_url();
 	$sticky_logo_id = ! $footer ? absint( get_theme_mod( 'zola_sticky_logo_image', 0 ) ) : 0;
 	if ( $sticky_logo_id && ! wp_attachment_is_image( $sticky_logo_id ) ) {
 		$sticky_logo_id = 0;
